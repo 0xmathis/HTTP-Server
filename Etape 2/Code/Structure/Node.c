@@ -3,6 +3,21 @@
 #include <string.h>
 
 
+// Constructeurs
+
+Node *newNode() {
+    return (Node *) malloc(sizeof(Node));
+}
+
+void initNode(Node *this, char *label, char *start, int length) {
+    setLabel(this, label);
+    setStart(this, start);
+    setLength(this, length);
+    setChild(this, NULL);
+    setBrother(this, NULL);
+}
+
+
 // Setters
 
 void setLabel(Node *this, char *label) {
@@ -25,6 +40,7 @@ void setBrother(Node *this, Node *brother) {
     this->__brother = brother;
 }
 
+
 // Getters
 
 char *getLabel(Node *this) {
@@ -46,6 +62,7 @@ Node *getChild(Node *this) {
 Node *getBrother(Node *this) {
     return this->__brother;
 }
+
 
 // Autre
 

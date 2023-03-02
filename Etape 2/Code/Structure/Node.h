@@ -14,9 +14,13 @@ struct Node {
 
 // Constructeurs
 
+Node *newNode();
+
 Node *newChild(Node *);
 
 Node *newBrother(Node *);
+
+void initNode(Node *, char *, char *, int);
 
 // Destructeurs
 
