@@ -2,6 +2,16 @@
 #include <stdio.h>
 #include <string.h>
 
+// Constructeurs
+
+Node *newChild(Node * Parent){
+    Parent.
+}
+
+Node *newBrother(Node *){
+
+}
+
 
 // Setters
 
