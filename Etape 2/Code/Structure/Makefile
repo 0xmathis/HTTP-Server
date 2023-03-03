@@ -6,3 +6,7 @@ $(MAIN): $(SRC_C)
 
 clean:
 	rm -f $(MAIN)
+	rm -rf __pycache__ .pytest_cache
+
+tests: $(MAIN)
+	@ python test.py

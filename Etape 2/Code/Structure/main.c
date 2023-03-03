@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "Node.h"
 
-int main() {
+int main(int argc, char **argv) {
     char message[30] = "startVKiMupi-.4 LCTKq-.fin\n\0";
 
     Node *node1 = (Node *) malloc(sizeof(Node));
@@ -86,4 +86,33 @@ int main() {
     printChildren(node1, 0);
 
     return 1;
+
+    /*
+    if (argc == 1) {
+        printf("Usage: abnf <file>");
+        return -1;
+    }
+
+    FILE *file = fopen(argv[1], "r");
+    char message[401];
+
+    fgets(message, 400, file);
+
+    fclose(file);
+
+    Node *parent = newNode();
+    initNode(parent, "message", &message[0], getStringLength(message));
+
+    int error = analyse(parent, NULL, message);
+
+    if (error != 0) {
+        printf("NOT OK\n");
+        return error;
+    }
+
+    printf("OK\n");
+    printChildren(parent, 0);
+
+    return error;
+    */
 }
