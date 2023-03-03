@@ -8,10 +8,10 @@
 
 int main() {
     char str[taille];
-    struct pair numbers[taille];
-    struct pair punctuation[taille];
-    struct pair separators[taille];
-    struct pair words[taille];
+    struct Node numbers[taille];
+    struct Node punctuation[taille];
+    struct Node separators[taille];
+    struct Node words[taille];
     int i, j, n_num, n_punct, n_sep, n_word;
 
     // Entrée de la requête
@@ -40,7 +40,7 @@ int main() {
         }
         // Si le caractère est une ponctuation
         else if (strchr(",.;:!?-", str[i]) != NULL) {
-            struct node n;
+            struct Node n;
             
             punctuation[n_punct++] = p;
             i++;
