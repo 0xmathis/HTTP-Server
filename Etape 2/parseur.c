@@ -3,8 +3,6 @@
 #include <string.h>
 #include "Node.h"
 
-
-
 int main() {
 
     Request = *newNode();
@@ -14,7 +12,6 @@ int main() {
     }
     else{
     	int *i = detectStart() + 5;
-
         // Si le caractère est un chiffre
         if (isdigit(*i)) {
         	// Si on ne se trouve pas déjà dans un nombre
