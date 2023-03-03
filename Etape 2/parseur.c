@@ -108,7 +108,6 @@ int detectStart(){
 	return(*pointeur);
 }
 
-
 int detectFin(){
 	char *pointeur;
 	if (strstr( fi,"fin") != NULL){
