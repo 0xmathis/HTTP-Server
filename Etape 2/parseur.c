@@ -14,21 +14,14 @@ int main() {
     	int *i = detectStart() + 5;
         // Si le caractère est un chiffre
         if (isdigit(*i)) {
-        	// Si on ne se trouve pas déjà dans un nombre
-            if(){
-            	n = newNode();
-            	n.__start = i*;
-            	int j = 0;
-            }
-            // Si on est déjà dans un nombre
-            else{
-            	while(! strchr(",.;:!?-", *i)){
-                	j++;	
-            	}
-            }
+            n = newNode();
+        	n.__start = i*;
+        	int j = 0;
+        }
+            
 
         // Si le caractère est une ponctuation
-        else if (strchr(",.;:!?-", *i) != NULL) {
+        else if (strchr(",.:!?", *i) != NULL) {
             n = newNode();
             n.__start = i*;
             n.__length = 1;
@@ -98,17 +91,43 @@ int main() {
 
 
 int detectStart(){
-	char *pointeur;
-	if (strstr( fi,"start") != NULL){
-		*pointeur = strstr(( fi,"start"))
-	}
-	return(*pointeur);
+	int rv = 0;
+	while(*i != "s"){
+        (*i)++;
+    }
+    if(i="s"){
+        i ++;
+        if(i = "t"){
+            i++;
+            if(i = "a"){
+                i++;
+                if(i = "r"){
+                    i++;
+                    if(i = "t"){
+                        i++;
+                        rv = 1;
+                    }
+                }
+            }
+        }
+    }        
+	return(rv);
 }
 
 int detectFin(){
-	char *pointeur;
-	if (strstr( fi,"fin") != NULL){
-		*pointeur = strstr(( fi,"fin"))
-	}
-	return(*pointeur);
+	int rv = 0;
+	while(*i != "f"){
+        (*i)++;
+    }
+    if(i="f"){
+        i ++;
+        if(i = "i"){
+            i++;
+            if(i = "n"){
+                i ++;
+                rv = 1;
+            }
+        }
+    }        
+	return(rv);
 }
