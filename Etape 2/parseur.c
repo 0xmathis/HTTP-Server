@@ -1,13 +1,10 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include "Node.h"
 
 #define taille 100
 
-struct pair {
-    char *pointeur;
-    int len;
-};
 
 int main() {
     char str[taille];
@@ -35,13 +32,16 @@ int main() {
             while (isdigit(str[i+j])) {
                 j++;
             }
-            struct pair p = { &str[i], j };
-            numbers[n_num++] = p;
+            struct Node n;
+            n.start = &str[i];
+            n.lenght = j;
+            numbers[n_num++] = n;
             i += j;
         }
         // Si le caractère est une ponctuation
         else if (strchr(",.;:!?-", str[i]) != NULL) {
-            struct pair p = { &str[i], 1 };
+            struct node n;
+            
             punctuation[n_punct++] = p;
             i++;
         }
@@ -58,8 +58,10 @@ int main() {
             while (isalpha(str[i+j])) {
                 j++;
             }
-            struct pair p = { &str[i], j };
-            words[n_word++] = p;
+            struct Node n;
+            n.start = &str[i];
+            n.lenght = j;
+            words[n_word++] = n;
             i += j;
         }
         else {
