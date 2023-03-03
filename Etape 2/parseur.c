@@ -3,49 +3,40 @@
 #include <string.h>
 #include "Node.h"
 
-#define taille 100
 
 
 int main() {
-    char str[taille];
-    struct Node numbers[taille];
-    struct Node punctuation[taille];
-    struct Node separators[taille];
-    struct Node words[taille];
-    int i, j, n_num, n_punct, n_sep, n_word;
 
-    // Entrée de la requête
-    printf("Entrez une chaîne de caractères : ");
-    scanf("%99[^\n]", str);
-    str[strcspn(str, "\n")] = '\0';
+    Request = *newNode();
 
-    // Initialisation des compteurs
-    n_num = n_punct = n_sep = n_word = 0;
-    i = 0;
+    if(detectStart() = NULL){
+    	printf("Error\n");
+    }
+    else{
+    	int *i = detectStart() + 5;
 
-    // Parcours de chaque caractère de la chaîne de caractères
-    while (str[i]) {
         // Si le caractère est un chiffre
-        if (isdigit(str[i])) {
-            // Parcours de la chaîne pour récupérer tout le mot
-            j = 0;
-            while (isdigit(str[i+j])) {
-                j++;
+        if (isdigit(*i)) {
+        	// Si on ne se trouve pas déjà dans un nombre
+            if(){
+            	n = newNode();
+            	n.__start = i*;
+            	int j = 0;
             }
-            struct Node n;
-            n.start = &str[i];
-            n.lenght = j;
-            numbers[n_num++] = n;
-            i += j;
-        }
+            // Si on est déjà dans un nombre
+            else{
+            	while(! strchr(",.;:!?-", *i)){
+                	j++;	
+            	}
+            }
+
         // Si le caractère est une ponctuation
-        else if (strchr(",.;:!?-", str[i]) != NULL) {
-            struct Node n;
-            n.start = &str[i];
-            n.lenght = j;
-            punctuation[n_punct++] = n;
-            i++;
+        else if (strchr(",.;:!?-", *i) != NULL) {
+            n = newNode();
+            n.__start = i*;
+            n.__length = 1;
         }
+
         // Si le caractère est un espace
         else if (isspace(str[i])) {
             struct Node n;
@@ -54,23 +45,23 @@ int main() {
             separators[n_sep++] = n;
             i++;
         }
+
         // Si le caractère est une lettre
-        else if (isalpha(str[i])) {
-            // Parcours de la chaîne pour récupérer tout le mot
-            j = 0;
-            while (isalpha(str[i+j])) {
-                j++;
+        else if (isalpha(*i)) {
+            // Si on ne se trouve pas déja dans un mot
+            if(){
+            	n = newNode();
+            	n.__start = i*;
+            	int j = 0;
             }
-            struct Node n;
-            n.start = &str[i];
-            n.lenght = j;
-            words[n_word++] = n;
-            i += j;
-        }
-        else {
-            i++;
-        }
-    }
+            // Si on est déjà dans un mot
+            else{
+            	while(! strchr(",.;:!?-", *i)){
+                	j++;	
+            	}
+            	n.__length = j;
+            }
+    	}
 
     // Affichage des résultats
     printf("Nombres :\n");
@@ -89,6 +80,7 @@ int main() {
         printf("\n");
     }
 
+
     printf("Séparateurs :\n");
     for (int i = 0; i < n_sep; i++) {
         for (int j = 0; j < separators[i].len; j++){
@@ -104,4 +96,23 @@ int main() {
         }
         printf("\n");
     }
+}
+
+
+
+int detectStart(){
+	char *pointeur;
+	if (strstr( fi,"start") != NULL){
+		*pointeur = strstr(( fi,"start"))
+	}
+	return(*pointeur);
+}
+
+
+int detectFin(){
+	char *pointeur;
+	if (strstr( fi,"fin") != NULL){
+		*pointeur = strstr(( fi,"fin"))
+	}
+	return(*pointeur);
 }
