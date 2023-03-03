@@ -40,6 +40,7 @@ int main() {
         }
         // Si le caractère est une ponctuation
         else if (strchr(",.;:!?-", str[i]) != NULL) {
+            struct Node n;
             n.start = &str[i];
             n.lenght = j;
             punctuation[n_punct++] = n;
@@ -47,7 +48,7 @@ int main() {
         }
         // Si le caractère est un espace
         else if (isspace(str[i])) {
-            struct Node 
+            struct Node n;
             n.start = &str[i];
             n.lenght = j;
             separators[n_sep++] = n;
