@@ -74,19 +74,34 @@ int main() {
 
     // Affichage des résultats
     printf("Nombres :\n");
-    for (int i = 0; i < n_num; i++) {
-        printf("(%c, %d)\n", *(numbers[i].pointeur), numbers[i].len);
+    for (int i = 0; i < n_num; i++){
+        for (int j = 0; j < numbers[i].len; j++){
+            printf("(%c", *(numbers[i].pointeur + j));
+        }
+        printf("\n")
     }
+
     printf("Ponctuation :\n");
-    for (int i = 0; i < n_punct; i++) {
-        printf("(%c, %d)\n", *(punctuation[i].pointeur), punctuation[i].len);
+    for (int i = 0; i < n_punct; i++){
+        for (int j = 0; j < punctuation[i].len; j++){
+            printf("%c", *(punctuation[i].pointeur + j));
+        }
+        printf("\n");
     }
+
     printf("Séparateurs :\n");
     for (int i = 0; i < n_sep; i++) {
-        printf("(%c, %d)\n", *(separators[i].pointeur), separators[i].len);
+        for (int j = 0; j < separators[i].len; j++){
+            printf("%c", *(separators[i].pointeur + j));
+        }
+        printf("\n");
     }
+
     printf("Mots :\n");
     for (int i = 0; i < n_word; i++) {
-        printf("(%c, %d)\n", *(words[i].pointeur), words[i].len);
+        for (int j = 0; j < words[i].len; j++){
+        printf("%c", *(words[i].pointeur + j));
+        }
+        printf("\n");
     }
 }
