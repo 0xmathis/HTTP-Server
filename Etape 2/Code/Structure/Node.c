@@ -2,17 +2,6 @@
 #include <stdio.h>
 #include <string.h>
 
-// Constructeurs
-
-Node *newChild(Node * Parent){
-    Parent.
-}
-
-Node *newBrother(Node *){
-
-}
-
-
 // Setters
 
 void setLabel(Node *this, char *label) {
