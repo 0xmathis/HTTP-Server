@@ -4,10 +4,46 @@
 #include "Node.h"
 
 
+int detectStart(char *i){
+	int rv = 0 ;
+    if(*i='s'){
+        i ++;
+        if(i = 't'){
+            i++;
+            if(i = 'a'){
+                i++;
+                if(i = 'r'){
+                    i++;
+                    if(i = 't'){
+                        i++;
+                        rv = 1;
+                    }
+                }
+            }
+        }
+    }        
+	return(rv);
+}
 
-
+int detectFin(char *i){
+	int rv = 0;
+    if(i='f'){
+        i ++;
+        if(i = 'i'){
+            i++;
+            if(i = 'n'){
+                i ++;
+                rv = 1;
+            }
+        }
+    }        
+	return(rv);
+}
 
 int parser(Node *parent_node, Node *current_node, char *i) {
+    if(detectFin(i)){
+        return(0);
+    }
         // Si le caractère est un chiffre
         if (isdigit(*i)){
             // Si on ne se trouve pas déjà dans un nombre
@@ -76,48 +112,4 @@ int parser(Node *parent_node, Node *current_node, char *i) {
             
     	}
         parser(parent_node,current_node,i++);
-}
-
-
-
-int detectStart(char *i){
-	bool rv = False ;
-	while(*i != "s"){
-        (*i)++;
-    }
-    if(*i='s'){
-        i ++;
-        if(i = 't'){
-            i++;
-            if(i = 'a'){
-                i++;
-                if(i = 'r'){
-                    i++;
-                    if(i = 't'){
-                        i++;
-                        rv = True;
-                    }
-                }
-            }
-        }
-    }        
-	return(rv);
-}
-
-int detectFin(char *i){
-	bool rv = False;
-	while(*i != 'f'){
-        (*i)++;
-    }
-    if(i='f'){
-        i ++;
-        if(i = 'i'){
-            i++;
-            if(i = 'n'){
-                i ++;
-                rv = True;
-            }
-        }
-    }        
-	return(rv);
 }
