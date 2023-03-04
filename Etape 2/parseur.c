@@ -3,55 +3,75 @@
 #include <string.h>
 #include "Node.h"
 
-int main() {
-
-    Request = *newNode();
-
-    if(!(detectStart() && detectFin())){
-    	printf("Error\n");
-    }
-    else{
-    	int *i = detectStart() + 5;
+int parser(Node *parent_node, Node *current_node, char *i) {
         // Si le caractère est un chiffre
-        if (isdigit(*i)) {
-            n = newNode();
-        	n.__start = i*;
-        	int j = 0;
+        if (isdigit(*i)){
+            // Si on ne se trouve pas déjà dans un nombre
+            if(current_node = NULL){
+                n = newChild(parent_node);
+        	    n->__start = i;
+        	    n->__length = 1;
+                current_node = n;
+            }
+            // Si on se trouve dans un Node
+            else{
+                //Si on était dans un mot
+                if(!(strcmp(current_node.__label, "mot"))){
+                    return(-1);
+                }
+                else{
+                    current_node->__length += 1;
+                }
+            }
         }
             
-
         // Si le caractère est une ponctuation
         else if (strchr(",.:!?", *i) != NULL) {
-            n = newNode();
-            n.__start = i*;
-            n.__length = 1;
+            n = newChild(parent_node);
+            n->__start = i;
+            n->__length = 1;
+            current_node = NULL;
         }
 
-        // Si le caractère est un espace
-        else if (isspace(str[i])) {
-            struct Node n;
-            n.start = &str[i];
-            n.lenght = j;
-            separators[n_sep++] = n;
-            i++;
+        // Si le caractère est un séparateur
+        else if (strchr("\t -_", *i) != NULL) {
+            // Si le séparateur termine un mot
+            if(!(strcmp(current_node.__label, "mot"))){
+                n->__length += 1;
+            }
+            else{
+                n =newChild(parent_node);
+                n->start = i;
+                n->lenght = 1;
+
+            }
+            current_node = NULL;
         }
 
         // Si le caractère est une lettre
         else if (isalpha(*i)) {
             // Si on ne se trouve pas déja dans un mot
-            if(){
-            	n = newNode();
-            	n.__start = i*;
-            	int j = 0;
+            if(current_node = NULL){
+                n = newChild(parent_node);
+        	    n->__start = i;
+        	    n->__length = 1;
+                current_node = n;
             }
-            // Si on est déjà dans un mot
+            // Si on se trouve dans un Node
             else{
-            	while(! strchr(",.;:!?-", *i)){
-                	j++;	
-            	}
-            	n.__length = j;
+                //Si on était dans un mot
+                if(!(strcmp(current_node.__label, "mot"))){
+                    current_node->__length += 1;
+                }
+                else{
+                    return(-1);
+                }
             }
+            
     	}
+        parser(parent_node,,i++)
+
+
 
     // Affichage des résultats
     printf("Nombres :\n");
@@ -90,20 +110,20 @@ int main() {
 
 
 
-int detectStart(){
+int detectStart(char *i){
 	bool rv = False ;
 	while(*i != "s"){
         (*i)++;
     }
-    if(i="s"){
+    if(*i='s'){
         i ++;
-        if(i = "t"){
+        if(i = 't'){
             i++;
-            if(i = "a"){
+            if(i = 'a'){
                 i++;
-                if(i = "r"){
+                if(i = 'r'){
                     i++;
-                    if(i = "t"){
+                    if(i = 't'){
                         i++;
                         rv = True;
                     }
@@ -114,16 +134,16 @@ int detectStart(){
 	return(rv);
 }
 
-int detectFin(){
+int detectFin(char *i){
 	bool rv = False;
-	while(*i != "f"){
+	while(*i != 'f'){
         (*i)++;
     }
-    if(i="f"){
+    if(i='f'){
         i ++;
-        if(i = "i"){
+        if(i = 'i'){
             i++;
-            if(i = "n"){
+            if(i = 'n'){
                 i ++;
                 rv = True;
             }
