@@ -7,7 +7,7 @@ int main() {
 
     Request = *newNode();
 
-    if(detectStart() = NULL){
+    if(!(detectStart() && detectFin())){
     	printf("Error\n");
     }
     else{
@@ -91,7 +91,7 @@ int main() {
 
 
 int detectStart(){
-	int rv = 0;
+	bool rv = False ;
 	while(*i != "s"){
         (*i)++;
     }
@@ -105,7 +105,7 @@ int detectStart(){
                     i++;
                     if(i = "t"){
                         i++;
-                        rv = 1;
+                        rv = True;
                     }
                 }
             }
@@ -115,7 +115,7 @@ int detectStart(){
 }
 
 int detectFin(){
-	int rv = 0;
+	bool rv = False;
 	while(*i != "f"){
         (*i)++;
     }
@@ -125,7 +125,7 @@ int detectFin(){
             i++;
             if(i = "n"){
                 i ++;
-                rv = 1;
+                rv = True;
             }
         }
     }        
