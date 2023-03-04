@@ -1,5 +1,5 @@
-MAIN := structure
-SRC_C := $(wildcard *.c)
+MAIN := httpParser
+SRC_C := $(wildcard */*.c *.c)
 
 $(MAIN): $(SRC_C)
 	gcc $^ -o $@

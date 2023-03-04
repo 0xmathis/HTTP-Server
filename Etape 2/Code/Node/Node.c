@@ -1,22 +1,39 @@
 #include "Node.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 
 // Constructeurs
 
-Node *newChild(Node * Parent){
-    Node * new_child = malloc(sizeof(Node));
-    Parent->__child = new_child;
-    return new_child;
+Node *newChild(Node *parent) {
+    Node *child = newNode();
+
+    Node *temp = getChild(parent);
+    if (temp == NULL) {
+        setChild(parent, child);
+    } else {
+        while (getBrother(temp) != NULL) {
+            temp = getBrother(temp);
+        }
+        setBrother(temp, child);
+    }
+
+    return child;
 }
 
-Node *newBrother(Node * BigBrother){
-    Node * new_brother = malloc(sizeof(Node));
-    BigBrother->__brother = new_brother;
-    return new_brother;
-}
+Node *newBrother(Node *bigBrother) {
+    Node *brother = newNode();
+    Node *temp = getBrother(bigBrother);
 
+    while (temp != NULL) {
+        temp = getBrother(temp);
+    }
+
+    setBrother(temp, brother);
+
+    return brother;
+}
 
 Node *newNode() {
     return (Node *) malloc(sizeof(Node));
