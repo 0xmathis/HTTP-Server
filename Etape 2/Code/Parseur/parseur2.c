@@ -19,7 +19,7 @@ int detectStart(char *i) {
 
 int detectFin(char *i) {
     int rv = 0;
-    if ((*i == 'f' && *(i + 1) == 'i' && *(i + 2) == 'n') || (*i == 'F' && *(i + 1) == 'I' && *(i + 2) == 'N')) {
+    if (((strchr(",.:!?", *i) != NULL) && (*(i+1) == 'f' && *(i + 2) == 'i' && *(i + 3) == 'n')) || ((strchr(",.:!?", *i) != NULL) && (*i == 'F' && *(i + 1) == 'I' && *(i + 2) == 'N'))) {
         rv = 1;
     }
     return (rv);
