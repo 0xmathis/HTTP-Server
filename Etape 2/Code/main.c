@@ -16,16 +16,16 @@ int main(int argc, char **argv) {
     fclose(file);
 
     Node *parent = newNode();
-    initNode(parent, "message", &message[0], getStringLength(message));
+    initNode(parent, "message", message, getStringLength(message));
 
-    int error = startParser(parent, NULL, message);
+    int error = startParser(parent, message);
 
     if (error != 0) {
-        printf("NOT OK\n");
+        printf("remaining #%s#\n", message);
         return error;
     }
 
-    printf("OK\n");
+    printf("remaining ##\n");
     printChildren(parent, 0);
 
     return error;
