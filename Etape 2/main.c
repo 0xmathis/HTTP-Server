@@ -20,7 +20,12 @@ int main(int argc,char *argv[])
 	
         struct stat st;
 
-	if (argc < 2 ) { printf("Usage: httpparser <file> <search>\nAttention <search> is case sensitive\n");  return 0; }
+	if (argc < 2 ) { 
+
+		printf("Usage: httpparser <file> <search>\nAttention <search> is case sensitive\n");  
+		return 0; 
+		
+	}
 	/* ouverture du fichier contenant la requête */ 
 	if ((fi=open(argv[1],O_RDWR)) == -1) {
                 perror("open");
