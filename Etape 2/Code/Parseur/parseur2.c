@@ -55,26 +55,25 @@ int parser(Node *parent_node, Node *current_node, char *i) {
         } else if (isdigit(*i)) {
 
             // Si le caractère est un chiffre
-            // Si on ne se trouve pas déjà dans un nombre
+            // Si on était déjà dans un nombre
 
-            if (current_node == NULL) {
+            if (!(strcmp(getLabel(current_node), "nombre"))) {
+                    setLength(current_node, getLength(current_node) + 1);
+                    Node *m = newChild(current_node);
+                    initNode(m, "digit", i, 1);
+            }
+
+            // Si on était dans un mot
+            else if (!(strcmp(getLabel(current_node), "mot"))) {
+                return(-1);
+            } else {
                 Node *n = newChild(parent_node);
                 initNode(n, "nombre", i, 1);
                 current_node = n;
                 Node *m = newChild(n);
                 initNode(m, "digit", i, 1);
-            } else {
-
-                // Si on se trouve dans un Node
-                //Si on était dans un mot
-                if (!(strcmp(getLabel(current_node), "mot"))) {
-                    return (-1);
-                } else {
-                    setLength(current_node, getLength(current_node) + 1);
-                    Node *m = newChild(current_node);
-                    initNode(m, "digit", i, 1);
-                }
             }
+
         } else if (strchr(",.:!?", *i) != NULL) {
             // Si le caractère est une ponctuation
 
@@ -86,7 +85,7 @@ int parser(Node *parent_node, Node *current_node, char *i) {
                 if (strchr("\t -_", *getStart(getLastChild(current_node))) != NULL) {
                     Node *n = newChild(parent_node);
                     initNode(n, "ponct", i, 1);
-                    current_node = NULL;
+                    current_node = n;
                     Node *m = newChild(n);
                     initNode(m, "icar", i, 1);
                 } else {
@@ -95,7 +94,7 @@ int parser(Node *parent_node, Node *current_node, char *i) {
             } else {
                 Node *n = newChild(parent_node);
                 initNode(n, "ponct", i, 1);
-                current_node = NULL;
+                current_node = n;
                 Node *m = newChild(n);
                 initNode(m, "icar", i, 1);
             }
@@ -121,30 +120,17 @@ int parser(Node *parent_node, Node *current_node, char *i) {
 
                 Node *n = newChild(parent_node);
                 initNode(n, "separateur", i, 1);
+                current_node = n;
                 Node *m = newChild(n);
                 initNode(m, "icar", i, 1);
 
             }
-            current_node = NULL;
         } else if (isalpha(*i)) {
 
             // Si le caractère est une lettre
-            // Si on ne se trouve pas deja dans un mot
+            // Si on était dans un mot
 
-            if (current_node == NULL) {
-
-                Node *n = newChild(parent_node);
-                initNode(n, "mot", i, 1);
-                current_node = n;
-                Node *m = newChild(n);
-                initNode(m, "alpha", i, 1);
-
-            } else {
-
-                // Si on se trouve dans un Node
-                //Si on était dans un mot
-
-                if (!(strcmp(getLabel(current_node), "mot"))) {
+            if (!(strcmp(getLabel(current_node), "mot"))) {
                     if (strchr("\t -_", *getStart(getLastChild(current_node))) != NULL) {
                         return (-1);
                     } else {
@@ -153,8 +139,16 @@ int parser(Node *parent_node, Node *current_node, char *i) {
                         initNode(m, "alpha", i, 1);
                     }
 
-                } else {
-                    return (-1);
+            // Si on était dans un nombre
+
+            else if (!(strcmp(getLabel(current_node), "nombre"))) {
+                return (-1);
+            } else {
+                Node *n = newChild(parent_node);
+                initNode(n, "mot", i, 1);
+                current_node = n;
+                Node *m = newChild(n);
+                initNode(m, "alpha", i, 1);
                 }
             }
         }
