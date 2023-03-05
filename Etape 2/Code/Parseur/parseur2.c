@@ -15,7 +15,7 @@ int detectStart(char *i) {
 
 int detectFin(char *i) {
     int rv = 0;
-    if ((strchr(",.:!?", *i) != NULL) && toLower(i[1]) == 'f' && toLower(i[2]) == 'i' && toLower(i[3]) == 'n' && i[4] == '\n') {
+    if (toLower(i[1]) == 'f' && toLower(i[2]) == 'i' && toLower(i[3]) == 'n' && i[4] == '\n') {
         rv = 1;
     }
     return (rv);
