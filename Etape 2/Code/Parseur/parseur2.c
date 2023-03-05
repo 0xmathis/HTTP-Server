@@ -61,6 +61,8 @@ int parser(Node *parent_node, Node *current_node, char *i) {
                 Node *n = newChild(parent_node);
                 initNode(n, "nombre", i, 1);
                 current_node = n;
+                Node *m = newChild(n);
+                initNode(m, "digit", i, 1);
             } else {
 
                 // Si on se trouve dans un Node
@@ -69,6 +71,8 @@ int parser(Node *parent_node, Node *current_node, char *i) {
                     return (-1);
                 } else {
                     setLength(current_node, getLength(current_node) + 1);
+                    Node *m = newChild(n);
+                    initNode(m, "digit", i, 1);
                 }
             }
         } else if (strchr(",.:!?", *i) != NULL) {
@@ -83,6 +87,8 @@ int parser(Node *parent_node, Node *current_node, char *i) {
                     Node *n = newChild(parent_node);
                     initNode(n, "ponct", i, 1);
                     current_node = NULL;
+                    Node *m = newChild(n);
+                    initNode(m, "icar", i, 1);
                 } else {
                     return (-1);
                 }
@@ -90,6 +96,8 @@ int parser(Node *parent_node, Node *current_node, char *i) {
                 Node *n = newChild(parent_node);
                 initNode(n, "ponct", i, 1);
                 current_node = NULL;
+                Node *m = newChild(n);
+                initNode(m, "icar", i, 1);
             }
 
         } else if (strchr("\t -_", *i) != NULL) {
@@ -105,12 +113,16 @@ int parser(Node *parent_node, Node *current_node, char *i) {
                     // Si le séparateur termine un mot
 
                     setLength(current_node, getLength(current_node) + 1);
+                    Node *m = newChild(n);
+                    initNode(m, "icar", i, 1);
                 }
 
             } else {
 
                 Node *n = newChild(parent_node);
                 initNode(n, "separateur", i, 1);
+                Node *m = newChild(n);
+                initNode(m, "icar", i, 1);
 
             }
             current_node = NULL;
@@ -124,6 +136,8 @@ int parser(Node *parent_node, Node *current_node, char *i) {
                 Node *n = newChild(parent_node);
                 initNode(n, "mot", i, 1);
                 current_node = n;
+                Node *m = newChild(n);
+                initNode(m, "alpha", i, 1);
 
             } else {
 
@@ -135,6 +149,8 @@ int parser(Node *parent_node, Node *current_node, char *i) {
                         return (-1);
                     } else {
                         setLength(current_node, getLength(current_node) + 1);
+                        Node *m = newChild(n);
+                        initNode(m, "alpha", i, 1);
                     }
 
                 } else {
