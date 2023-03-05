@@ -71,7 +71,7 @@ int parser(Node *parent_node, Node *current_node, char *i) {
                     return (-1);
                 } else {
                     setLength(current_node, getLength(current_node) + 1);
-                    Node *m = newChild(n);
+                    Node *m = newChild(current_node);
                     initNode(m, "digit", i, 1);
                 }
             }
@@ -113,7 +113,7 @@ int parser(Node *parent_node, Node *current_node, char *i) {
                     // Si le séparateur termine un mot
 
                     setLength(current_node, getLength(current_node) + 1);
-                    Node *m = newChild(n);
+                    Node *m = newChild(current_node);
                     initNode(m, "icar", i, 1);
                 }
 
@@ -149,7 +149,7 @@ int parser(Node *parent_node, Node *current_node, char *i) {
                         return (-1);
                     } else {
                         setLength(current_node, getLength(current_node) + 1);
-                        Node *m = newChild(n);
+                        Node *m = newChild(current_node);
                         initNode(m, "alpha", i, 1);
                     }
 
