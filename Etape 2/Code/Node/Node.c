@@ -93,6 +93,19 @@ Node *getBrother(Node *this) {
     return this->__brother;
 }
 
+Node *getLastChild(Node *this) {
+    Node *child = getChild(this);
+    if (child == NULL) {
+        return NULL;
+    }
+
+    while (getBrother(child) != NULL) {
+        child = getBrother(child);
+    }
+
+    return child;
+}
+
 
 // Autre
 

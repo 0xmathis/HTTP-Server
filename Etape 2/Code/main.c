@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
     Node *parent = newNode();
     initNode(parent, "message", &message[0], getStringLength(message));
 
-    int error = parser(parent, NULL, message);
+    int error = startParser(parent, NULL, message);
 
     if (error != 0) {
         printf("NOT OK\n");

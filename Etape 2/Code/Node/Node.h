@@ -52,6 +52,8 @@ Node *getChild(Node *);
 
 Node *getBrother(Node *);
 
+Node *getLastChild(Node *);
+
 // Autre
 
 void printChildren(Node *, int);

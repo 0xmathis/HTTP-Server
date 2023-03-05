@@ -6,7 +6,7 @@ import sys
 import pytest
 
 BASE_DIR = os.environ.get("BASE_DIR", ".")
-EMUL_HTTP = os.path.join(BASE_DIR, "main")
+EMUL_HTTP = os.path.join(BASE_DIR, "httpParser")
 ALL_FILES = glob.glob(os.path.join(BASE_DIR, "../Tests/testgrammar/testFile/*.txt"))
 ALL_FILES.sort()
 
