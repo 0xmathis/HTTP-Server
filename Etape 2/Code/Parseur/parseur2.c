@@ -26,13 +26,11 @@ int startParser(Node *parent_node, char *i) {
         Node *current_node = newChild(parent_node);
         initNode(current_node, "debut", i, 5);
         initNode(newChild(current_node), "__istring", i, 5);
-        parser(parent_node, current_node, i + 5);
+        return parser(parent_node, current_node, i + 5);
     } else {
         // erreur pas de start
         return (-1);
     }
-
-    return 0;
 }
 
 int parser(Node *parent_node, Node *current_node, char *i) {
@@ -51,18 +49,6 @@ int parser(Node *parent_node, Node *current_node, char *i) {
 
             n = newChild(parent_node);
             initNode(n, "__lf", i, 1);
-
-            return 0;
-
-        } else if (*i == '\n') {
-
-            if (strcmp(getLabel(current_node), "fin") == 0) {
-                Node *n = newChild(parent_node);
-                initNode(n, "__lf", i, 1);
-                return 0;
-            } else {
-                return (-1);
-            }
 
         } else if (isdigit(*i)) {
 
@@ -185,7 +171,7 @@ int parser(Node *parent_node, Node *current_node, char *i) {
         i += 1;
     }
 
-    if (comptage > 1){
+    if (comptage < 2){
         return (-1);
     } else {
         return 0;
