@@ -36,6 +36,7 @@ int startParser(Node *parent_node, char *i) {
 }
 
 int parser(Node *parent_node, Node *current_node, char *i) {
+    int comptage = 0;
     while (*i != '\0') {
         if (detectFin(i)) {
             Node *n = newChild(parent_node);
@@ -98,6 +99,7 @@ int parser(Node *parent_node, Node *current_node, char *i) {
                     current_node = n;
                     Node *m = newChild(n);
                     initNode(m, "__icar", i, 1);
+                    comptage += 1;
                 } else {
                     return (-1);
                 }
@@ -136,6 +138,9 @@ int parser(Node *parent_node, Node *current_node, char *i) {
                 }
 
             } else {
+                    if (!(strcmp(getLabel(current_node), "mot"))) {
+                        comptage += 1;
+                    }
 
                 Node *n = newChild(parent_node);
                 initNode(n, "separateur", i, 1);
@@ -180,7 +185,12 @@ int parser(Node *parent_node, Node *current_node, char *i) {
         i += 1;
     }
 
-    return 0;
+    if (comptage > 1){
+        return (-1);
+    } else {
+        return 0;
+    }
+    
 }
 
 int getStringLength(char *string) {
