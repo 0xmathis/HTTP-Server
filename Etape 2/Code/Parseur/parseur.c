@@ -72,11 +72,9 @@ int parser(Node *parent_node, Node *current_node, char *i) {
 
         } else if (strchr(",.:!?", *i) != NULL) {
             // Si le caractère est une ponctuation
-            if (!(strcmp(getLabel(current_node), "nombre"))) {
-                // Si on était dans un nombre
+      
 
-                return (-1);
-            } else if (!(strcmp(getLabel(current_node), "mot"))) {
+            if (!(strcmp(getLabel(current_node), "mot"))) {
                 if (strchr("\t -_", *getStart(getLastChild(current_node))) != NULL) {
                     Node *n = newChild(parent_node);
                     initNode(n, "ponct", i, 1);
@@ -87,12 +85,30 @@ int parser(Node *parent_node, Node *current_node, char *i) {
                 } else {
                     return (-1);
                 }
-            } else {
+            } else if(strchr(",.:!?", *getStart(getLastChild(current_node))) != NULL){
+                if(detectFin(i+1)){
+                    Node *n = newChild(parent_node);
+                    initNode(n, "ponct", i, 1);
+                    current_node = n;
+                    i +=1;
+                    Node *n = newChild(parent_node);
+                    initNode(n, "fin", i, 3);
+                    initNode(newChild(n), "__istring", i, 3);
+                    i += 3;
+                    n = newChild(parent_node);
+                    initNode(n, "__lf", i, 1);
+                }
+                else{
+                    return (-1);
+                }
+            } else if (strchr("\t -_", *getStart(getLastChild(current_node))) != NULL) {
                 Node *n = newChild(parent_node);
                 initNode(n, "ponct", i, 1);
                 current_node = n;
                 Node *m = newChild(n);
                 initNode(m, "__icar", i, 1);
+            } else {
+                return (-1) ;
             }
 
         } else if (strchr("\t -_", *i) != NULL) {
@@ -121,10 +137,8 @@ int parser(Node *parent_node, Node *current_node, char *i) {
                     }
                 }
 
-            } else {
-                if (!(strcmp(getLabel(current_node), "nombre"))) {
-                    comptage += 1;
-                }
+            } else if (!(strcmp(getLabel(current_node), "nombre"))) {
+                comptage += 1;
 
                 Node *n = newChild(parent_node);
                 initNode(n, "separateur", i, 1);
@@ -138,7 +152,8 @@ int parser(Node *parent_node, Node *current_node, char *i) {
                 } else {
                     initNode(m, "__icar", i, 1);
                 }
-
+            } else {
+                return (-1);
             }
         } else if (isalpha(*i)) {
             // Si le caractère est une lettre
