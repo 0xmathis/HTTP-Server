@@ -15,7 +15,7 @@ int detectStart(char *i) {
 
 int detectFin(char *i) {
     int rv = 0;
-    if (toLower(i[0]) == 'f' && toLower(i[1]) == 'i' && toLower(i[2]) == 'n' && i[3] == '\n') {
+    if (toLower(i[0]) == 'f' && toLower(i[1]) == 'i' && toLower(i[2]) == 'n' && toLower(i[3]) == '\n') {
         rv = 1;
     }
     return (rv);
@@ -42,9 +42,12 @@ int parser(Node *parent_node, Node *current_node, char *i) {
             initNode(newChild(n), "__istring", i, 3);
             i += 3;
 
+//            if (*i != '\n') {
+//                return -1;
+//            }
+
             n = newChild(parent_node);
             initNode(n, "__lf", i, 1);
-
         } else if (isdigit(*i)) {
 
             // Si le caractère est un chiffre
@@ -119,9 +122,9 @@ int parser(Node *parent_node, Node *current_node, char *i) {
                 }
 
             } else {
-                    if (!(strcmp(getLabel(current_node), "nombre"))) {
-                        comptage += 1;
-                    }
+                if (!(strcmp(getLabel(current_node), "nombre"))) {
+                    comptage += 1;
+                }
 
                 Node *n = newChild(parent_node);
                 initNode(n, "separateur", i, 1);
@@ -161,18 +164,20 @@ int parser(Node *parent_node, Node *current_node, char *i) {
                 Node *m = newChild(n);
                 initNode(m, "__alpha", i, 1);
             }
+        } else {
+            return -1;
         }
 
         i += 1;
     }
 
     // printf("comptage : %d\n", comptage);
-    if (comptage < 2){
+    if (comptage < 2) {
         return (-1);
     } else {
         return 0;
     }
-    
+
 }
 
 int getStringLength(char *string) {

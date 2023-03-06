@@ -24,10 +24,6 @@ void initNode(Node *, char *, char *, int);
 
 // Destructeurs
 
-void delChild(Node *);
-
-void delBrother(Node *);
-
 void delTree(Node *);
 
 // Setters
