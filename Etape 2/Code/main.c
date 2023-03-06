@@ -9,9 +9,9 @@ int main(int argc, char **argv) {
     }
 
     FILE *file = fopen(argv[1], "r");
-    char message[401];
+    char message[500];
 
-    fgets(message, 400, file);
+    fgets(message, 499, file);
 
     fclose(file);
 
