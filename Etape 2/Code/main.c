@@ -27,9 +27,7 @@ int main(int argc, char **argv) {
 
     printf("remaining ##\n");
     printChildren(parent, 0);
-    int i = 0;
-    delTree(parent, &i);
-    // printf("Nb node deleted : %d\n", i);
+    delTree(parent);
 
     return error;
 

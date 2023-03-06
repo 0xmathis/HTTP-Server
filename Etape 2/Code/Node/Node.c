@@ -50,15 +50,20 @@ void initNode(Node *this, char *label, char *start, int length) {
 
 // Destructeurs
 
-void delTree(Node *this, int *i) {
+void delTree(Node *this) {
     if (getBrother(this) != NULL) {
-        delTree(getBrother(this), i);
-    } else if (getChild(this) != NULL) {
-        delTree(getChild(this), i);
-    } else {
-        *i = (*i) + 1;
-        free(this);
+        delTree(getBrother(this));
+        setBrother(this, NULL);
     }
+    
+    if (getChild(this) != NULL) {
+        delTree(getChild(this));
+        setChild(this, NULL);
+    }
+
+    free(this);
+    
+    return;
 }
 
 
