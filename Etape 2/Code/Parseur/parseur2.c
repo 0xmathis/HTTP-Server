@@ -15,7 +15,7 @@ int detectStart(char *i) {
 
 int detectFin(char *i) {
     int rv = 0;
-    if (toLower(i[1]) == 'f' && toLower(i[2]) == 'i' && toLower(i[3]) == 'n' && i[4] == '\n') {
+    if (toLower(i[0]) == 'f' && toLower(i[1]) == 'i' && toLower(i[2]) == 'n' && i[3] == '\n') {
         rv = 1;
     }
     return (rv);
@@ -38,11 +38,6 @@ int parser(Node *parent_node, Node *current_node, char *i) {
     while (*i != '\0') {
         if (detectFin(i)) {
             Node *n = newChild(parent_node);
-            initNode(n, "ponct", i, 1);
-            initNode(newChild(n), "__icar", i, 1);
-            i++;
-
-            n = newChild(parent_node);
             initNode(n, "fin", i, 3);
             initNode(newChild(n), "__istring", i, 3);
             i += 3;
@@ -124,7 +119,7 @@ int parser(Node *parent_node, Node *current_node, char *i) {
                 }
 
             } else {
-                    if (!(strcmp(getLabel(current_node), "mot"))) {
+                    if (!(strcmp(getLabel(current_node), "nombre"))) {
                         comptage += 1;
                     }
 
@@ -171,6 +166,7 @@ int parser(Node *parent_node, Node *current_node, char *i) {
         i += 1;
     }
 
+    // printf("comptage : %d\n", comptage);
     if (comptage < 2){
         return (-1);
     } else {

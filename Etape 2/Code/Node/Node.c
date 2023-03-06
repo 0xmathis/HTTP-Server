@@ -48,6 +48,20 @@ void initNode(Node *this, char *label, char *start, int length) {
 }
 
 
+// Destructeurs
+
+void delTree(Node *this, int *i) {
+    if (getBrother(this) != NULL) {
+        delTree(getBrother(this), i);
+    } else if (getChild(this) != NULL) {
+        delTree(getChild(this), i);
+    } else {
+        *i = (*i) + 1;
+        free(this);
+    }
+}
+
+
 // Setters
 
 void setLabel(Node *this, char *label) {

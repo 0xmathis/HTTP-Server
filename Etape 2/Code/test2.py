@@ -16,24 +16,22 @@ class TestHTTP:
     def testFiles(self, filename):
         name = os.path.splitext(filename)[0]
 
-        out_put = os.system(f"./{EMUL_HTTP} {filename} > {name}.me")
+        os.system(f"./{EMUL_HTTP} {filename} > {name}.me")
         os.system(f"./{EMUL_HTTP_PROF} {filename} > {name}.prof")
-        resultat = 1
         my_resultat = open(f"{name}.me", "r")
         prof_resultat = open(f"{name}.prof", "r")
         a = my_resultat.read()
         b = prof_resultat.read()
-        index = -1
         if a == '':
+            pytest.fail("Sortie vide")
             resultat = 0
-        for i in range(0, min(len(a), len(b))):
-            if a[i] != b[i]:
-                resultat = 0
-                index = i
-                break
-
-        if resultat == 0:
-            pytest.fail(f"Error caractère {index} : \"{a[index]}\" à la place de \"{b[index]}\"")
+        elif len(a) != len(b):
+            pytest.fail("Longueurs différentes")
+        else:
+            for i in range(len(a)):
+                if a[i] != b[i]:
+                    pytest.fail(f"Error caractère {i} : \"{a[i]}\" à la place de \"{b[i]}\"")
+                    break
 
 
 pytest.main(sys.argv)

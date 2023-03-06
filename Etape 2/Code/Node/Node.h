@@ -28,6 +28,8 @@ void delChild(Node *);
 
 void delBrother(Node *);
 
+void delTree(Node *, int *);
+
 // Setters
 
 void setLabel(Node *, char *);
