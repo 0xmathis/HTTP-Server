@@ -1,0 +1,76 @@
+Josias :
+	HTTP-message
+	start-line
+	request-line
+	method
+	token
+	SP
+	request-target
+	origin-form
+	absolute-path
+	segment
+	HTTP-version
+	HTTP-name
+	DIGIT
+
+Nathan :
+	Expect-header
+	Expect
+	message-body
+	OCTET
+	field-vchar
+	VCHAR
+	obs-text
+	HTAB
+	quoted-string
+	pchar
+	qdtext
+	quoted-pair
+	query
+	tchar
+	ALPHA
+
+Hugo :
+	header-field
+	Connection-header
+	OWS
+	connection-option
+	Content-Length-header
+	Content-Length
+	Content-Type
+	media-type
+	type
+	subtype
+	parameter
+	Cookie-header
+	cookie-string
+	cookie-pair
+	Transfert-Encoding
+	transfert-coding
+
+Mathis :
+	Host-header
+	uri-host
+	host
+	IP-literal
+	IPv6address
+	IPvFuture
+	HEXDIGIT
+	unreserved
+	sub-delims
+	IPv4address
+	dec-octet
+	reg-name
+	pct-encoded
+	port
+	CLRF
+
+
+
+
+
+
+
+
+
+
