@@ -39,7 +39,7 @@ Node *newNode() {
     return (Node *) malloc(sizeof(Node));
 }
 
-void initNode(Node *this, char *label, char *start, int length) {
+void initNode(Node *this, const char *label, const char *start, int length) {
     setLabel(this, label);
     setStart(this, start);
     setLength(this, length);
@@ -69,11 +69,11 @@ void delTree(Node *this) {
 
 // Setters
 
-void setLabel(Node *this, char *label) {
+void setLabel(Node *this, const char *label) {
     strcpy(this->__label, label);
 }
 
-void setStart(Node *this, char *start) {
+void setStart(Node *this, const char *start) {
     this->__start = start;
 }
 
@@ -92,11 +92,11 @@ void setBrother(Node *this, Node *brother) {
 
 // Getters
 
-char *getLabel(Node *this) {
+const char *getLabel(Node *this) {
     return this->__label;
 }
 
-char *getStart(Node *this) {
+const char *getStart(Node *this) {
     return this->__start;
 }
 
@@ -125,6 +125,17 @@ Node *getLastChild(Node *this) {
     return child;
 }
 
+int getSumLengthChildren(Node *this) {
+    int sum = 0;
+    Node *child = getChild(this);
+
+    while (child != NULL) {
+        sum += getLength(child);
+        child = getBrother(child);
+    }
+
+    return sum;
+}
 
 // Autre
 

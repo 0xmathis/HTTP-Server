@@ -1,4 +1,4 @@
-Josias :
+Josias : erreurs : 1 - 30
     HTTP-message
     ALPHA
     alphanum
@@ -24,10 +24,9 @@ Josias :
     h16
     HEXDIG
 
-Nathan :
+Nathan : erreurs : 31 - 60
     language-range
     ls32
-    IPv4address
     OWS
     parameter
     quoted-string
@@ -50,7 +49,7 @@ Nathan :
     transfert-parameter
     weight
 
-Hugo :
+Hugo : erreurs : 61 - 90
     start-line
     request-line
     method
@@ -76,7 +75,7 @@ Hugo :
     Cookie-header
     cookie-string
 
-Mathis :
+Mathis : erreurs : 91 - 120
     Transfer-Encoding-header
     Transfert-Encoding
     Expect-header
@@ -86,6 +85,7 @@ Mathis :
     uri-host
     host
     IP-literal
+    IPv4adress
     IPv6address
     IPvFuture
     reg-name
@@ -98,6 +98,7 @@ Mathis :
     Accept
     media-range
     accept-params
+    accept-ext
     Accept-Encoding-header
     Accept-Encoding
     message-body
