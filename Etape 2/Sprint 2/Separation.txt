@@ -1,105 +1,106 @@
-Josias : erreurs : 1 - 30
-    HTTP-message
-    ALPHA
-    alphanum
-    DIGIT
-    comment
-    ctext
-    quoted-pair
-    connection-option
-    token
-    codings
-    content-coding
-    cookie-octet
-    cookie-pair
-    cookie-name
-    cookie-value
-    CRLF
-    HTAB
-    SP
-    obs-text
-    dec-octet
-    field-vchar
-    VCHAR
-    h16
-    HEXDIG
-
-Nathan : erreurs : 31 - 60
-    language-range
-    ls32
-    OWS
-    parameter
-    quoted-string
-    pchar
-    unreserved
-    pct-encoded
-    sub-delims
-    HEXDIGIT
-    product
-    product-version
-    product_version
-    qdtext
-    query
-    qvalue
-    RWS
-    segment
-    tchar
-    transfert-coding
-    transfert-extension
-    transfert-parameter
-    weight
-
-Hugo : erreurs : 61 - 90
-    start-line
-    request-line
-    method
-    request-target
-    origin-form
-    absolute-path
-    HTTP-version
-    HTTP-name
-    header-field
-    field-name
-    field-value
-    field-content
-    obs-fold
-    Connection-header
-    Connection
-    Content-Length-header
-    Content-Length
-    Content-Type-header
-    Content-Type
-    media-type
-    type
-    subtype
-    Cookie-header
-    cookie-string
-
-Mathis : erreurs : 91 - 120
-    Transfer-Encoding-header
-    Transfert-Encoding
-    Expect-header
-    Expect
-    Host-header
-    Host
-    uri-host
-    host
-    IP-literal
-    IPv4adress
-    IPv6address
-    IPvFuture
-    reg-name
-    port
-    User-Agent-header
-    User-Agent
-    Accept-Language-header
-    Accept-Language
-    Accept-header
-    Accept
-    media-range
-    accept-params
-    accept-ext
-    Accept-Encoding-header
-    Accept-Encoding
-    message-body
-    OCTET
+                                    | Codé | Validé |
+Josias : erreurs : 1 - 30           |      |        |
+    HTTP-message                    |      |        |
+    ALPHA                           |      |        |
+    alphanum                        |      |        |
+    DIGIT                           |      |        |
+    comment                         |      |        |
+    ctext                           |      |        |
+    quoted-pair                     |      |        |
+    connection-option               |      |        |
+    token                           |      |        |
+    codings                         |      |        |
+    content-coding                  |      |        |
+    cookie-octet                    |      |        |
+    cookie-pair                     |      |        |
+    cookie-name                     |      |        |
+    cookie-value                    |      |        |
+    CRLF                            |      |        |
+    HTAB                            |      |        |
+    SP                              |      |        |
+    obs-text                        |      |        |
+    dec-octet                       |      |        |
+    field-vchar                     |      |        |
+    VCHAR                           |      |        |
+    h16                             |      |        |
+    HEXDIG                          |      |        |
+                                    |      |        |
+Nathan : erreurs : 31 - 60          |      |        |
+    language-range                  |      |        |
+    ls32                            |      |        |
+    OWS                             |      |        |
+    parameter                       |      |        |
+    quoted-string                   |      |        |
+    pchar                           |      |        |
+    unreserved                      |      |        |
+    pct-encoded                     |      |        |
+    sub-delims                      |      |        |
+    HEXDIGIT                        |      |        |
+    product                         |      |        |
+    product-version                 |      |        |
+    product_version                 |      |        |
+    qdtext                          |      |        |
+    query                           |      |        |
+    qvalue                          |      |        |
+    RWS                             |      |        |
+    segment                         |      |        |
+    tchar                           |      |        |
+    transfert-coding                |      |        |
+    transfert-extension             |      |        |
+    transfert-parameter             |      |        |
+    weight                          |      |        |
+                                    |      |        |
+Hugo : erreurs : 61 - 90            |      |        |
+    start-line                      |      |        |
+    request-line                    |      |        |
+    method                          |      |        |
+    request-target                  |      |        |
+    origin-form                     |      |        |
+    absolute-path                   |      |        |
+    HTTP-version                    |      |        |
+    HTTP-name                       |      |        |
+    header-field                    |      |        |
+    field-name                      |      |        |
+    field-value                     |      |        |
+    field-content                   |      |        |
+    obs-fold                        |      |        |
+    Connection-header               |      |        |
+    Connection                      |      |        |
+    Content-Length-header           |      |        |
+    Content-Length                  |      |        |
+    Content-Type-header             |      |        |
+    Content-Type                    |      |        |
+    media-type                      |      |        |
+    type                            |      |        |
+    subtype                         |      |        |
+    Cookie-header                   |      |        |
+    cookie-string                   |      |        |
+                                    |      |        |
+Mathis : erreurs : 91 - 120         |  OK  |        |
+    Transfer-Encoding-header        |  OK  |        |
+    Transfert-Encoding              |  OK  |        |
+    Expect-header                   |  OK  |        |
+    Expect                          |  OK  |        |
+    Host-header                     |  OK  |        |
+    Host                            |  OK  |        |
+    uri-host                        |  OK  |        |
+    host                            |  OK  |        |
+    IP-literal                      |  OK  |        |
+    IPv4adress                      |  OK  |        |
+    IPv6address                     |  OK  |        |
+    IPvFuture                       |  OK  |        |
+    reg-name                        |  OK  |        |
+    port                            |  OK  |        |
+    User-Agent-header               |  OK  |        |
+    User-Agent                      |  OK  |        |
+    Accept-Language-header          |  OK  |        |
+    Accept-Language                 |  OK  |        |
+    Accept-header                   |  OK  |        |
+    Accept                          |  OK  |        |
+    media-range                     |  OK  |        |
+    accept-params                   |  OK  |        |
+    accept-ext                      |  OK  |        |
+    Accept-Encoding-header          |  OK  |        |
+    Accept-Encoding                 |  OK  |        |
+    message-body                    |  OK  |        |
+    OCTET                           |  OK  |        |
