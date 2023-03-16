@@ -79,8 +79,8 @@ Hugo : erreurs : 61 - 90            |      |        |
 Mathis : erreurs : 91 - 120         |  OK  |        |
     Transfer-Encoding-header        |  OK  |        |
     Transfert-Encoding              |  OK  |        |
-    Expect-header                   |  OK  |        |
-    Expect                          |  OK  |        |
+    Expect-header                   |  OK  |   OK   |
+    Expect                          |  OK  |   OK   |
     Host-header                     |  OK  |        |
     Host                            |  OK  |        |
     uri-host                        |  OK  |        |

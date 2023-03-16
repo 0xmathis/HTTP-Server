@@ -55,14 +55,14 @@ void delTree(Node *this) {
         delTree(getBrother(this));
         setBrother(this, NULL);
     }
-    
+
     if (getChild(this) != NULL) {
         delTree(getChild(this));
         setChild(this, NULL);
     }
 
     free(this);
-    
+
     return;
 }
 
@@ -141,9 +141,25 @@ int getSumLengthChildren(Node *this) {
 
 void printChildren(Node *this, int depth) {
     for (int i = 0; i < depth; i++) { printf("\t"); }
-    printf("%s: ", this->__label);
-    for (int i = 0; i < getLength(this); i++) { printf("%c", *(getStart(this) + i)); }
-    printf("\n");
+
+    printf("[%d:%s] = \"", depth, this->__label);
+
+    if (getLength(this) > 9) {
+        for (int i = 0; i < 3; i++) {
+            printf("%c", *(getStart(this) + i));
+        }
+
+        printf("..");
+
+        for (int i = getLength(this) - 3; i < getLength(this); i++) {
+            printf("%c", *(getStart(this) + i));
+        }
+    } else {
+        for (int i = 0; i < getLength(this); i++) {
+            printf("%c", *(getStart(this) + i));
+        }
+    }
+    printf("\"\n");
 
     if (getChild(this) != NULL) {
         printChildren(getChild(this), depth + 1);

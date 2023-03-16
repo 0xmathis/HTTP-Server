@@ -5,7 +5,7 @@
 typedef struct Node Node;
 
 struct Node {
-    const char __label[50];
+    char __label[50];
     const char *__start;
     int __length;
     Node *__child;

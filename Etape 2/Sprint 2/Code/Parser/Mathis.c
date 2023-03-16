@@ -1,10 +1,11 @@
 #include "Mathis.h"
-#include "../../Node/Node.h"
-#include "../utils.h"
+#include "utils.h"
+#include <stdio.h>
 
 // à la fin d'un nœud, on set sa longueur à la somme des longueurs de ses fils
 // detect_OWS renvoie 0 même si on ne trouve rien puisque c'est optionnel, mais si ça trouve un OWS ça l'ajoute quand même à l'arbre ??
 
+/*
 int detect_Transfer_Encoding_header(Node *parent, const char *ptr) { // pas demandé ?
     if (startWith("Transfert-Encoding", ptr)) {
         initNode(newChild(parent), "case_insensitive_string", ptr, 18);
@@ -34,6 +35,8 @@ int detect_Transfer_Encoding_header(Node *parent, const char *ptr) { // pas dema
     } else {
         return -1;
     }
+
+    return 0;
 }
 
 int detect_Transfert_Encoding(Node *parent, const char *ptr) { // pas demandé ?
@@ -47,7 +50,10 @@ int detect_Transfert_Encoding(Node *parent, const char *ptr) { // pas demandé ?
             return -1;
         }
     }
+
+    return 0;
 }
+ */
 
 int detect_Expect_header(Node *parent, const char *ptr) {
     Node *expectNode = newChild(parent);
@@ -92,7 +98,7 @@ int detect_Expect(Node *parent, const char *ptr) {
     initNode(expectNode, "Expect", ptr, 0);
 
     if (startWith("100-continue", ptr)) {
-        initNode(newChild(expectNode), "case_insensitive_string", ptr, 12)
+        initNode(newChild(expectNode), "case_insensitive_string", ptr, 12);
         ptr += getLength(getLastChild(expectNode));
     } else {
         return 92;
@@ -120,12 +126,13 @@ int detect_Host_header(Node *parent, const char *ptr) {
             }
 
             if (detect_Host(hostNode, ptr) == 0) {
+                printf("iciii\n");
                 if (detect_OWS(hostNode, ptr) == 0) {
                     ptr += getLength(getLastChild(hostNode));
                 }
 
             } else {
-                return 93
+                return 93;
             }
 
         } else {
@@ -142,11 +149,12 @@ int detect_Host_header(Node *parent, const char *ptr) {
 }
 
 int detect_Host(Node *parent, const char *ptr) {
+    printf("ici\n");
     Node *hostNode = newChild(parent);
     initNode(hostNode, "Host", ptr, 0);
 
     if (detect_uri_host(hostNode, ptr) == 0) {
-        ptr += getLength(getLastChild(messageBodyNode));
+        ptr += getLength(getLastChild(hostNode));
     } else {
         return 94;
     }
@@ -179,7 +187,7 @@ int detect_uri_host(Node *parent, const char *ptr) {
 
     setLength(uriHostNode, getSumLengthChildren(uriHostNode));
 
-    return 0
+    return 0;
 }
 
 int detect_host(Node *parent, const char *ptr) {
@@ -188,7 +196,7 @@ int detect_host(Node *parent, const char *ptr) {
 
     if (detect_IP_literal(hostNode, ptr) == 0) {
         ptr += getLength(getLastChild(hostNode));
-    } else if (detect_IPv4adress(hostNode, ptr) == 0) {
+    } else if (detect_IPv4address(hostNode, ptr) == 0) {
         ptr += getLength(getLastChild(hostNode));
     } else if (detect_reg_name(hostNode, ptr) == 0) {
         ptr += getLength(getLastChild(hostNode));
@@ -271,7 +279,7 @@ int detect_IPv6address(Node *parent, const char *ptr) {
 
     int compteur = 0;
 
-    while () {
+    while (1) {
         if (detect_h16(ipv6addressNode, ptr) == 0) {
             ptr += getLength(getLastChild(ipv6addressNode));
             compteur++;
@@ -317,7 +325,7 @@ int detect_IPv6address(Node *parent, const char *ptr) {
         }
     }
 
-    while () {
+    while (1) {
         if (detect_ls32(ipv6addressNode, ptr) == 0) {
             ptr += getLength(getLastChild(ipv6addressNode));
 
@@ -354,7 +362,7 @@ int detect_IPvFuture(Node *parent, const char *ptr) {
 
         int i = 0;
 
-        while () {
+        while (1) {
             if (detect_HEXDIG(ipvFutureNode, ptr) == 0) {
                 ptr += getLength(getLastChild(ipvFutureNode));
             } else {
@@ -373,7 +381,7 @@ int detect_IPvFuture(Node *parent, const char *ptr) {
             ptr += getLength(getLastChild(ipvFutureNode));
 
             int j = 0;
-            while () {
+            while (1) {
                 if (detect_unreserved(ipvFutureNode, ptr) == 0) {
                     ptr += getLength(getLastChild(ipvFutureNode));
                 } else if (detect_sub_delims(ipvFutureNode, ptr) == 0) {
@@ -409,7 +417,7 @@ int detect_reg_name(Node *parent, const char *ptr) {
     Node *regNameNode = newChild(parent);
     initNode(regNameNode, "reg_name", ptr, 0);
 
-    while () {
+    while (1) {
         if (detect_unreserved(regNameNode, ptr) == 0) {
             ptr += getLength(getLastChild(regNameNode));
         } else if (detect_pct_encoded(regNameNode, ptr) == 0) {
@@ -430,9 +438,9 @@ int detect_port(Node *parent, const char *ptr) {
     Node *portNode = newChild(parent);
     initNode(portNode, "port", ptr, 0);
 
-    while () {
+    while (1) {
         if (detect_DIGIT(portNode, ptr) == 0) {
-            ptr += getLength(getLastChild(regNameNode));
+            ptr += getLength(getLastChild(portNode));
         } else {
             break;
         }
@@ -567,7 +575,7 @@ int detect_Accept_Language(Node *parent, const char *ptr) {
             ptr += getLength(getLastChild(acceptLanguageNode));
         }
 
-        while () {
+        while (1) {
             if (detect_OWS(acceptLanguageNode, ptr) == 0 && ptr[1] == ',') {
                 ptr += getLength(getLastChild(acceptLanguageNode));
                 initNode(newChild(acceptLanguageNode), "case_insensitive_string", ptr, 1);
@@ -658,7 +666,7 @@ int detect_Accept(Node *parent, const char *ptr) {
         return 106;
     }
 
-    while () {
+    while (1) {
         if (detect_OWS(acceptNode, ptr) == 0 && ptr[1] == ',') {
             ptr += getLength(getLastChild(acceptNode));
             initNode(newChild(acceptNode), "case_insensitive_string", ptr, 1);
@@ -697,7 +705,7 @@ int detect_media_range(Node *parent, const char *ptr) {
     initNode(mediaRangeNode, "media_range", ptr, 0);
 
     if (startWith("*/*", ptr)) {
-        initNode(newChild(mediaRangeNode), case_insensitive_string, ptr, 3);
+        initNode(newChild(mediaRangeNode), "case_insensitive_string", ptr, 3);
         ptr += getLength(getLastChild(mediaRangeNode));
 
     } else if (detect_type(mediaRangeNode, ptr) == 0) {
@@ -722,7 +730,7 @@ int detect_media_range(Node *parent, const char *ptr) {
         return 107;
     }
 
-    while () {
+    while (1) {
         if (detect_OWS(mediaRangeNode, ptr) == 0 && ptr[1] == ';') {
             ptr += getLength(getLastChild(mediaRangeNode));
             initNode(newChild(mediaRangeNode), "case_insensitive_string", ptr, 1);
@@ -774,7 +782,7 @@ int detect_accept_params(Node *parent, const char *ptr) {
 }
 
 int detect_accept_ext(Node *parent, const char *ptr) {
-    while () {
+    while (1) {
         if (detect_OWS(parent, ptr) == 0 && ptr[1] == ';') {
             ptr += getLength(getLastChild(parent));
             initNode(newChild(parent), "case_insensitive_string", ptr, 1);
@@ -815,6 +823,8 @@ int detect_accept_ext(Node *parent, const char *ptr) {
             return 109;
         }
     }
+
+    return 0;
 }
 
 int detect_Accept_Encoding_header(Node *parent, const char *ptr) {
@@ -872,7 +882,7 @@ int detect_Accept_Encoding(Node *parent, const char *ptr) {
         return 111;
     }
 
-    while () {
+    while (1) {
         if (detect_OWS(acceptEncodingNode, ptr) == 0 && ptr[1] == ',') {
             ptr += getLength(getLastChild(acceptEncodingNode));
             initNode(newChild(acceptEncodingNode), "case_insensitive_string", ptr, 1);
@@ -908,7 +918,7 @@ int detect_message_body(Node *parent, const char *ptr) {
     Node *messageBodyNode = newChild(parent);
     initNode(messageBodyNode, "message_body", ptr, 0);
 
-    while () {
+    while (1) {
         if (detect_OCTET(messageBodyNode, ptr) == 0) {
             ptr += getLength(getLastChild(messageBodyNode));
         } else {
@@ -930,3 +940,27 @@ int detect_OCTET(Node *parent, const char *ptr) {
 
     return 0;
 }
+
+
+// A supprimer
+
+int detect_OWS(Node *parent, const char *ptr){ return 0; }
+int detect_RWS(Node *parent, const char *ptr){ return 0; }
+int detect_dec_octet(Node *parent, const char *ptr){ return 0; }
+int detect_h16(Node *parent, const char *ptr){ return 0; }
+int detect_ls32(Node *parent, const char *ptr){ return 0; }
+int detect_HEXDIG(Node *parent, const char *ptr){ return 0; }
+int detect_unreserved(Node *parent, const char *ptr){ return 0; }
+int detect_sub_delims(Node *parent, const char *ptr){ return 0; }
+int detect_pct_encoded(Node *parent, const char *ptr){ return 0; }
+int detect_DIGIT(Node *parent, const char *ptr){ return 0; }
+int detect_product(Node *parent, const char *ptr){ return 0; }
+int detect_language_range(Node *parent, const char *ptr){ return 0; }
+int detect_weight(Node *parent, const char *ptr){ return 0; }
+int detect_type(Node *parent, const char *ptr){ return 0; }
+int detect_subtype(Node *parent, const char *ptr){ return 0; }
+int detect_parameter(Node *parent, const char *ptr){ return 0; }
+int detect_token(Node *parent, const char *ptr){ return 0; }
+int detect_comment(Node *parent, const char *ptr){ return 0; }
+int detect_quoted_string(Node *parent, const char *ptr){ return 0; }
+int detect_codings(Node *parent, const char *ptr){ return 0; }
