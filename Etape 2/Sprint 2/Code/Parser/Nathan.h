@@ -1,5 +1,5 @@
-#ifndef PROJET_RESEAU_MATHIS_H
-#define PROJET_RESEAU_MATHIS_H
+#ifndef PROJET_RESEAU_NATHAN_H
+#define PROJET_RESEAU_NATHAN_H
 
 #include "../Node/Node.h"
 
