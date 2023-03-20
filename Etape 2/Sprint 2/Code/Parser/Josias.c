@@ -208,29 +208,18 @@ int detect_content_coding(Node *parent, const char *ptr){
 }
 
 int detect_cookie_octet(Node *parent, const char *ptr){
-    Node *cookieOctetNode = newChild(parent);
-    initNode(cookieOctetNode, "cookieOctetNode", ptr, 0);
-
-    if(){
-        ptr +=1;
+    if(*ptr == 0x21 || 0x23 <= *ptr && *ptr <= 0x2B || 0x2D <= *ptr && *ptr <= 0x3A ||0x3C <= *ptr && *ptr <= 0x5B || 0x5D <= *ptr && *ptr <= 0x7E){//A vérifier
+        initNode(newChild(parent), "cookie-octet", ptr, 1);
     }
-    else if(){
-        ptr +=1;
+    else{
+        return 11;
     }
-    else if(){
-        ptr +=1;
-    }
-    else if(){
-        ptr +=1;
-    }
-    else if(){
-        ptr +=1;
-    }
+    return 0;
 }
 
 int detect_cookie_pair(Node *parent, const char *ptr){
     Node *cookiePairNode = newChild(parent);
-    initNode(cookiePairNode, "cookiePairNode", ptr, 0);
+    initNode(cookiePairNode, "cookie-pair", ptr, 0);
 
     if (detect_cookie_name(cookiePairNode, ptr)){
         ptr += getLength(getLastChild(cookiePairNode));
@@ -258,27 +247,84 @@ int detect_cookie_pair(Node *parent, const char *ptr){
 }
 
 int detect_cookie_name(Node *parent, const char *ptr){
+    Node *cookieNameNode = newChild(parent);
+    initNode(cookieNameNode, "cookie-name", ptr, 0);
     
+    if (detect_token(cookieNameNode, ptr)){
+        ptr += getLength(getLastChild(cookieNameNode));
+    }
+    else{
+        return 13;
+    }
+
+    setLength(cookieNameNode, getSumLengthChildren(cookieNameNode));
+    return 0;
 }
 
 int detect_cookie_value(Node *parent, const char *ptr){
-    
+    Node *cookieValueNode = newChild(parent);
+    initNode(cookieValueNode, "cookie-value", ptr, 0);
+
+    if (startWith("""")){ // On peut pas en mettre 3
+        if (detect_cookie_octet(cookieValueNode), ptr){
+            ptr += getLength(getLastChildren(cookieValueNode));
+            if(){
+                // Je mets quoi là ?
+            }
+        }
+        else{
+            return 14;
+        }
+    }
+    else if (detect_cookie_octet(cookieValueNode), ptr){
+            ptr += getLength(getLastChildren(cookieValueNode));
+        }
+    else{
+        return 14;
+    }
+    setLength(cookieValueNode, getSumLengthChildren(cookieValueNode));
+    return 0;
+
 }
 
 int detect_CRLF(Node *parent, const char *ptr){
-    
+    if (ptr == '\n'){
+        initNode(newChild(parent), "CRLF", ptr, 1);
+    }
+    else{
+        return 15;
+    }
+    return 0;
 }
 
 int detect_HTAB(Node *parent, const char *ptr){
-    
+    if (ptr == ''){
+        initNode(newChild(parent), "HTAB", ptr, 1);
+    }
+    else{
+        return 16;
+    }
+    return 0;    
 }
 
 int detect_SP(Node *parent, const char *ptr){
-    
+    if (ptr == ' '){
+        initNode(newChild(parent), "SP", ptr, 1);
+    }
+    else{
+        return 17;
+    }
+    return 0;   
 }
 
 int detect_obs_text(Node *parent, const char *ptr){
-    
+    if(0x80 <= *ptr && *ptr <= 0xFF){
+        initNode(newChild(parent), 'obs-text', ptr, 1);
+    }
+    else{
+        return 18;
+    }
+    return 0;
 }
 
 int detect_dec_octet(Node *parent, const char *ptr){
@@ -286,11 +332,29 @@ int detect_dec_octet(Node *parent, const char *ptr){
 }
 
 int detect_field_vchar(Node *parent, const char *ptr){
-    
+    Node *fieldVcharNode = newChild(parent);
+    initNode(fieldVcharNode, "field-vchar", ptr, 0);
+    if(detect_VCHAR(fieldVcharNode), ptr){
+        ptr += getLength(getLastChildren(fieldVcharNode));
+    }
+    else if (detect_obs_text(fieldVcharNode), ptr){
+        ptr += getLength(getLastChildren(fieldVcharNode));
+    }
+    else{
+        return 20;
+    }
+    setLength(fieldVcharNode, getSumLengthChildren(fieldVcharNode));
+    return 0;
 }
 
 int detect_VCHAR(Node *parent, const char *ptr){
-    
+    if(0x21 <= *ptr && *ptr <= 0x7E){
+        initNode(newChild(parent), 'VCHAR', ptr, 1);
+    }
+    else{
+        return 21;
+    }
+    return 0;
 }
 
 int detect_h16(Node *parent, const char *ptr){
