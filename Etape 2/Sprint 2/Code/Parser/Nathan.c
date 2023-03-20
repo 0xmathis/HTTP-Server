@@ -439,4 +439,173 @@ int detect_segment(Node *parent, const char *ptr) {
 
     setLength(segmentNode, getSumLengthChildren(segmentNode));
 
-    return 0
+    return 0;
+}
+
+int detect_tchar(Node *parent, const char *ptr) {
+    Node *tcharNode = newChild(parent);
+    initNode(tcharNode, "tchar", ptr, 0);
+
+    if (strchr("!#$%&'*+-.^_`|~", *ptr) != NULL) {
+        initNode(newChild(tcharNode), "case_insensitive_string", ptr, 1);
+        ptr += getLength(getLastChild(tcharNode));
+    } else if (detect_DIGIT(tcharNode, ptr) == 0) {
+        ptr += getLength(getLastChild(tcharNode));
+    } else if (detect_ALPHA(tcharNode, ptr) == 0) {
+        ptr += getLength(getLastChild(tcharNode));
+    } else {
+        return 45;
+    }
+
+    setLength(tcharNode, getSumLengthChildren(tcharNode));
+
+    return 0;
+}
+
+int detect_transfert_coding(Node *parent, const char *ptr) {
+    Node *transfert_codingNode = newChild(parent);
+    initNode(transfert_codingNode, "transfert-coding", ptr, 0);
+
+    if (startWith("chunked", ptr)) {
+        initNode(newChild(transfert_codingNode), "case_insensitive_string", ptr, 7);
+        ptr += getLength(getLastChild(transfert_codingNode));
+    } else if (startWith("compress", ptr)) {
+        initNode(newChild(transfert_codingNode), "case_insensitive_string", ptr, 8);
+        ptr += getLength(getLastChild(transfert_codingNode));
+    } else if (startWith("deflate", ptr)) {
+        initNode(newChild(transfert_codingNode), "case_insensitive_string", ptr, 7);
+        ptr += getLength(getLastChild(transfert_codingNode));
+    } else if (startWith("gzip", ptr)) {
+        initNode(newChild(transfert_codingNode), "case_insensitive_string", ptr, 4);
+        ptr += getLength(getLastChild(transfert_codingNode));
+    } else if (detect_transfert_extension(transfert_codingNode, ptr) == 0) {
+        ptr += getLength(getLastChild(transfert_codingNode));
+    } else {
+        return 46;
+    }
+
+    setLength(transfert_codingNode, getSumLengthChildren(transfert_codingNode));
+
+    return 0;
+}
+
+int detect_transfert_extension(Node *parent, const char *ptr) {
+    Node *transfert_extensionNode = newChild(parent);
+    initNode(transfert_extensionNode, "transfert-extension", ptr, 0);
+
+    if (detect_token(transfert_extensionNode, ptr) == 0) {
+        ptr += getLength(getLastChild(transfert_extensionNode));
+
+        while (detect_OWS(transfert_extensionNode, ptr) == 0) {
+            ptr += getLength(getLastChild(transfert_extensionNode));
+
+            if (*ptr == ';') {
+                initNode(newChild(transfert_extensionNode), "case_insensitive_string", ptr, 4);
+                ptr += getLength(getLastChild(transfert_extensionNode));
+
+                if (detect_OWS(transfert_extensionNode, ptr) == 0) {
+                    ptr += getLength(getLastChild(transfert_extensionNode));
+
+                    if (detect_transfert_parameter(transfert_extensionNode, ptr) == 0) {
+                        ptr += getLength(getLastChild(transfert_extensionNode));
+                    } else {
+                        return 47;
+                    }
+                } else {
+                    return 47;
+                }
+            } else {
+                return 47;
+            }
+        }
+    } else {
+        return 47;
+    }
+
+    setLength(transfert_extensionNode, getSumLengthChildren(transfert_extensionNode));
+
+    return 0;
+}
+
+int detect_transfert_parameter(Node *parent, const char *ptr) {
+    Node *transfert_parameterNode = newChild(parent);
+    initNode(transfert_parameterNode, "transfert-parameter", ptr, 0);
+
+    if (detect_token(transfert_parameterNode, ptr) == 0) {
+        ptr += getLength(getLastChild(transfert_parameterNode));
+
+        if (detect_OWS(transfert_parameterNode, ptr) == 0) {
+            ptr += getLength(getLastChild(transfert_parameterNode));
+
+            if (*ptr == '=') {
+                initNode(newChild(transfert_parameterNode), "case_insensitive_string", ptr, 4);
+                ptr += getLength(getLastChild(transfert_parameterNode));
+
+                if (detect_OWS(transfert_parameterNode, ptr) == 0) {
+                    ptr += getLength(getLastChild(transfert_parameterNode));
+
+                    if (detect_token(transfert_parameterNode, ptr) == 0) {
+                        ptr += getLength(getLastChild(transfert_parameterNode));
+                    } else if (detect_quoted_string(transfert_parameterNode, ptr) == 0) {
+                        ptr += getLength(getLastChild(transfert_parameterNode));
+                    } else {
+                        return 48;
+                    }
+                } else {
+                    return 48;
+                }
+            } else {
+                return 48;
+            }
+        } else {
+            return 48;
+        }
+    } else {
+        return 48;
+    }
+
+    setLength(transfert_parameterNode, getSumLengthChildren(transfert_parameterNode));
+
+    return 0; 
+}
+
+int detect_weight(Node *parent, const char *ptr) {
+    Node *weightNode = newChild(parent);
+    initNode(weightNode, "weight", ptr, 0);
+
+    if (detect_OWS(weightNode, ptr) == 0) {
+        ptr += getLength(getLastChild(weightNode));
+
+        if (*ptr == ';') {
+            initNode(newChild(weightNode), "case_insensitive_string", ptr, 4);
+            ptr += getLength(getLastChild(weightNode));
+
+            if (detect_OWS(weightNode, ptr) == 0) {
+                ptr += getLength(getLastChild(weightNode));
+
+                if (startWith("q=", ptr)) {
+                    initNode(newChild(weightNode), "case_insensitive_string", ptr, 2);
+                    ptr += getLength(getLastChild(weightNode));
+
+                    if (detect_qvalue(weightNode, ptr) == 0) {
+                        ptr += getLength(getLastChild(weightNode));
+                    } else {
+                        return 49;
+                    }
+                } else {
+                    return 49;
+                }
+            } else {
+                return 49;
+            }
+        } else {
+            return 49;
+        }
+    } else {
+        return 49;
+    }
+
+    setLength(weightNode, getSumLengthChildren(weightNode));
+
+    return 0; 
+}
