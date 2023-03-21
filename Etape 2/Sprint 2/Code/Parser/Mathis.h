@@ -57,30 +57,4 @@ int detect_message_body(Node *, const char *);
 
 int detect_OCTET(Node *, const char *);
 
-// A supprimer
-
-int detect_OWS(Node *, const char *);
-int detect_RWS(Node *, const char *);
-int detect_dec_octet(Node *, const char *);
-int detect_h16(Node *, const char *);
-int detect_ls32(Node *, const char *);
-int detect_HEXDIG(Node *, const char *);
-int detect_unreserved(Node *, const char *);
-int detect_sub_delims(Node *, const char *);
-int detect_pct_encoded(Node *, const char *);
-int detect_Accept_Encoding(Node *, const char *);
-int detect_DIGIT(Node *, const char *);
-int detect_product(Node *, const char *);
-int detect_product(Node *, const char *);
-int detect_language_range(Node *, const char *);
-int detect_weight(Node *, const char *);
-int detect_type(Node *, const char *);
-int detect_subtype(Node *, const char *);
-int detect_parameter(Node *, const char *);
-int detect_token(Node *, const char *);
-int detect_comment(Node *, const char *);
-int detect_quoted_string(Node *, const char *);
-int detect_codings(Node *, const char *);
-
-
 #endif

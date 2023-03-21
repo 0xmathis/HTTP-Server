@@ -1,9 +1,12 @@
+#include "Nathan.h"
+#include "Josias.h"
 #include "Mathis.h"
 #include "utils.h"
 #include <stdio.h>
 
 // à la fin d'un nœud, on set sa longueur à la somme des longueurs de ses fils
 // detect_OWS renvoie 0 même si on ne trouve rien puisque c'est optionnel, mais si ça trouve un OWS ça l'ajoute quand même à l'arbre ??
+// on ne met pas detect_OWS dans un if ou un while puisque c'est optionnel et qu'on ne peut pas avoir plusieurs OWS à la suite par definition
 
 /*
 int detect_Transfer_Encoding_header(Node *parent, const char *ptr) { // pas demandé ?
@@ -393,10 +396,10 @@ int detect_IPvFuture(Node *parent, const char *ptr) {
                     break;
                 }
 
-                i++;
+                j++;
             }
 
-            if (i < 0) {
+            if (j < 0) {
                 return 100;
             }
 
@@ -922,7 +925,7 @@ int detect_message_body(Node *parent, const char *ptr) {
         if (detect_OCTET(messageBodyNode, ptr) == 0) {
             ptr += getLength(getLastChild(messageBodyNode));
         } else {
-            return 112;
+            break;
         }
     }
 
@@ -936,31 +939,7 @@ int detect_OCTET(Node *parent, const char *ptr) {
         initNode(newChild(parent), "__octet", ptr, 1);
     } else {
         return 113;
-    };
+    }
 
     return 0;
 }
-
-
-// A supprimer
-
-int detect_OWS(Node *parent, const char *ptr){ return 0; }
-int detect_RWS(Node *parent, const char *ptr){ return 0; }
-int detect_dec_octet(Node *parent, const char *ptr){ return 0; }
-int detect_h16(Node *parent, const char *ptr){ return 0; }
-int detect_ls32(Node *parent, const char *ptr){ return 0; }
-int detect_HEXDIG(Node *parent, const char *ptr){ return 0; }
-int detect_unreserved(Node *parent, const char *ptr){ return 0; }
-int detect_sub_delims(Node *parent, const char *ptr){ return 0; }
-int detect_pct_encoded(Node *parent, const char *ptr){ return 0; }
-int detect_DIGIT(Node *parent, const char *ptr){ return 0; }
-int detect_product(Node *parent, const char *ptr){ return 0; }
-int detect_language_range(Node *parent, const char *ptr){ return 0; }
-int detect_weight(Node *parent, const char *ptr){ return 0; }
-int detect_type(Node *parent, const char *ptr){ return 0; }
-int detect_subtype(Node *parent, const char *ptr){ return 0; }
-int detect_parameter(Node *parent, const char *ptr){ return 0; }
-int detect_token(Node *parent, const char *ptr){ return 0; }
-int detect_comment(Node *parent, const char *ptr){ return 0; }
-int detect_quoted_string(Node *parent, const char *ptr){ return 0; }
-int detect_codings(Node *parent, const char *ptr){ return 0; }

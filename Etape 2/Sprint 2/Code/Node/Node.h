@@ -26,6 +26,8 @@ void initNode(Node *, const char *, const char *, int);
 
 void delTree(Node *);
 
+void delNode(Node *, Node *);
+
 // Setters
 
 void setLabel(Node *, const char *);
