@@ -1,7 +1,7 @@
 #include "utils.h"
 #include <stdio.h>
 
-detect_HTTP_message(const char *ptr){
+detect_HTTP_message(const char *ptr){ //C'est sans doute le plus grand noeud donc pas de parent
     Node *HTTPMessageNode = newNode();
     initNode( HTTPMessageNode, "HTTP_message", ptr, 0);
 
@@ -14,18 +14,21 @@ detect_HTTP_message(const char *ptr){
             if detect_CRLF(HTTPMessageNode, ptr){
                 ptr += getLenght(getLastChild(HTTPMessageNode));
             }
+            else{
+                return 1;
+            }
         }if (detect_CRLF(HTTPMessageNode, ptr) == 0){
             ptr += getLenght(getLastChild(HTTPMessageNode));
+            if (detect_mesage_body(HTTPMessageNode, ptr) == 0){
+                ptr += getLenght(getLastChild(HTTPMessageNode));
+            }
         }
         else{
             return 1;
         }
     }
     else{
-            return 1;
-    }
-    if (detect_mesage_body(HTTPMessageNode, ptr) == 0){
-        ptr += getLenght(getLastChild(HTTPMessageNode));
+        return 1;
     }
     setLength(HTTPMessageNode, getSumLengthChildren(HTTPMessageNode));
     return 0;
@@ -65,7 +68,7 @@ int detect_comment(Node *parent, const char *ptr){
     Node *commentNode = newChild(parent);
     initNode(commentNode, "comment", ptr, 0);
 
-    if (ptr == "("){
+    if (*ptr == "("){
         initNode(newChild(commentNode), "case_insensitive_string", ptr, 1);
         ptr += getLength(getLastChild(commentNode));
         
@@ -76,7 +79,6 @@ int detect_comment(Node *parent, const char *ptr){
             initNode(newChild(commentNode), "case_insensitive_string", ptr, 1);
             ptr += getLength(getLastChild(commentNode));
         }
-
         else{
             return 5;
         }
@@ -93,10 +95,10 @@ int detect_ctext(Node *parent, const char *ptr){
     Node *ctextNode = newChild(parent);
     initNode(ctextNode, "ctext", ptr, 0);
 
-    if(detect_HTAB(ctext, ptr)){
+    if(detect_HTAB(ctext, ptr) == 0){
         ptr += getLength(getLastChild(ctextNode));
     }
-    else if(detect_SP(ctext, ptr)){
+    else if(detect_SP(ctext, ptr) == 0){
         ptr += getLength(getLastChild(ctextNode)); //remplacable par +=1
     }
     else if(0x21 <= *ptr && *ptr <= 0x27){
@@ -108,7 +110,7 @@ int detect_ctext(Node *parent, const char *ptr){
     else if(0x5D <= *ptr && *ptr <= 0x7E){
         ptr += getLength(getLastChild(ctextNode));
     }
-    else if(detect_obs_text(parent, ptr)){
+    else if(detect_obs_text(parent, ptr) == 0){
         ptr += getLength(getLastChild(ctextNode));
     }
     else{
@@ -122,12 +124,31 @@ int detect_quoted_pair(Node *parent, const char *ptr){
     Node *quotedPairNode = newChild(parent);
     initNode(quotedPairNode, "quoted-pair", ptr, 0);
     
-    if (startWith("", ptr)){
-        
+    if (*ptr == '\\'){ // Je peux pas mettre juste'\'
+        initNode(quotedPairNode, "case_insensitive_string", ptr, 1);
+
+        if(detect_HTAB() == 0){
+            ptr += getLenght(getLastChildren(quotedPairNode));
+        }
+        else if (detect_SP() == 0){
+            ptr += getLenght(getLastChildren(quotedPairNode));
+
+        }        
+        else if (detect_VCHAR() == 0){
+            ptr += getLenght(getLastChildren(quotedPairNode));
+            
+        }
+        else if (detect_obs_text() == 0){
+            ptr += getLenght(getLastChildren(quotedPairNode));
+    
+        }
+        else {
+            return 7;
+        }
     }
     return 0;
 }
-/*A finir*/
+
 
 
 int detect_connection_option(Node *parent, const char *ptr){
@@ -145,11 +166,12 @@ int detect_connection_option(Node *parent, const char *ptr){
 }
 
 int detect_token(Node *parent, const char *ptr){
-Node *tokenNode = newChild(parent);
+    Node *tokenNode = newChild(parent);
     initNode(tokenNode, "token", ptr, 0);
 
     if (detect_tchar(tokenNode, ptr) == 0){
-        while (detect_tchar(tokenNode,ptr)){
+        ptr +=1;
+        while (detect_tchar(tokenNode,ptr) == 0){
             ptr += 1;
         }
     }
@@ -168,8 +190,11 @@ int detect_codings(Node *parent, const char *ptr){
     if (detect_content_coding(codingsNode, ptr) == 0){
         ptr += getLength(getLastChild(codingsNode));
     }
-    else if(){
-
+    else if(startWith("identity", ptr)){
+        initNode(newChild(parent),insentive_case_string,ptr,7);
+    }
+    else if(*ptr ='*'){
+        initNode(newChild(parent),insentive_case_string,ptr,7);
     }
     else{
         return 9;
@@ -177,7 +202,6 @@ int detect_codings(Node *parent, const char *ptr){
     setLength(codingsNode, getSumLengthChildren(codingsNode));
     return 0;
 }
-/*A finir*/
 
 int detect_content_coding(Node *parent, const char *ptr){
     Node *contentCodingNode = newChild(parent);
@@ -210,7 +234,7 @@ int detect_cookie_pair(Node *parent, const char *ptr){
     if (detect_cookie_name(cookiePairNode, ptr) == 0){
         ptr += getLength(getLastChild(cookiePairNode));
 
-        if(ptr = "="){
+        if (*ptr == "="){
             initNode(newChild(cookiePairNode), "case_insensitive_string", ptr, 1);
             ptr += getLength(getLastChild(cookiePairNode));
 
@@ -251,11 +275,20 @@ int detect_cookie_value(Node *parent, const char *ptr){
     Node *cookieValueNode = newChild(parent);
     initNode(cookieValueNode, "cookie-value", ptr, 0);
 
-    if (startWith('"')){ 
+    if (*ptr =='"'){ 
+        initNode(cookieValueNode, "case_insensitive_string", ptr, 1);
+        ptr += getLength(getLastChildren(cookieValueNode));
         if (detect_cookie_octet(cookieValueNode, ptr) == 0){
-            ptr += getLength(getLastChildren(cookieValueNode));
-            if(){
-                // Je mets quoi là ?
+            while (detect_cookie_octet(cookieValueNode, ptr)  == 0)
+            {
+                ptr += getLength(getLastChildren(cookieValueNode));
+            }
+            if(*ptr == '"'){
+                initNode(cookieValueNode, "case_insensitive_string", ptr, 1);
+                ptr += getLength(getLastChildren(cookieValueNode));
+            }
+            else{
+                return 14;
             }
         }
         else{
@@ -263,7 +296,10 @@ int detect_cookie_value(Node *parent, const char *ptr){
         }
     }
     else if (detect_cookie_octet(cookieValueNode, ptr)  == 0){
-            ptr += getLength(getLastChildren(cookieValueNode));
+            while (detect_cookie_octet(cookieValueNode, ptr)  == 0)
+            {
+                ptr += getLength(getLastChildren(cookieValueNode));
+            }            
         }
     else{
         return 14;
@@ -274,8 +310,8 @@ int detect_cookie_value(Node *parent, const char *ptr){
 }
 
 int detect_CRLF(Node *parent, const char *ptr){
-    if (ptr == '\n'){
-        initNode(newChild(parent), "CRLF", ptr, 1);
+    if (*ptr == '\n'){// guillemets ou quotes
+        initNode(newChild(parent), "_CRLF", ptr, 1);// quelle taille ?
     }
     else{
         return 15;
@@ -284,7 +320,7 @@ int detect_CRLF(Node *parent, const char *ptr){
 }
 
 int detect_HTAB(Node *parent, const char *ptr){
-    if (ptr == '\t'){
+    if (*ptr == '\t'){//pareil qu'en haut
         initNode(newChild(parent), "_HTAB", ptr, 1);
     }
     else{
@@ -294,7 +330,7 @@ int detect_HTAB(Node *parent, const char *ptr){
 }
 
 int detect_SP(Node *parent, const char *ptr){
-    if (ptr == ' '){
+    if (*ptr == ' '){
         initNode(newChild(parent), "_SP", ptr, 1);
     }
     else{
@@ -316,12 +352,72 @@ int detect_obs_text(Node *parent, const char *ptr){
 int detect_dec_octet(Node *parent, const char *ptr){
     Node *decOctetNode = newChild(parent);
     initNode(decOctetNode, "dec-octet", ptr, 0);
-    if ()
+    if (startWith("25", ptr)){
+        initNode(newChild(decOctetNode), "case_insensitive_string", ptr, 2);
+        ptr += getLenght(getLastChildren(decOctetNode));
+
+        if(0x30 <= *ptr && *ptr <= 0x35){
+            ptr += getLenght(getLastChildren(decOctetNode));
+        }
+        else {
+            return 19;
+        }
+    }
+    else if( *ptr == '2'){
+        initNode(newChild(decOctetNode), "case_insensitive_string", ptr, 1);
+        ptr += getLenght(getLastChildren(decOctetNode));
+
+        if(0x30 <= *ptr && *ptr <= 0x34){
+            ptr += getLenght(getLastChildren(decOctetNode));
+            if (detect_DIGIT(decOctetNode, ptr)== 0){
+                ptr += getLenght(getLastChildren(decOctetNode));
+            }
+            else{
+                return 19
+            }
+        }
+        else {
+            return 19;
+        }
+    }
+    else if(*ptr =='1'){
+        initNode(newChild(decOctetNode), "case_insensitive_string", ptr, 1);
+        ptr += getLenght(getLastChildren(decOctetNode));
+        int comptage0 = 0;
+
+        while(detect_DIGIT(decOctetNode, ptr) == 0){
+            comptage += 1;
+            ptr += getLenght(getLastChildren(decOctetNode));
+        }
+        if (comptage0 != 2){
+            return 20;
+        }
+    }
+    else if(0x31 <= *ptr && *ptr <= 0x39){
+        initNode(newChild(decOctetNode), "case_insensitive_string", ptr, 1);
+        ptr += getLenght(getLastChildren(decOctetNode));
+
+        if(detect_DIGIT(decOctetNode, ptr) == 0){
+            ptr += getLenght(getLastChildren(decOctetNode));
+        }
+        else{
+            return 20;
+        }
+    }
+    else if(detect_DIGIT(decOctetNode, ptr) == 0){
+        ptr += getLenght(getLastChildren(decOctetNode));
+    }
+    else{
+        return 19;
+    }
+    setLength(getSumLengthChildren(decOstetNode));
+    return 0;
 }
 
 int detect_field_vchar(Node *parent, const char *ptr){
     Node *fieldVcharNode = newChild(parent);
     initNode(fieldVcharNode, "field-vchar", ptr, 0);
+
     if(detect_VCHAR(fieldVcharNode), ptr){
         ptr += getLength(getLastChildren(fieldVcharNode));
     }
@@ -346,7 +442,26 @@ int detect_VCHAR(Node *parent, const char *ptr){
 }
 
 int detect_h16(Node *parent, const char *ptr){
+    Node *h16Node = newChild(parent);
+    initNode(h16Node, "h16", ptr, 0);
+
+    if (detect_HEXDIG(h16Node, ptr) == 0) {
+        ptr += getLength(getLastChild(h16Node));
+        int comptage0 = 1;
     
+        while (detect_HEXDIG(h16Node, ptr) == 0) {
+            comptage0 += 1;
+            ptr += getLength(getLastChild(h16Node));
+        }
+        if (comptage0 > 4){
+            return 22;
+        }
+    }
+    else{
+        return 22;
+    }
+    setLength(h16Node, getSumLengthChildren(h16Node));
+    return 0;
 }
 
 int detect_HEXDIG(Node *parent, const char *ptr){
