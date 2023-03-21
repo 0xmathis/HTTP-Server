@@ -66,6 +66,26 @@ void delTree(Node *this) {
     return;
 }
 
+void delNode(Node *this, Node *parent) {
+    Node *child = getChild(parent);
+
+    if (child == this) {
+        setChild(parent, getBrother(this));
+    } else {
+        while (child != NULL && getBrother(child) != this) {
+            child = getBrother(child);
+        }
+
+        if (child == NULL) {
+            return;
+        }
+
+        setBrother(child, getBrother(this));
+    }
+
+    free(this);
+}
+
 
 // Setters
 

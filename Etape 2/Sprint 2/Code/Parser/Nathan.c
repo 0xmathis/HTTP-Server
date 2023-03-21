@@ -1,4 +1,5 @@
 #include "Nathan.h"
+#include "Josias.h"
 #include "utils.h"
 #include <stdio.h>
 
@@ -15,13 +16,19 @@ int detect_language_range(Node *parent, const char *ptr) {
             ptr += getLength(getLastChild(languageNode));
         }
 
+        delNode(ALPHANode, languageNode);
+
         if (comptage0 <= 8) {
             while (*ptr == '-') {
+                initNode(newChild(languageNode), "case_insensitive_string", ptr, 1);
+                ptr += getLength(getLastChild(languageNode));
                 comptage0 = 0;
                 while (detect_alphanum(languageNode, ptr) == 0) {
                     comptage0 += 1;
                     ptr += getLength(getLastChild(languageNode));
                 }
+
+                delNode(alphanumNode, languageNode);
 
                 if (comptage0 == 0 || comptage0 > 8) {
                     return 31;
@@ -31,6 +38,7 @@ int detect_language_range(Node *parent, const char *ptr) {
             return 31;
         }
     } else if (*ptr == '*') {
+        delNode(ALPHANode, languageNode);
         initNode(newChild(languageNode), "case_insensitive_string", ptr, 1);
         ptr += getLength(getLastChild(languageNode));
     } else {
@@ -43,7 +51,7 @@ int detect_language_range(Node *parent, const char *ptr) {
 }
 
 int detect_ls32(Node *parent, const char *ptr) {
-    Node *ls32 = newChild(parent);
+    Node *ls32Node = newChild(parent);
     initNode(ls32Node, "ls32", ptr, 0);
 
     if (detect_h16(ls32Node, ptr) == 0) {
@@ -57,14 +65,17 @@ int detect_ls32(Node *parent, const char *ptr) {
                 ptr += getLength(getLastChild(ls32Node));
 
             } else {
+                delNode(h16Node, ls32Node);
                 return 32;
             }
         } else {
             return 32;
         }
     } else if (detect_IPv4address(ls32Node, ptr) == 0) {
+        delNode(h16Node, ls32Node);
         ptr += getLength(getLastChild(ls32Node));
     } else {
+        delNode(IPv4addressNode, ls32Node);
         return 32;
     }
 
@@ -101,14 +112,17 @@ int detect_parameter(Node *parent, const char *ptr) {
             if (detect_token(parameterNode, ptr) == 0) {
                 ptr += getLength(getLastChild(parameterNode));
             } else if (detect_quoted_string(parameterNode, ptr) == 0) {
+                delNode(tokenNode, parameterNode);
                 ptr += getLength(getLastChild(parameterNode));
             } else {
+                delNode(quoted_stringNode, parameterNode);
                 return 33;
             }
         } else {
             return 33;
         }
     } else {
+        delNode(tokenNode, parameterNode);
         return 33;
     }
 
@@ -239,7 +253,7 @@ int detect_sub_delims(Node *parent, const char *ptr) {
     } else if (*ptr == '&')  {
         initNode(newChild(sub_delimsNode), "case_insensitive_string", ptr, 1);
         ptr += getLength(getLastChild(sub_delimsNode));
-    } else if (*ptr == "'")  {
+    } else if (*ptr == '\'')  {
         initNode(newChild(sub_delimsNode), "case_insensitive_string", ptr, 1);
         ptr += getLength(getLastChild(sub_delimsNode));
     } else if (*ptr == '(')  {
@@ -278,19 +292,19 @@ int detect_product(Node *parent, const char *ptr) {
 
     if (detect_token(productNode, ptr) == 0) {
         ptr += getLength(getLastChild(productNode));
+
+        if (*ptr == '/') {
+            initNode(newChild(productNode), "case_insensitive_string", ptr, 1);
+            ptr += getLength(getLastChild(productNode));
+
+            if (detect_product_version(productNode, ptr) == 0) {
+                ptr += getLength(getLastChild(productNode));
+            } else {
+                return 40;
+            }
+        }
     } else {
         return 40;
-    }
-
-    if (*ptr == '/') {
-        initNode(newChild(productNode), "case_insensitive_string", ptr, 1);
-        ptr += getLength(getLastChild(productNode));
-
-        if (detect_product_version(productNode, ptr) == 0) {
-            ptr += getLength(getLastChild(productNode));
-        } else {
-            return 40;
-        }
     }
 
     setLength(productNode, getSumLengthChildren(productNode));
@@ -355,7 +369,7 @@ int detect_query(Node *parent, const char *ptr) {
         }
     }
 
-    setLength(qdtextNode, getSumLengthChildren(qdtextNode));
+    setLength(queryNode, getSumLengthChildren(queryNode));
 
     return 0;
 }

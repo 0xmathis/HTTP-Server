@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "Node/Node.h"
 #include "Parser/Mathis.h"
+#include "Parser/Nathan.h"
+#include "Parser/Josias.h"
 
 int main(int argc, char **argv) {
     if (argc == 1) {
