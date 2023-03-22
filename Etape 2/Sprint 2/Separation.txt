@@ -51,30 +51,30 @@ Nathan : erreurs : 31 - 60          |      |        |
     weight                          |      |        |
                                     |      |        |
 Hugo : erreurs : 61 - 90            |      |        |
-    start-line                      |      |        |
-    request-line                    |      |        |
-    method                          |      |        |
-    request-target                  |      |        |
-    origin-form                     |      |        |
-    absolute-path                   |      |        |
-    HTTP-version                    |      |        |
-    HTTP-name                       |      |        |
-    header-field                    |      |        |
-    field-name                      |      |        |
-    field-value                     |      |        |
-    field-content                   |      |        |
-    obs-fold                        |      |        |
-    Connection-header               |      |        |
-    Connection                      |      |        |
-    Content-Length-header           |      |        |
-    Content-Length                  |      |        |
-    Content-Type-header             |      |        |
-    Content-Type                    |      |        |
-    media-type                      |      |        |
-    type                            |      |        |
-    subtype                         |      |        |
-    Cookie-header                   |      |        |
-    cookie-string                   |      |        |
+    .start-line                      |      |        |
+    .request-line                    |      |        |
+    .method                          |      |        |
+    .request-target                  |      |        |
+    .origin-form                     |      |        |
+    .absolute-path                   |      |        |
+    .HTTP-version                    |      |        |
+    .HTTP-name                       |      |        |
+    .header-field                    |      |        |
+    .field-name                      |      |        |
+    .field-value                     |      |        |
+    .field-content                   |      |        |
+    .obs-fold                        |      |        |
+    .Connection-header               |      |        |
+    .Connection                      |      |        |
+    .Content-Length-header           |      |        |
+    .Content-Length                  |      |        |
+    .Content-Type-header             |      |        |
+    .Content-Type                    |      |        |
+    .media-type                      |      |        |
+    .type                            |      |        |
+    .subtype                         |      |        |
+    .Cookie-header                   |      |        |
+    .cookie-string                   |      |        |
                                     |      |        |
 Mathis : erreurs : 91 - 120         |  OK  |        |
     Transfer-Encoding-header        |  OK  |        |
