@@ -1,5 +1,5 @@
-#ifndef PROJET_RESEAU_MATHIS_H
-#define PROJET_RESEAU_MATHIS_H
+#ifndef PROJET_RESEAU_JOSIAS_H
+#define PROJET_RESEAU_JOSIAS_H
 
 #include "../Node/Node.h"
 
@@ -49,6 +49,6 @@ int detect_VCHAR(Node *, const char *);
 
 int detect_h16(Node *, const char *);
 
-int detect_HEXDIG(Node *, const char*);
+int detect_HEXDIG(Node *, const char *);
 
 #endif

@@ -21,8 +21,6 @@ int detect_pct_encoded(Node *, const char *);
 
 int detect_sub_delims(Node *, const char *);
 
-int detect_HEXDIGIT(Node *, const char *);
-
 int detect_product(Node *, const char *);
 
 int detect_product_version(Node *, const char *);
@@ -46,3 +44,5 @@ int detect_transfert_extension(Node *, const char *);
 int detect_transfert_parameter(Node *, const char *);
 
 int detect_weight(Node *, const char *);
+
+#endif

@@ -1,6 +1,7 @@
+#include "Mathis.h"
 #include "Nathan.h"
 #include "Josias.h"
-#include "Mathis.h"
+#include "Hugo.h"
 #include "utils.h"
 #include <stdio.h>
 
@@ -935,7 +936,7 @@ int detect_message_body(Node *parent, const char *ptr) {
 }
 
 int detect_OCTET(Node *parent, const char *ptr) {
-    if (0x00 <= *ptr && *ptr <= 0xFF) {
+    if (0x00 <= (unsigned int) *ptr && (unsigned int) *ptr <= 0xFF) {
         initNode(newChild(parent), "__octet", ptr, 1);
     } else {
         return 113;

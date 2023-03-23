@@ -1,80 +1,80 @@
                                     | Codé | Validé |
-Josias : erreurs : 1 - 30           |      |        |
-    HTTP-message                    |      |        |
-    ALPHA                           |      |        |
-    alphanum                        |      |        |
-    DIGIT                           |      |        |
-    comment                         |      |        |
-    ctext                           |      |        |
-    quoted-pair                     |      |        |
-    connection-option               |      |        |
-    token                           |      |        |
-    codings                         |      |        |
-    content-coding                  |      |        |
-    cookie-octet                    |      |        |
-    cookie-pair                     |      |        |
-    cookie-name                     |      |        |
-    cookie-value                    |      |        |
-    CRLF                            |      |        |
-    HTAB                            |      |        |
-    SP                              |      |        |
-    obs-text                        |      |        |
-    dec-octet                       |      |        |
-    field-vchar                     |      |        |
-    VCHAR                           |      |        |
-    h16                             |      |        |
-    HEXDIG                          |      |        |
+Josias : erreurs : 1 - 30           |  OK  |        |
+    HTTP-message                    |  OK  |        |
+    ALPHA                           |  OK  |   OK   |
+    alphanum                        |  OK  |        |
+    DIGIT                           |  OK  |   OK   |
+    comment                         |  OK  |        |
+    ctext                           |  OK  |        |
+    quoted-pair                     |  OK  |        |
+    connection-option               |  OK  |        |
+    token                           |  OK  |   OK   |
+    codings                         |  OK  |        |
+    content-coding                  |  OK  |        |
+    cookie-octet                    |  OK  |   OK   |
+    cookie-pair                     |  OK  |        |
+    cookie-name                     |  OK  |   OK   |
+    cookie-value                    |  OK  |   OK   |
+    CRLF                            |  OK  |   OK   |
+    HTAB                            |  OK  |   OK   |
+    SP                              |  OK  |        |
+    obs-text                        |  OK  |   OK   |
+    dec-octet                       |  OK  |   OK   |
+    field-vchar                     |  OK  |   OK   |
+    VCHAR                           |  OK  |   OK   |
+    h16                             |  OK  |   OK   |
+    HEXDIG                          |  OK  |   OK   |
                                     |      |        |
-Nathan : erreurs : 31 - 60          |      |        |
-    language-range                  |      |        |
-    ls32                            |      |        |
-    OWS                             |      |        |
-    parameter                       |      |        |
-    quoted-string                   |      |        |
-    pchar                           |      |        |
-    unreserved                      |      |        |
-    pct-encoded                     |      |        |
-    sub-delims                      |      |        |
-    HEXDIGIT                        |      |        |
-    product                         |      |        |
-    product-version                 |      |        |
-    product_version                 |      |        |
-    qdtext                          |      |        |
-    query                           |      |        |
-    qvalue                          |      |        |
-    RWS                             |      |        |
-    segment                         |      |        |
-    tchar                           |      |        |
-    transfert-coding                |      |        |
-    transfert-extension             |      |        |
-    transfert-parameter             |      |        |
-    weight                          |      |        |
+Nathan : erreurs : 31 - 60          |  OK  |        |
+    language-range                  |  OK  |        |
+    ls32                            |  OK  |        |
+    OWS                             |  OK  |   OK   |
+    parameter                       |  OK  |        |
+    quoted-string                   |  OK  |        |
+    pchar                           |  OK  |        |
+    unreserved                      |  OK  |   OK   |
+    pct-encoded                     |  OK  |        |
+    sub-delims                      |  OK  |   OK   |
+    HEXDIGIT                        |  OK  |        |
+    product                         |  OK  |        |
+    product-version                 |  OK  |        |
+    product_version                 |  OK  |        |
+    qdtext                          |  OK  |   OK   |
+    query                           |  OK  |        |
+    qvalue                          |  OK  |        |
+    RWS                             |  OK  |        |
+    segment                         |  OK  |        |
+    tchar                           |  OK  |   OK   |
+    transfert-coding                |  OK  |        |
+    transfert-extension             |  OK  |        |
+    transfert-parameter             |  OK  |        |
+    weight                          |  OK  |        |
                                     |      |        |
-Hugo : erreurs : 61 - 90            |      |        |
-    .start-line                      |      |        |
-    .request-line                    |      |        |
-    .method                          |      |        |
-    .request-target                  |      |        |
-    .origin-form                     |      |        |
-    .absolute-path                   |      |        |
-    .HTTP-version                    |      |        |
-    .HTTP-name                       |      |        |
-    .header-field                    |      |        |
-    .field-name                      |      |        |
-    .field-value                     |      |        |
-    .field-content                   |      |        |
-    .obs-fold                        |      |        |
-    .Connection-header               |      |        |
-    .Connection                      |      |        |
-    .Content-Length-header           |      |        |
-    .Content-Length                  |      |        |
-    .Content-Type-header             |      |        |
-    .Content-Type                    |      |        |
-    .media-type                      |      |        |
-    .type                            |      |        |
-    .subtype                         |      |        |
-    .Cookie-header                   |      |        |
-    .cookie-string                   |      |        |
+Hugo : erreurs : 61 - 90            |  OK  |        |
+    start-line                      |  OK  |        |
+    request-line                    |  OK  |        |
+    method                          |  OK  |        |
+    request-target                  |  OK  |        |
+    origin-form                     |  OK  |        |
+    absolute-path                   |  OK  |        |
+    HTTP-version                    |  OK  |        |
+    HTTP-name                       |  OK  |        |
+    header-field                    |  OK  |        |
+    field-name                      |  OK  |        |
+    field-value                     |  OK  |        |
+    field-content                   |  OK  |        |
+    obs-fold                        |  OK  |        |
+    Connection-header               |  OK  |        |
+    Connection                      |  OK  |        |
+    Content-Length-header           |  OK  |        |
+    Content-Length                  |  OK  |        |
+    Content-Type-header             |  OK  |        |
+    Content-Type                    |  OK  |        |
+    media-type                      |  OK  |        |
+    type                            |  OK  |        |
+    subtype                         |  OK  |        |
+    Cookie-header                   |  OK  |        |
+    cookie-string                   |  OK  |        |
                                     |      |        |
 Mathis : erreurs : 91 - 120         |  OK  |        |
     Transfer-Encoding-header        |  OK  |        |
@@ -103,4 +103,4 @@ Mathis : erreurs : 91 - 120         |  OK  |        |
     Accept-Encoding-header          |  OK  |        |
     Accept-Encoding                 |  OK  |        |
     message-body                    |  OK  |        |
-    OCTET                           |  OK  |        |
+    OCTET                           |  OK  |   OK   |

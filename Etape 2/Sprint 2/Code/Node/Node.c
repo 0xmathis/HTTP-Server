@@ -164,7 +164,9 @@ void printChildren(Node *this, int depth) {
 
     printf("[%d:%s] = \"", depth, this->__label);
 
-    if (getLength(this) > 9) {
+    if (strcmp(getLabel(this), "__crlf") == 0) {
+        printf("__");
+    } else if (getLength(this) > 9) {
         for (int i = 0; i < 3; i++) {
             printf("%c", *(getStart(this) + i));
         }
