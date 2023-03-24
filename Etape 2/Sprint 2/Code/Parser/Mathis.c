@@ -138,14 +138,17 @@ int detect_Host_header(Node *parent, const char *ptr) {
                 }
 
             } else {
+                delNode(hostNode, parent);
                 return 93;
             }
 
         } else {
+            delNode(hostNode, parent);
             return 93;
         }
 
     } else {
+        delNode(hostNode, parent);
         return 93;
     }
 
@@ -296,7 +299,7 @@ int detect_IPv6address(Node *parent, const char *ptr) {
                 if (startWith("::", ptr)) {
                     initNode(newChild(ipv6addressNode), "case_insensitive_string", ptr, 2);
                     ptr += getLength(getLastChild(ipv6addressNode));
-                    return 0;
+                    break;
                 } else {
                     return 99;
                 }
@@ -309,7 +312,7 @@ int detect_IPv6address(Node *parent, const char *ptr) {
                 if (compteur == 6) {
                     if (detect_ls32(ipv6addressNode, ptr) == 0) {
                         ptr += getLength(getLastChild(ipv6addressNode));
-                        return 0;
+                        break;
                     } else {
                         return 99;
                     }
@@ -317,7 +320,6 @@ int detect_IPv6address(Node *parent, const char *ptr) {
             } else {
                 return 99;
             }
-
         } else {
             break;
         }
@@ -338,7 +340,7 @@ int detect_IPv6address(Node *parent, const char *ptr) {
             ptr += getLength(getLastChild(ipv6addressNode));
 
             if (compteur <= 5) {
-                return 0;
+                break;
             } else {
                 return 99;
             }
@@ -449,13 +451,20 @@ int detect_reg_name(Node *parent, const char *ptr) {
 int detect_port(Node *parent, const char *ptr) {
     Node *portNode = newChild(parent);
     initNode(portNode, "port", ptr, 0);
+    int compteur = 0;
 
     while (1) {
         if (detect_DIGIT(portNode, ptr) == 0) {
+            initNode(newChild(portNode), "__digit", ptr, 1);
             ptr += getLength(getLastChild(portNode));
+            compteur++;
         } else {
             break;
         }
+    }
+
+    if (compteur == 0) {
+        delNode(portNode, parent);
     }
 
     setLength(portNode, getSumLengthChildren(portNode));
@@ -483,16 +492,16 @@ int detect_User_Agent_header(Node *parent, const char *ptr) {
                 if (detect_OWS(userAgentNode, ptr) == 0) {
                     ptr += getLength(getLastChild(userAgentNode));
                 }
-
             } else {
+                delNode(userAgentNode, parent);
                 return 101;
             }
-
         } else {
+            delNode(userAgentNode, parent);
             return 101;
         }
-
     } else {
+        delNode(userAgentNode, parent);
         return 101;
     }
 
@@ -508,17 +517,25 @@ int detect_User_Agent(Node *parent, const char *ptr) {
     if (detect_product(userAgentNode, ptr) == 0) {
         ptr += getLength(getLastChild(userAgentNode));
 
-        while (detect_RWS(userAgentNode, ptr) == 0) {
-            ptr += getLength(getLastChild(userAgentNode));
-
-            if (detect_product(userAgentNode, ptr) == 0 || detect_comment(userAgentNode, ptr) == 0) {
+        while (1) {
+            if (detect_RWS(userAgentNode, ptr) == 0) {
                 ptr += getLength(getLastChild(userAgentNode));
+
+                if (detect_product(userAgentNode, ptr) == 0) {
+                    ptr += getLength(getLastChild(userAgentNode));
+                } else if (detect_comment(userAgentNode, ptr) == 0) {
+                    ptr += getLength(getLastChild(userAgentNode));
+                } else {
+                    delNode(userAgentNode, parent);
+                    return 102;
+                }
             } else {
-                return 102;
+                break;
             }
 
         }
     } else {
+        delNode(userAgentNode, parent);
         return 102;
     }
 
@@ -547,16 +564,16 @@ int detect_Accept_Language_header(Node *parent, const char *ptr) {
                 if (detect_OWS(acceptLanguageNode, ptr) == 0) {
                     ptr += getLength(getLastChild(acceptLanguageNode));
                 }
-
             } else {
+                delNode(acceptLanguageNode, parent);
                 return 103;
             }
-
         } else {
+            delNode(acceptLanguageNode, parent);
             return 103;
         }
-
     } else {
+        delNode(acceptLanguageNode, parent);
         return 103;
     }
 
@@ -644,14 +661,17 @@ int detect_Accept_header(Node *parent, const char *ptr) {
                 }
 
             } else {
+                delNode(acceptNode, parent);
                 return 105;
             }
 
         } else {
+            delNode(acceptNode, parent);
             return 105;
         }
 
     } else {
+        delNode(acceptNode, parent);
         return 105;
     }
 
@@ -673,8 +693,8 @@ int detect_Accept(Node *parent, const char *ptr) {
         if (detect_accept_params(acceptNode, ptr) == 0) {
             ptr += getLength(getLastChild(acceptNode));
         }
-
     } else {
+        delNode(acceptNode, parent);
         return 106;
     }
 
@@ -703,6 +723,7 @@ int detect_Accept(Node *parent, const char *ptr) {
                 ptr += getLength(getLastChild(acceptNode));
             }
         } else {
+            delNode(acceptNode, parent);
             return 106;
         }
     }
@@ -861,14 +882,17 @@ int detect_Accept_Encoding_header(Node *parent, const char *ptr) {
                 }
 
             } else {
+                delNode(acceptEncodingNode, parent);
                 return 110;
             }
 
         } else {
+            delNode(acceptEncodingNode, parent);
             return 110;
         }
 
     } else {
+        delNode(acceptEncodingNode, parent);
         return 110;
     }
 
@@ -929,13 +953,19 @@ int detect_Accept_Encoding(Node *parent, const char *ptr) {
 int detect_message_body(Node *parent, const char *ptr) {
     Node *messageBodyNode = newChild(parent);
     initNode(messageBodyNode, "message_body", ptr, 0);
+    int compteur = 0;
 
     while (1) {
         if (detect_OCTET(messageBodyNode, ptr) == 0) {
             ptr += getLength(getLastChild(messageBodyNode));
+            compteur++;
         } else {
             break;
         }
+    }
+
+    if (compteur == 0) {
+        delNode(messageBodyNode, parent);
     }
 
     setLength(messageBodyNode, getSumLengthChildren(messageBodyNode));
@@ -944,10 +974,20 @@ int detect_message_body(Node *parent, const char *ptr) {
 }
 
 int detect_OCTET(Node *parent, const char *ptr) {
-    if (0x00 <= (unsigned int) *ptr && (unsigned int) *ptr <= 0xFF) {
+    if ((unsigned int) 0x01 <= (unsigned int) *ptr && (unsigned int) *ptr <= (unsigned int) 0xFF) {
         initNode(newChild(parent), "__octet", ptr, 1);
     } else {
         return 113;
+    }
+
+    return 0;
+}
+
+int detect_DQUOTE(Node *parent, const char *ptr) {
+    if (*ptr == '"') {
+        initNode(newChild(parent), "__dquote", ptr, 1);
+    } else {
+        return 114;
     }
 
     return 0;

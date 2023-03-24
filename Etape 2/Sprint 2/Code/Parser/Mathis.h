@@ -57,4 +57,6 @@ int detect_message_body(Node *, const char *);
 
 int detect_OCTET(Node *, const char *);
 
+int detect_DQUOTE(Node *, const char *);
+
 #endif

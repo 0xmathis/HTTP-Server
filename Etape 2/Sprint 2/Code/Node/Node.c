@@ -164,25 +164,37 @@ int getSumLengthChildren(Node *this) {
 // Autre
 
 void printChildren(Node *this, int depth) {
-    for (int i = 0; i < depth; i++) { printf("\t"); }
+    for (int i = 0; i < 4*depth; i++) { printf(" "); }
 
-    printf("[%d:%s] = \"", depth, this->__label);
+    printf("[%d:%s] = \"", depth, getLabel(this));
 
     if (strcmp(getLabel(this), "__crlf") == 0) {
         printf("__");
     } else if (getLength(this) > 9) {
         for (int i = 0; i < 3; i++) {
-            printf("%c", *(getStart(this) + i));
+            if (*(getStart(this) + i) == '\r' || *(getStart(this) + i) == '\n') {
+                printf("_");
+            } else {
+                printf("%c", *(getStart(this) + i));
+            }
         }
 
         printf("..");
 
         for (int i = getLength(this) - 3; i < getLength(this); i++) {
-            printf("%c", *(getStart(this) + i));
+            if (*(getStart(this) + i) == '\r' || *(getStart(this) + i) == '\n') {
+                printf("_");
+            } else {
+                printf("%c", *(getStart(this) + i));
+            }
         }
     } else {
         for (int i = 0; i < getLength(this); i++) {
-            printf("%c", *(getStart(this) + i));
+            if (*(getStart(this) + i) == '\r' || *(getStart(this) + i) == '\n') {
+                printf("_");
+            } else {
+                printf("%c", *(getStart(this) + i));
+            }
         }
     }
     printf("\"\n");

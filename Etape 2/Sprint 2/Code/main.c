@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "Node/Node.h"
 #include "Parser/Mathis.h"
 #include "Parser/Nathan.h"
@@ -12,22 +13,38 @@ int main(int argc, char **argv) {
     }
 
     FILE *file = fopen(argv[1], "r");
-    char message[500];
 
-    fgets(message, 499, file);
+    if (file == NULL) {
+        printf("Problème fichier !!\n");
+        return -1;
+    }
+
+    fseek(file, 0, SEEK_END);
+    int taille = ftell(file);
+    rewind(file);
+
+
+    char *message = (char *) malloc(sizeof(char) * (taille + 1));
+
+//    fgets(message, 499, file);
+//    fscanf(file, "%[^'\r\n\r\n']", message);
+
+    fread(message, sizeof(char), taille, file);
 
     fclose(file);
 
     printf("%s\n", message);
 
-    Node *parent = newNode();
-    initNode(parent, "message", message, 0);
+    char *ptr = message;
 
-    int error = detect_query(parent, message);
+    Node *HTTPMessageNode = newNode();
+    initNode(HTTPMessageNode, "HTTP_message", ptr, 0);
+
+    int error = detect_HTTP_message(HTTPMessageNode, ptr);
     printf("Error : %d\n", error);
 
-    printChildren(parent, 0);
-    delTree(parent);
+    printChildren(HTTPMessageNode, 0);
+    delTree(HTTPMessageNode);
 
     return 0;
 }

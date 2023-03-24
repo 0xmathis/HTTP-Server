@@ -7,20 +7,16 @@
 #include <ctype.h>
 
 int detect_HTTP_message(Node *parent, const char *ptr) { //C'est sans doute le plus grand noeud donc pas de parent
-    Node *HTTPMessageNode = newChild(parent);
-    initNode(HTTPMessageNode, "HTTP_message", ptr, 0);
-
-    if (detect_start_line(HTTPMessageNode, ptr) == 0) {
-        ptr += getLength(getLastChild(HTTPMessageNode));
+    if (detect_start_line(parent, ptr) == 0) {
+        ptr += getLength(getLastChild(parent));
 
         while (1) {
-            if (detect_header_field(HTTPMessageNode, ptr) == 0) {
-                ptr += getLength(getLastChild(HTTPMessageNode));
+            if (detect_header_field(parent, ptr) == 0) {
+                ptr += getLength(getLastChild(parent));
 
-                if (detect_CRLF(HTTPMessageNode, ptr) == 0) {
-                    ptr += getLength(getLastChild(HTTPMessageNode));
+                if (detect_CRLF(parent, ptr) == 0) {
+                    ptr += getLength(getLastChild(parent));
                 } else {
-                    delNode(HTTPMessageNode, parent);
                     return 1;
                 }
             } else {
@@ -28,22 +24,20 @@ int detect_HTTP_message(Node *parent, const char *ptr) { //C'est sans doute le p
             }
         }
 
-        if (detect_CRLF(HTTPMessageNode, ptr) == 0) {
-            ptr += getLength(getLastChild(HTTPMessageNode));
+        if (detect_CRLF(parent, ptr) == 0) {
+            ptr += getLength(getLastChild(parent));
 
-            if (detect_message_body(HTTPMessageNode, ptr) == 0) {
-                ptr += getLength(getLastChild(HTTPMessageNode));
+            if (detect_message_body(parent, ptr) == 0) {
+                ptr += getLength(getLastChild(parent));
             }
         } else {
-            delNode(HTTPMessageNode, parent);
             return 1;
         }
     } else {
-        delNode(HTTPMessageNode, parent);
         return 1;
     }
 
-    setLength(HTTPMessageNode, getSumLengthChildren(HTTPMessageNode));
+    setLength(parent, getSumLengthChildren(parent));
     return 0;
 }
 
@@ -83,7 +77,11 @@ int detect_comment(Node *parent, const char *ptr) {
         ptr += getLength(getLastChild(commentNode));
 
         while (1) {
-            if (detect_ctext(commentNode, ptr) == 0 || detect_quoted_pair(commentNode, ptr) == 0 || detect_comment(commentNode, ptr) == 0) {
+            if (detect_ctext(commentNode, ptr) == 0) {
+                ptr += getLength(getLastChild(commentNode));
+            } else if (detect_quoted_pair(commentNode, ptr) == 0) {
+                ptr += getLength(getLastChild(commentNode));
+            } else if (detect_comment(commentNode, ptr) == 0) {
                 ptr += getLength(getLastChild(commentNode));
             } else {
                 break;
@@ -110,9 +108,10 @@ int detect_ctext(Node *parent, const char *ptr) {
     Node *ctextNode = newChild(parent);
     initNode(ctextNode, "ctext", ptr, 0);
 
-    if (detect_HTAB(ctextNode, ptr) == 0 || detect_SP(ctextNode, ptr) == 0 ||
-        0x21 <= *ptr && *ptr <= 0x27 || 0x2A <= *ptr && *ptr <= 0x5B ||
-        0x5D <= *ptr && *ptr <= 0x7E || detect_obs_text(parent, ptr) == 0) {
+    if (detect_HTAB(ctextNode, ptr) == 0 || detect_SP(ctextNode, ptr) == 0 || detect_obs_text(parent, ptr) == 0) {
+        ptr += getLength(getLastChild(ctextNode));
+    } else if (0x21 <= *ptr && *ptr <= 0x27 || 0x2A <= *ptr && *ptr <= 0x5B || 0x5D <= *ptr && *ptr <= 0x7E) {
+        initNode(newChild(ctextNode), "__range", ptr, 1);
         ptr += getLength(getLastChild(ctextNode));
     } else {
         delNode(ctextNode, parent);
@@ -284,8 +283,7 @@ int detect_cookie_value(Node *parent, const char *ptr) {
     Node *cookieValueNode = newChild(parent);
     initNode(cookieValueNode, "cookie_value", ptr, 0);
 
-    if (*ptr == '"') {
-        initNode(newChild(cookieValueNode), "__dquote", ptr, 1);
+    if (detect_DQUOTE(cookieValueNode, ptr) == 0) {
         ptr += getLength(getLastChild(cookieValueNode));
 
         while (1) {
@@ -296,8 +294,7 @@ int detect_cookie_value(Node *parent, const char *ptr) {
             }
         }
 
-        if (*ptr == '"') {
-            initNode(newChild(cookieValueNode), "__dquote", ptr, 1);
+        if (detect_DQUOTE(cookieValueNode, ptr) == 0) {
             ptr += getLength(getLastChild(cookieValueNode));
         } else {
             delNode(cookieValueNode, parent);
@@ -358,7 +355,7 @@ int detect_SP(Node *parent, const char *ptr) {
 
 int detect_obs_text(Node *parent, const char *ptr) {
     if ((unsigned int) 0x80 <= (unsigned int) *ptr && (unsigned int) *ptr <= (unsigned int) 0xFF) {
-        initNode(newChild(parent), "_obs-text", ptr, 1);
+        initNode(newChild(parent), "__obs-text", ptr, 1);
     } else {
         return 18;
     }

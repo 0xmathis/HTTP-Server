@@ -9,6 +9,8 @@ int detect_ls32(Node *, const char *);
 
 int detect_OWS(Node *, const char *);
 
+int detect_BWS(Node *, const char *);
+
 int detect_parameter(Node *, const char *);
 
 int detect_quoted_string(Node *, const char *);
@@ -37,11 +39,11 @@ int detect_segment(Node *, const char *);
 
 int detect_tchar(Node *, const char *);
 
-int detect_transfert_coding(Node *, const char *);
+int detect_transfer_coding(Node *, const char *);
 
-int detect_transfert_extension(Node *, const char *);
+int detect_transfer_extension(Node *, const char *);
 
-int detect_transfert_parameter(Node *, const char *);
+int detect_transfer_parameter(Node *, const char *);
 
 int detect_weight(Node *, const char *);
 

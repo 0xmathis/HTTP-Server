@@ -10,6 +10,7 @@ int detect_start_line(Node *parent, const char *ptr) {
     initNode(startLineNode, "start_line", ptr, 0);
 
     if (detect_request_line(startLineNode, ptr) == 0) {
+
         ptr += getLength(getLastChild(startLineNode));
     } else {
         return 61;
@@ -24,39 +25,48 @@ int detect_request_line(Node *parent, const char *ptr) {
     Node *requestLineNode = newChild(parent);
     initNode(requestLineNode, "request_line", ptr, 0);
 
-    if (!detect_method(requestLineNode, ptr)) {
-        ptr += getLength(getLastChild(requestLineNode));
-    } else {
-        return 62;
-    }
+    if (detect_method(requestLineNode, ptr) == 0) {
 
-    if (!detect_SP(requestLineNode, ptr)) {
         ptr += getLength(getLastChild(requestLineNode));
-    } else {
-        return 62;
-    }
 
-    if (!detect_request_target(requestLineNode, ptr)) {
-        ptr += getLength(getLastChild(requestLineNode));
-    } else {
-        return 62;
-    }
+        if (detect_SP(requestLineNode, ptr) == 0) {
 
-    if (!detect_SP(requestLineNode, ptr)) {
-        ptr += getLength(getLastChild(requestLineNode));
-    } else {
-        return 62;
-    }
+            ptr += getLength(getLastChild(requestLineNode));
 
-    if (!detect_HTTP_version(requestLineNode, ptr)) {
-        ptr += getLength(getLastChild(requestLineNode));
-    } else {
-        return 62;
-    }
+            if (detect_request_target(requestLineNode, ptr) == 0) {
 
-    if (!detect_CRLF(requestLineNode, ptr)) {
-        ptr += getLength(getLastChild(requestLineNode));
+                ptr += getLength(getLastChild(requestLineNode));
+
+                if (detect_SP(requestLineNode, ptr) == 0) {
+                    ptr += getLength(getLastChild(requestLineNode));
+
+                    if (detect_HTTP_version(requestLineNode, ptr) == 0) {
+                        ptr += getLength(getLastChild(requestLineNode));
+
+                        if (detect_CRLF(requestLineNode, ptr) == 0) {
+                            ptr += getLength(getLastChild(requestLineNode));
+                        } else {
+                            delNode(requestLineNode, parent);
+                            return 62;
+                        }
+                    } else {
+                        delNode(requestLineNode, parent);
+                        return 62;
+                    }
+                } else {
+                    delNode(requestLineNode, parent);
+                    return 62;
+                }
+            } else {
+                delNode(requestLineNode, parent);
+                return 62;
+            }
+        } else {
+            delNode(requestLineNode, parent);
+            return 62;
+        }
     } else {
+        delNode(requestLineNode, parent);
         return 62;
     }
 
@@ -82,13 +92,13 @@ int detect_method(Node *parent, const char *ptr) {
 }
 
 int detect_request_target(Node *parent, const char *ptr) {
-
     Node *requestTargetNode = newChild(parent);
     initNode(requestTargetNode, "request_target", ptr, 0);
 
-    if (!detect_origin_form(requestTargetNode, ptr)) {
+    if (detect_origin_form(requestTargetNode, ptr) == 0) {
         ptr += getLength(getLastChild(requestTargetNode));
     } else {
+        delNode(requestTargetNode, parent);
         return 64;
     }
 
@@ -101,9 +111,22 @@ int detect_origin_form(Node *parent, const char *ptr) {
     Node *originFormNode = newChild(parent);
     initNode(originFormNode, "origin_form", ptr, 0);
 
-    if (!detect_absolute_path(originFormNode, ptr)) {
+    if (detect_absolute_path(originFormNode, ptr) == 0) {
         ptr += getLength(getLastChild(originFormNode));
+
+        if (*ptr == '?') {
+            initNode(newChild(originFormNode), "case_insensitive_string", ptr, 1);
+            ptr += getLength(getLastChild(originFormNode));
+
+            if (detect_query(originFormNode, ptr) == 0) {
+                ptr += getLength(getLastChild(originFormNode));
+            } else {
+                delNode(originFormNode, parent);
+                return 65;
+            }
+        }
     } else {
+        delNode(originFormNode, parent);
         return 65;
     }
 
@@ -121,10 +144,10 @@ int detect_absolute_path(Node *parent, const char *ptr) {
         if (*ptr == '/') {
             initNode(newChild(absolutePathNode), "case_insensitive_string", ptr, 1);
             ptr += getLength(getLastChild(absolutePathNode));
+            compteur++;
 
-            if (detect_segment(absolutePathNode, ptr) == 0) {
+            if (*ptr != '?' && detect_segment(absolutePathNode, ptr) == 0) {
                 ptr += getLength(getLastChild(absolutePathNode));
-                compteur++;
             }
         } else {
             break;
@@ -136,7 +159,7 @@ int detect_absolute_path(Node *parent, const char *ptr) {
         return 66;
     }
 
-    setLength(absolutePathNode, getSumLengthChildren(absolutePathNode) + 1);
+    setLength(absolutePathNode, getSumLengthChildren(absolutePathNode));
 
     return 0;
 }
@@ -184,7 +207,7 @@ int detect_HTTP_version(Node *parent, const char *ptr) {
         return 67;
     }
 
-    setLength(HTTPVersionNode, getSumLengthChildren(HTTPVersionNode) + 2);
+    setLength(HTTPVersionNode, getSumLengthChildren(HTTPVersionNode));
 
     return 0;
 }
@@ -209,76 +232,54 @@ int detect_header_field(Node *parent, const char *ptr) {
     Node *headerFieldNode = newChild(parent);
     initNode(headerFieldNode, "header_field", ptr, 0);
 
-    while (1) {
+    if (detect_Connection_header(headerFieldNode, ptr) == 0) {
+        ptr += getLength(getLastChild(headerFieldNode));
+    } else if (detect_Content_Length_header(headerFieldNode, ptr) == 0) {
+        ptr += getLength(getLastChild(headerFieldNode));
+    } else if (detect_Content_Type_header(headerFieldNode, ptr) == 0) {
+        ptr += getLength(getLastChild(headerFieldNode));
+    } else if (detect_Cookie_header(headerFieldNode, ptr) == 0) {
+        ptr += getLength(getLastChild(headerFieldNode));
+    } else if (detect_Expect_header(headerFieldNode, ptr) == 0) {
+        ptr += getLength(getLastChild(headerFieldNode));
+    } else if (detect_Host_header(headerFieldNode, ptr) == 0) {
+        ptr += getLength(getLastChild(headerFieldNode));
+    } else if (detect_User_Agent_header(headerFieldNode, ptr) == 0) {
+        ptr += getLength(getLastChild(headerFieldNode));
+    } else if (detect_Accept_Language_header(headerFieldNode, ptr) == 0) {
+        ptr += getLength(getLastChild(headerFieldNode));
+    } else if (detect_Accept_header(headerFieldNode, ptr) == 0) {
+        ptr += getLength(getLastChild(headerFieldNode));
+    } else if (detect_Accept_Encoding_header(headerFieldNode, ptr) == 0) {
+        ptr += getLength(getLastChild(headerFieldNode));
+    } else if (detect_field_name(headerFieldNode, ptr) == 0) {
+        ptr += getLength(getLastChild(headerFieldNode));
 
-        if (!detect_field_name(headerFieldNode, ptr)) {
-
+        if (*ptr == ':') {
+            initNode(newChild(headerFieldNode), ":", ptr, 1);
             ptr += getLength(getLastChild(headerFieldNode));
 
-            if (*ptr == ':') {
-                Node *TDNode = newChild(headerFieldNode);
-                initNode(TDNode, ":", ptr, 1);
-                ptr += 1;
-            } else {
-                return 69;
-            }
-
-            if (!detect_OWS(headerFieldNode, ptr)) {
+            if (detect_OWS(headerFieldNode, ptr) == 0) {
                 ptr += getLength(getLastChild(headerFieldNode));
-            } else {
-                return 69;
             }
 
-            if (!detect_field_value(headerFieldNode, ptr)) {
+            if (detect_field_value(headerFieldNode, ptr) == 0) {
                 ptr += getLength(getLastChild(headerFieldNode));
+
+                if (detect_OWS(headerFieldNode, ptr) == 0) {
+                    ptr += getLength(getLastChild(headerFieldNode));
+                }
             } else {
+                delNode(headerFieldNode, parent);
                 return 69;
             }
-
-            if (!detect_OWS(headerFieldNode, ptr)) {
-                ptr += getLength(getLastChild(headerFieldNode));
-            } else {
-                return 69;
-            }
-
-        } else if (!detect_Connection_header(headerFieldNode, ptr)) {
-            ptr += getLength(getLastChild(headerFieldNode));
-
-        } else if (!detect_Content_Length_header(headerFieldNode, ptr)) {
-            ptr += getLength(getLastChild(headerFieldNode));
-
-        } else if (!detect_Content_Type_header(headerFieldNode, ptr)) {
-            ptr += getLength(getLastChild(headerFieldNode));
-
-        } else if (!detect_Cookie_header(headerFieldNode, ptr)) {
-            ptr += getLength(getLastChild(headerFieldNode));
-
-//        } else if (!detect_Transfer_Encoding_header(headerFieldNode, ptr)) {
-//            ptr += getLength(getLastChild(headerFieldNode));
-
-        } else if (!detect_Expect_header(headerFieldNode, ptr)) {
-            ptr += getLength(getLastChild(headerFieldNode));
-
-        } else if (!detect_Host_header(headerFieldNode, ptr)) {
-            ptr += getLength(getLastChild(headerFieldNode));
-
-        } else if (!detect_User_Agent_header(headerFieldNode, ptr)) {
-            ptr += getLength(getLastChild(headerFieldNode));
-
-        } else if (!detect_Accept_Language_header(headerFieldNode, ptr)) {
-            ptr += getLength(getLastChild(headerFieldNode));
-
-        } else if (!detect_Accept_header(headerFieldNode, ptr)) {
-            ptr += getLength(getLastChild(headerFieldNode));
-
-        } else if (!detect_Accept_Encoding_header(headerFieldNode, ptr)) {
-            ptr += getLength(getLastChild(headerFieldNode));
-
-        } else if (!detect_CRLF(headerFieldNode, ptr)) {
-            break;
         } else {
+            delNode(headerFieldNode, parent);
             return 69;
         }
+    } else {
+        delNode(headerFieldNode, parent);
+        return 69;
     }
 
     setLength(headerFieldNode, getSumLengthChildren(headerFieldNode));
@@ -305,21 +306,22 @@ int detect_field_name(Node *parent, const char *ptr) {
 int detect_field_value(Node *parent, const char *ptr) {
     Node *fieldValueNode = newChild(parent);
     initNode(fieldValueNode, "field_value", ptr, 0);
+    int compteur = 0;
 
     while (1) {
-        if (!detect_field_content(fieldValueNode, ptr)) {
+        if (detect_field_content(fieldValueNode, ptr) == 0) {
             ptr += getLength(getLastChild(fieldValueNode));
-
-        } else if (!detect_obs_fold(fieldValueNode, ptr)) {
+            compteur++;
+        } else if (detect_obs_fold(fieldValueNode, ptr) == 0) {
             ptr += getLength(getLastChild(fieldValueNode));
-
-        } else if (!detect_OWS(fieldValueNode, ptr)) {
-            // supprimer le dernier fils qui vient d'être créer
-            break;
-
+            compteur++;
         } else {
-            return 71;
+            break;
         }
+    }
+
+    if (compteur == 0) {
+        delNode(fieldValueNode, parent);
     }
 
     setLength(fieldValueNode, getSumLengthChildren(fieldValueNode));
@@ -386,41 +388,41 @@ int detect_obs_fold(Node *parent, const char *ptr) {
 }
 
 int detect_Connection_header(Node *parent, const char *ptr) {
-    Node *ConnectionheaderNode = newChild(parent);
-    initNode(ConnectionheaderNode, "Connection_header", ptr, 0);
+        Node *connectionheaderNode = newChild(parent);
+    initNode(connectionheaderNode, "Connection_header", ptr, 0);
 
-    if (*ptr == 'C' && *ptr + 1 == 'o' && *ptr + 2 == 'n' & *ptr + 3 == 'n' && *ptr + 4 == 'e' && *ptr + 5 == 'c' && *ptr + 6 == 't' & *ptr + 7 == 'i'
-        && *ptr + 8 == 'o' && *ptr + 9 == 'n' && *ptr + 10 == ':') {
+    if (startWith("Connection", ptr)) {
+        initNode(newChild(connectionheaderNode), "case_insensitive_string", ptr, 10);
+        ptr += getLength(getLastChild(connectionheaderNode));
 
-        Node *ConnNode = newChild(ConnectionheaderNode);
-        initNode(ConnNode, "Connection", ptr, 10);
-        ptr += 10;
-        Node *TDNode = newChild(ConnectionheaderNode);
-        initNode(TDNode, ":", ptr, 1);
-        ptr += 1;
+        if (*ptr == ':') {
+            initNode(newChild(connectionheaderNode), "case_insensitive_string", ptr, 1);
+            ptr += getLength(getLastChild(connectionheaderNode));
+
+            if (detect_OWS(connectionheaderNode, ptr) == 0) {
+                ptr += getLength(getLastChild(connectionheaderNode));
+            }
+
+            if (detect_Connection(connectionheaderNode, ptr) == 0) {
+                ptr += getLength(getLastChild(connectionheaderNode));
+
+                if (detect_OWS(connectionheaderNode, ptr) == 0) {
+                    ptr += getLength(getLastChild(connectionheaderNode));
+                }
+            } else {
+                delNode(connectionheaderNode, parent);
+                return 74;
+            }
+        } else {
+            delNode(connectionheaderNode, parent);
+            return 74;
+        }
     } else {
+        delNode(connectionheaderNode, parent);
         return 74;
     }
 
-    if (!detect_OWS(ConnectionheaderNode, ptr)) {
-        ptr += getLength(getLastChild(ConnectionheaderNode));
-    } else {
-        return 74;
-    }
-
-    if (!detect_Connection(ConnectionheaderNode, ptr)) {
-        ptr += getLength(getLastChild(ConnectionheaderNode));
-    } else {
-        return 74;
-    }
-
-    if (!detect_OWS(ConnectionheaderNode, ptr)) {
-        ptr += getLength(getLastChild(ConnectionheaderNode));
-    } else {
-        return 74;
-    }
-
-    setLength(ConnectionheaderNode, getSumLengthChildren(ConnectionheaderNode));
+    setLength(connectionheaderNode, getSumLengthChildren(connectionheaderNode));
 
     return 0;
 }
@@ -476,41 +478,41 @@ int detect_Connection(Node *parent, const char *ptr) {
 }
 
 int detect_Content_Length_header(Node *parent, const char *ptr) {
-    Node *ContentLengthHeaderNode = newChild(parent);
-    initNode(ContentLengthHeaderNode, "Content_Length_header", ptr, 0);
+        Node *contentLengthHeaderNode = newChild(parent);
+    initNode(contentLengthHeaderNode, "Content_Length_header", ptr, 0);
 
-    if (*ptr == 'C' && *ptr + 1 == 'o' && *ptr + 2 == 'n' & *ptr + 3 == 't' && *ptr + 4 == 'e' && *ptr + 5 == 'n' && *ptr + 6 == 't' & *ptr + 7 == '-'
-        && *ptr + 8 == 'L' && *ptr + 9 == 'e' && *ptr + 10 == 'n' && *ptr + 11 == 'g' && *ptr + 12 == 't' && *ptr + 13 == 'h' && *ptr + 14 == ':') {
+    if (startWith("Content-Length", ptr)) {
+        initNode(newChild(contentLengthHeaderNode), "case_insensitive_string", ptr, 14);
+        ptr += getLength(getLastChild(contentLengthHeaderNode));
 
-        Node *CLNode = newChild(ContentLengthHeaderNode);
-        initNode(CLNode, "Content_Length", ptr, 14);
-        ptr += 14;
-        Node *DDNode = newChild(ContentLengthHeaderNode);
-        initNode(DDNode, ":", ptr, 1);
-        ptr += 1;
+        if (*ptr == ':') {
+            initNode(newChild(contentLengthHeaderNode), "case_insensitive_string", ptr, 1);
+            ptr += getLength(getLastChild(contentLengthHeaderNode));
+
+            if (detect_OWS(contentLengthHeaderNode, ptr) == 0) {
+                ptr += getLength(getLastChild(contentLengthHeaderNode));
+            }
+
+            if (detect_Content_Length(contentLengthHeaderNode, ptr) == 0) {
+                ptr += getLength(getLastChild(contentLengthHeaderNode));
+
+                if (detect_OWS(contentLengthHeaderNode, ptr) == 0) {
+                    ptr += getLength(getLastChild(contentLengthHeaderNode));
+                }
+            } else {
+                delNode(contentLengthHeaderNode, parent);
+                return 76;
+            }
+        } else {
+            delNode(contentLengthHeaderNode, parent);
+            return 76;
+        }
     } else {
+        delNode(contentLengthHeaderNode, parent);
         return 76;
     }
 
-    if (!detect_OWS(ContentLengthHeaderNode, ptr)) {
-        ptr += getLength(getLastChild(ContentLengthHeaderNode));
-    } else {
-        return 76;
-    }
-
-    if (!detect_Content_Length(ContentLengthHeaderNode, ptr)) {
-        ptr += getLength(getLastChild(ContentLengthHeaderNode));
-    } else {
-        return 76;
-    }
-
-    if (!detect_OWS(ContentLengthHeaderNode, ptr)) {
-        ptr += getLength(getLastChild(ContentLengthHeaderNode));
-    } else {
-        return 76;
-    }
-
-    setLength(ContentLengthHeaderNode, getSumLengthChildren(ContentLengthHeaderNode));
+    setLength(contentLengthHeaderNode, getSumLengthChildren(contentLengthHeaderNode));
 
     return 0;
 }
@@ -541,7 +543,7 @@ int detect_Content_Length(Node *parent, const char *ptr) {
 }
 
 int detect_Content_Type_header(Node *parent, const char *ptr) {
-    Node *contentTypeHeaderNode = newChild(parent);
+        Node *contentTypeHeaderNode = newChild(parent);
     initNode(contentTypeHeaderNode, "Content_Type_header", ptr, 0);
 
     if (startWith("Content-Type", ptr)) {
@@ -561,13 +563,16 @@ int detect_Content_Type_header(Node *parent, const char *ptr) {
                     ptr += getLength(getLastChild(contentTypeHeaderNode));
                 }
             } else {
+                delNode(contentTypeHeaderNode, parent);
                 return 77;
             }
         } else {
+            delNode(contentTypeHeaderNode, parent);
             return 77;
         }
 
     } else {
+        delNode(contentTypeHeaderNode, parent);
         return 77;
     }
 
@@ -577,74 +582,72 @@ int detect_Content_Type_header(Node *parent, const char *ptr) {
 }
 
 int detect_Content_Type(Node *parent, const char *ptr) {
-    Node *ContentTypeNode = newChild(parent);
-    initNode(ContentTypeNode, "Content_Type", ptr, 0);
+    Node *contentTypeNode = newChild(parent);
+    initNode(contentTypeNode, "Content_Type", ptr, 0);
 
-    if (!detect_media_type(ContentTypeNode, ptr)) {
-        ptr += getLength(getLastChild(ContentTypeNode));
+    if (detect_media_type(contentTypeNode, ptr) == 0) {
+        ptr += getLength(getLastChild(contentTypeNode));
     } else {
+        delNode(contentTypeNode, parent);
         return 78;
     }
 
-    setLength(ContentTypeNode, getSumLengthChildren(ContentTypeNode));
+    setLength(contentTypeNode, getSumLengthChildren(contentTypeNode));
 
     return 0;
 }
 
 int detect_media_type(Node *parent, const char *ptr) {
-    Node *MediaTypeNode = newChild(parent);
-    initNode(MediaTypeNode, "media_type", ptr, 0);
+    Node *mediaTypeNode = newChild(parent);
+    initNode(mediaTypeNode, "media_type", ptr, 0);
 
-    if (!detect_type(MediaTypeNode, ptr)) {
-        ptr += getLength(getLastChild(MediaTypeNode));
+    if (detect_type(mediaTypeNode, ptr) == 0) {
+        ptr += getLength(getLastChild(mediaTypeNode));
+
+        if (*ptr == '/') {
+            initNode(newChild(mediaTypeNode), "case_insensitive_string", ptr, 1);
+            ptr += getLength(getLastChild(mediaTypeNode));
+
+            if (detect_subtype(mediaTypeNode, ptr) == 0) {
+                ptr += getLength(getLastChild(mediaTypeNode));
+
+                while (1) { //pareil ici comment sortir de cette boucle
+                    if (detect_OWS(mediaTypeNode, ptr) == 0) {
+                        ptr += getLength(getLastChild(mediaTypeNode));
+                    }
+
+                    if (*ptr == ';') {
+                        initNode(newChild(mediaTypeNode), "case_insensitive_string", ptr, 1);
+                        ptr += getLength(getLastChild(mediaTypeNode));
+
+                        if (detect_OWS(mediaTypeNode, ptr) == 0) {
+                            ptr += getLength(getLastChild(mediaTypeNode));
+                        }
+
+                        if (detect_parameter(mediaTypeNode, ptr) == 0) {
+                            ptr += getLength(getLastChild(mediaTypeNode));
+                        } else {
+                            delNode(mediaTypeNode, parent);
+                            return 79;
+                        }
+                    } else {
+                        break;
+                    }
+                }
+            } else {
+                delNode(mediaTypeNode, parent);
+                return 79;
+            }
+        } else {
+            delNode(mediaTypeNode, parent);
+            return 79;
+        }
     } else {
+        delNode(mediaTypeNode, parent);
         return 79;
     }
 
-    if (*ptr == '/') {
-        Node *SlashNode = newChild(MediaTypeNode);
-        initNode(SlashNode, "/", ptr, 1);
-        ptr += 1;
-    } else {
-        return 79;
-    }
-
-    if (!detect_subtype(MediaTypeNode, ptr)) {
-        ptr += getLength(getLastChild(MediaTypeNode));
-    } else {
-        return 79;
-    }
-
-    while (1) { //pareil ici comment sortir de cette boucle
-        if (!detect_OWS(MediaTypeNode, ptr)) {
-            ptr += getLength(getLastChild(MediaTypeNode));
-        } else {
-            return 79;
-        }
-
-        if (*ptr == ';') {
-            Node *PVNode = newChild(MediaTypeNode);
-            initNode(PVNode, ";", ptr, 1);
-            ptr += 1;
-        } else {
-            return 79;
-        }
-
-        if (!detect_OWS(MediaTypeNode, ptr)) {
-            ptr += getLength(getLastChild(MediaTypeNode));
-        } else {
-            return 79;
-        }
-
-        if (!detect_parameter(MediaTypeNode, ptr)) {
-            ptr += getLength(getLastChild(MediaTypeNode));
-        } else {
-            return 79;
-        }
-
-    }
-
-    setLength(MediaTypeNode, getSumLengthChildren(MediaTypeNode));
+    setLength(mediaTypeNode, getSumLengthChildren(mediaTypeNode));
 
     return 0;
 }
@@ -682,27 +685,34 @@ int detect_subtype(Node *parent, const char *ptr) {
 }
 
 int detect_Cookie_header(Node *parent, const char *ptr) {
-    Node *CookieHeaderNode = newChild(parent);
-    initNode(CookieHeaderNode, "Cookie_header", ptr, 0);
+        Node *cookieHeaderNode = newChild(parent);
+    initNode(cookieHeaderNode, "Cookie_header", ptr, 0);
 
-    if (*ptr == 'C' && *ptr + 1 == 'o' && *ptr + 2 == 'o' & *ptr + 3 == 'k' && *ptr + 4 == 'i' && *ptr + 5 == 'e' & *ptr + 6 == ':') {
-        Node *CooNode = newChild(CookieHeaderNode);
-        initNode(CooNode, "Cookie", ptr, 6);
-        ptr += 6;
-        Node *DDNode = newChild(CookieHeaderNode);
-        initNode(DDNode, ":", ptr, 1);
-        ptr += 1;
+    if (startWith("Cookie", ptr)) {
+        initNode(newChild(cookieHeaderNode), "Cookie", ptr, 6);
+        ptr += getLength(getLastChild(cookieHeaderNode));
+
+        if (*ptr == ':') {
+            initNode(newChild(cookieHeaderNode), "case_insensitive_string", ptr, 1);
+            ptr += getLength(getLastChild(cookieHeaderNode));
+
+            if (detect_OWS(cookieHeaderNode, ptr) == 0) {
+                ptr += getLength(getLastChild(cookieHeaderNode));
+            }
+
+            if (detect_cookie_string(cookieHeaderNode, ptr) == 0) {
+                ptr += getLength(getLastChild(cookieHeaderNode));
+            } else {
+                delNode(cookieHeaderNode, parent);
+                return 82;
+            }
+        }
     } else {
+        delNode(cookieHeaderNode, parent);
         return 82;
     }
 
-    if (!detect_cookie_string(CookieHeaderNode, ptr)) {
-        ptr += getLength(getLastChild(CookieHeaderNode));
-    } else {
-        return 82;
-    }
-
-    setLength(CookieHeaderNode, getSumLengthChildren(CookieHeaderNode));
+    setLength(cookieHeaderNode, getSumLengthChildren(cookieHeaderNode));
 
     return 0;
 }
