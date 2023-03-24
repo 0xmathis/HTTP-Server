@@ -12,32 +12,20 @@ int main(int argc, char **argv) {
     }
 
     FILE *file = fopen(argv[1], "r");
-    char message[500] = "afvdbhkdf6546";
+    char message[500];
 
-//    fgets(message, 499, file);
+    fgets(message, 499, file);
 
     fclose(file);
 
-//    int j = 0;
-//    for (unsigned int i = 0x01; i <= 0xFF; i++) {
-//        message[j] = (unsigned int) i;
-//        j++;
-//    }
-//
-//    message[j] = '\0';
-
     printf("%s\n", message);
-
-//    return 0;
 
     Node *parent = newNode();
     initNode(parent, "message", message, 0);
 
-//    for (int i = 0; message[i] != 0x00; i++) {
-        int error = detect_cookie_value(parent, message);
+    int error = detect_query(parent, message);
+    printf("Error : %d\n", error);
 
-        printf("Error : %d : %c : 0x%X\n", error, *(message), *(message));
-//    }
     printChildren(parent, 0);
     delTree(parent);
 

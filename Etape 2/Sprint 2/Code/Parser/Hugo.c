@@ -67,11 +67,12 @@ int detect_request_line(Node *parent, const char *ptr) {
 
 int detect_method(Node *parent, const char *ptr) {
     Node *methodNode = newChild(parent);
-    initNode(methodNode, "method_line", ptr, 0);
+    initNode(methodNode, "method", ptr, 0);
 
-    if (!detect_token(methodNode, ptr)) {
+    if (detect_token(methodNode, ptr) == 0) {
         ptr += getLength(getLastChild(methodNode));
     } else {
+        delNode(methodNode, parent);
         return 63;
     }
 
@@ -114,18 +115,24 @@ int detect_origin_form(Node *parent, const char *ptr) {
 int detect_absolute_path(Node *parent, const char *ptr) {
     Node *absolutePathNode = newChild(parent);
     initNode(absolutePathNode, "absolute_path", ptr, 0);
+    int compteur = 0;
 
-    if (*ptr == '/') {
-        Node *SlashNode = newChild(absolutePathNode);
-        initNode(SlashNode, "/", ptr, 1);
-        ptr += 1;
-    } else {
-        return 66;
+    while (1) {
+        if (*ptr == '/') {
+            initNode(newChild(absolutePathNode), "case_insensitive_string", ptr, 1);
+            ptr += getLength(getLastChild(absolutePathNode));
+
+            if (detect_segment(absolutePathNode, ptr) == 0) {
+                ptr += getLength(getLastChild(absolutePathNode));
+                compteur++;
+            }
+        } else {
+            break;
+        }
     }
 
-    if (!detect_segment(absolutePathNode, ptr)) {
-        ptr += getLength(getLastChild(absolutePathNode));
-    } else {
+    if (compteur == 0) {
+        delNode(absolutePathNode, parent);
         return 66;
     }
 
@@ -138,37 +145,42 @@ int detect_HTTP_version(Node *parent, const char *ptr) {
     Node *HTTPVersionNode = newChild(parent);
     initNode(HTTPVersionNode, "HTTP_version", ptr, 0);
 
-    if (!detect_HTTP_name(HTTPVersionNode, ptr)) {
+    if (detect_HTTP_name(HTTPVersionNode, ptr) == 0) {
         ptr += getLength(getLastChild(HTTPVersionNode));
-    } else {
-        return 67;
-    }
 
-    if (*ptr == '/') {
-        Node *SlashNode = newChild(HTTPVersionNode);
-        initNode(SlashNode, "/", ptr, 1);
-        ptr += 1;
-    } else {
-        return 67;
-    }
+        if (*ptr == '/') {
+            initNode(newChild(HTTPVersionNode), "case_insensitive_string", ptr, 1);
+            ptr += getLength(getLastChild(HTTPVersionNode));
 
-    if (!detect_DIGIT(HTTPVersionNode, ptr)) {
-        ptr += getLength(getLastChild(HTTPVersionNode));
-    } else {
-        return 67;
-    }
+            if (detect_DIGIT(HTTPVersionNode, ptr) == 0) {
+                initNode(newChild(HTTPVersionNode), "__digit", ptr, 1);
+                ptr += getLength(getLastChild(HTTPVersionNode));
 
-    if (*ptr == '.') {
-        Node *DotNode = newChild(HTTPVersionNode);
-        initNode(DotNode, ".", ptr, 1);
-        ptr += 1;
-    } else {
-        return 67;
-    }
+                if (*ptr == '.') {
+                    initNode(newChild(HTTPVersionNode), "case_insensitive_string", ptr, 1);
+                    ptr += getLength(getLastChild(HTTPVersionNode));
 
-    if (!detect_DIGIT(HTTPVersionNode, ptr)) {
-        ptr += getLength(getLastChild(HTTPVersionNode));
+                    if (detect_DIGIT(HTTPVersionNode, ptr) == 0) {
+                        initNode(newChild(HTTPVersionNode), "__digit", ptr, 1);
+                        ptr += getLength(getLastChild(HTTPVersionNode));
+                    } else {
+                        delNode(HTTPVersionNode, parent);
+                        return 67;
+                    }
+                } else {
+                    delNode(HTTPVersionNode, parent);
+                    return 67;
+                }
+            } else {
+                delNode(HTTPVersionNode, parent);
+                return 67;
+            }
+        } else {
+            delNode(HTTPVersionNode, parent);
+            return 67;
+        }
     } else {
+        delNode(HTTPVersionNode, parent);
         return 67;
     }
 
@@ -181,15 +193,14 @@ int detect_HTTP_name(Node *parent, const char *ptr) {
     Node *HTTPNameNode = newChild(parent);
     initNode(HTTPNameNode, "HTTP_name", ptr, 0);
 
-    if (*ptr == 'H' && *ptr + 1 == 'T' && *ptr + 2 == 'T' & *ptr + 3 == 'P') {
-        Node *HTTPNode = newChild(HTTPNameNode);
-        initNode(HTTPNode, "HTTP", ptr, 1);
-        ptr += 4;
+    if (startWith("HTTP", ptr)) {
+        initNode(newChild(HTTPNameNode), "__num", ptr, 4);
     } else {
+        delNode(HTTPNameNode, parent);
         return 68;
     }
 
-    setLength(HTTPNameNode, 4);
+    setLength(HTTPNameNode, getSumLengthChildren(HTTPNameNode));
 
     return 0;
 }
@@ -279,9 +290,10 @@ int detect_field_name(Node *parent, const char *ptr) {
     Node *fieldNameNode = newChild(parent);
     initNode(fieldNameNode, "field_name", ptr, 0);
 
-    if (!detect_token(fieldNameNode, ptr)) {
+    if (detect_token(fieldNameNode, ptr) == 0) {
         ptr += getLength(getLastChild(fieldNameNode));
     } else {
+        delNode(fieldNameNode, parent);
         return 70;
     }
 
@@ -319,18 +331,20 @@ int detect_field_content(Node *parent, const char *ptr) {
     Node *fieldContentNode = newChild(parent);
     initNode(fieldContentNode, "field_content", ptr, 0);
 
-    if (!detect_field_vchar(fieldContentNode, ptr)) {
+    if (detect_field_vchar(fieldContentNode, ptr) == 0) {
         ptr += getLength(getLastChild(fieldContentNode));
     } else {
+        delNode(fieldContentNode, parent);
         return 72;
     }
 
-    if (!detect_RWS(fieldContentNode, ptr)) {
+    if (detect_RWS(fieldContentNode, ptr) == 0) {
         ptr += getLength(getLastChild(fieldContentNode));
 
-        if (!detect_field_vchar(fieldContentNode, ptr)) {
+        if (detect_field_vchar(fieldContentNode, ptr) == 0) {
             ptr += getLength(getLastChild(fieldContentNode));
         } else {
+            delNode(fieldContentNode, parent);
             return 72;
         }
     }
@@ -344,15 +358,25 @@ int detect_obs_fold(Node *parent, const char *ptr) {
     Node *obsFoldNode = newChild(parent);
     initNode(obsFoldNode, "obs_fold", ptr, 0);
 
-    if (!detect_CRLF(obsFoldNode, ptr)) {
+    if (detect_CRLF(obsFoldNode, ptr) == 0) {
         ptr += getLength(getLastChild(obsFoldNode));
-    } else {
-        return 73;
-    }
 
-    if (!detect_RWS(obsFoldNode, ptr)) {
-        ptr += getLength(getLastChild(obsFoldNode));
+        int compteur = 0;
+        while (1) {
+            if (detect_SP(obsFoldNode, ptr) == 0 || detect_HTAB(obsFoldNode, ptr) == 0) {
+                compteur++;
+                ptr += getLength(getLastChild(obsFoldNode));
+            } else {
+                break;
+            }
+        }
+
+        if (compteur == 0) {
+            delNode(obsFoldNode, parent);
+            return 73;
+        }
     } else {
+        delNode(obsFoldNode, parent);
         return 73;
     }
 
@@ -402,54 +426,51 @@ int detect_Connection_header(Node *parent, const char *ptr) {
 }
 
 int detect_Connection(Node *parent, const char *ptr) {
-    Node *ConnectionNode = newChild(parent);
-    initNode(ConnectionNode, "Connection", ptr, 0);
+    Node *connectionNode = newChild(parent);
+    initNode(connectionNode, "Connection", ptr, 0);
 
     while (1) {
         if (*ptr == ',') {
-            Node *VirNode = newChild(ConnectionNode);
-            initNode(VirNode, ",", ptr, 1);
+            initNode(newChild(connectionNode), "case_insensitive_string", ptr, 1);
             ptr += 1;
 
-            if (!detect_OWS(ConnectionNode, ptr)) {
-                ptr += getLength(getLastChild(ConnectionNode));
-            } else {
-                return 75;
+            if (detect_OWS(connectionNode, ptr) == 0) {
+                ptr += getLength(getLastChild(connectionNode));
             }
         } else {
             break;
         }
     }
 
-    if (!detect_connection_option(ConnectionNode, ptr)) {
-        ptr += getLength(getLastChild(ConnectionNode));
+    if (detect_connection_option(connectionNode, ptr) == 0) {
+        ptr += getLength(getLastChild(connectionNode));
+
+        while (1) { //problème ici comment savoir si c'est l'OWS du début du * ou de la fin du connection header
+            if (detect_OWS(connectionNode, ptr) == 0) {
+                ptr += getLength(getLastChild(connectionNode));
+            }
+
+            if (*ptr == ',') {
+                initNode(newChild(connectionNode), "case_insensitive_string", ptr, 1);
+                ptr += getLength(getLastChild(connectionNode));
+            } else {
+                break;
+            }
+
+            if (detect_OWS(connectionNode, ptr) == 0) {
+                ptr += getLength(getLastChild(connectionNode));
+            }
+
+            if (detect_connection_option(connectionNode, ptr) == 0) {
+                ptr += getLength(getLastChild(connectionNode));
+            }
+        }
     } else {
+        delNode(connectionNode, parent);
         return 76;
     }
 
-    while (1) {    //problème ici comment savoir si c'est l'OWS du début du * ou de la fin du connection header
-        if (!detect_OWS(ConnectionNode, ptr)) {
-            ptr += getLength(getLastChild(ConnectionNode));
-        }
-
-        if (*ptr == ',') {
-            Node *VirNode = newChild(ConnectionNode);
-            initNode(VirNode, ",", ptr, 1);
-            ptr += 1;
-        } else {
-            return 75;
-        }
-
-        if (!detect_OWS(ConnectionNode, ptr)) {
-            ptr += getLength(getLastChild(ConnectionNode));
-        }
-
-        if (!detect_connection_option(ConnectionNode, ptr)) {
-            ptr += getLength(getLastChild(ConnectionNode));
-        }
-    }
-
-    setLength(ConnectionNode, getSumLengthChildren(ConnectionNode));
+    setLength(connectionNode, getSumLengthChildren(connectionNode));
 
     return 0;
 }
@@ -500,17 +521,20 @@ int detect_Content_Length(Node *parent, const char *ptr) {
     int i = 0;
 
     while (1) {
-        if (!detect_DIGIT(ContentLengthNode, ptr)) {
-            i++;
+        if (detect_DIGIT(ContentLengthNode, ptr) == 0) {
+            initNode(newChild(ContentLengthNode), "__digit", ptr, 1);
             ptr += getLength(getLastChild(ContentLengthNode));
+            i++;
         } else {
             break;
         }
     }
 
     if (i < 1) {
+        delNode(ContentLengthNode, parent);
         return 77;
     }
+
     setLength(ContentLengthNode, getSumLengthChildren(ContentLengthNode));
 
     return 0;
@@ -626,31 +650,33 @@ int detect_media_type(Node *parent, const char *ptr) {
 }
 
 int detect_type(Node *parent, const char *ptr) {
-    Node *TypeNode = newChild(parent);
-    initNode(TypeNode, "type", ptr, 0);
+    Node *typeNode = newChild(parent);
+    initNode(typeNode, "type", ptr, 0);
 
-    if (!detect_token(TypeNode, ptr)) {
-        ptr += getLength(getLastChild(TypeNode));
+    if (detect_token(typeNode, ptr) == 0) {
+        ptr += getLength(getLastChild(typeNode));
     } else {
+        delNode(typeNode, parent);
         return 80;
     }
 
-    setLength(TypeNode, getSumLengthChildren(TypeNode));
+    setLength(typeNode, getSumLengthChildren(typeNode));
 
     return 0;
 }
 
 int detect_subtype(Node *parent, const char *ptr) {
-    Node *SubTypeNode = newChild(parent);
-    initNode(SubTypeNode, "subtype", ptr, 0);
+    Node *subTypeNode = newChild(parent);
+    initNode(subTypeNode, "subtype", ptr, 0);
 
-    if (!detect_token(SubTypeNode, ptr)) {
-        ptr += getLength(getLastChild(SubTypeNode));
+    if (detect_token(subTypeNode, ptr) == 0) {
+        ptr += getLength(getLastChild(subTypeNode));
     } else {
+        delNode(subTypeNode, parent);
         return 81;
     }
 
-    setLength(SubTypeNode, getSumLengthChildren(SubTypeNode));
+    setLength(subTypeNode, getSumLengthChildren(subTypeNode));
 
     return 0;
 }
@@ -682,38 +708,40 @@ int detect_Cookie_header(Node *parent, const char *ptr) {
 }
 
 int detect_cookie_string(Node *parent, const char *ptr) {
-    Node *CookieStringNode = newChild(parent);
-    initNode(CookieStringNode, "cookie_string", ptr, 0);
+    Node *cookieStringNode = newChild(parent);
+    initNode(cookieStringNode, "cookie_string", ptr, 0);
 
-    if (!detect_cookie_pair(CookieStringNode, ptr)) {
-        ptr += getLength(getLastChild(CookieStringNode));
+    if (detect_cookie_pair(cookieStringNode, ptr) == 0) {
+        ptr += getLength(getLastChild(cookieStringNode));
+
+        while (1) {
+            if (*ptr == ';') {
+                initNode(newChild(cookieStringNode), "case_insensitive_string", ptr, 1);
+                ptr += getLength(getLastChild(cookieStringNode));
+
+                if (detect_SP(cookieStringNode, ptr) == 0) {
+                    ptr += getLength(getLastChild(cookieStringNode));
+
+                    if (detect_cookie_pair(cookieStringNode, ptr) == 0) {
+                        ptr += getLength(getLastChild(cookieStringNode));
+                    } else {
+                        delNode(cookieStringNode, parent);
+                        return 83;
+                    }
+                } else {
+                    delNode(cookieStringNode, parent);
+                    return 83;
+                }
+            } else {
+                break;
+            }
+        }
     } else {
+        delNode(cookieStringNode, parent);
         return 83;
     }
 
-    while (1) {
-        if (*ptr == ';') {
-            Node *PVNode = newChild(CookieStringNode);
-            initNode(PVNode, ";", ptr, 1);
-            ptr += 1;
-        } else {
-            break;
-        }
-
-        if (!detect_SP(CookieStringNode, ptr)) {
-            ptr += getLength(getLastChild(CookieStringNode));
-        } else {
-            return 83;
-        }
-
-        if (!detect_cookie_pair(CookieStringNode, ptr)) {
-            ptr += getLength(getLastChild(CookieStringNode));
-        } else {
-            return 83;
-        }
-    }
-
-    setLength(CookieStringNode, getSumLengthChildren(CookieStringNode));
+    setLength(cookieStringNode, getSumLengthChildren(cookieStringNode));
 
     return 0;
 }

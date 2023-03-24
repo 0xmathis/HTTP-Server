@@ -66,17 +66,18 @@ int detect_ls32(Node *parent, const char *ptr) {
                 ptr += getLength(getLastChild(ls32Node));
 
             } else {
-
+                delNode(ls32Node, parent);
                 return 32;
             }
         } else {
+            delNode(ls32Node, parent);
             return 32;
         }
     } else if (detect_IPv4address(ls32Node, ptr) == 0) {
-
         ptr += getLength(getLastChild(ls32Node));
-    } else {
 
+    } else {
+        delNode(ls32Node, parent);
         return 32;
     }
 
@@ -88,20 +89,44 @@ int detect_ls32(Node *parent, const char *ptr) {
 int detect_OWS(Node *parent, const char *ptr) {
     Node *OWSNode = newChild(parent);
     initNode(OWSNode, "OWS", ptr, 0);
+    int compteur = 0;
 
     while (1) {
         if (*ptr == ' ') {
             initNode(newChild(OWSNode), "__sp", ptr, 1);
             ptr += getLength(getLastChild(OWSNode));
+            compteur++;
         } else if (*ptr == '\t') {
             initNode(newChild(OWSNode), "__htab", ptr, 1);
             ptr += getLength(getLastChild(OWSNode));
+            compteur++;
         } else {
             break;
         }
     }
 
+    if (compteur == 0) {
+        delNode(OWSNode, parent);
+        return 60;
+    }
+
     setLength(OWSNode, getSumLengthChildren(OWSNode));
+
+    return 0;
+}
+
+int detect_BWS(Node *parent, const char *ptr) {
+    Node *BWSNode = newChild(parent);
+    initNode(BWSNode, "BWS", ptr, 0);
+
+    if (detect_OWS(BWSNode, ptr) == 0) {
+
+    } else {
+        delNode(BWSNode, parent);
+        return 59;
+    }
+
+    setLength(BWSNode, getSumLengthChildren(BWSNode));
 
     return 0;
 }
@@ -117,10 +142,11 @@ int detect_parameter(Node *parent, const char *ptr) {
             initNode(newChild(parameterNode), "case_insensitive_string", ptr, 1);
             ptr += getLength(getLastChild(parameterNode));
 
+            printf("la\n");
             if (detect_token(parameterNode, ptr) == 0) {
                 ptr += getLength(getLastChild(parameterNode));
             } else if (detect_quoted_string(parameterNode, ptr) == 0) {
-
+                printf("ici\n");
                 ptr += getLength(getLastChild(parameterNode));
             } else {
 
@@ -146,8 +172,12 @@ int detect_quoted_string(Node *parent, const char *ptr) {
         initNode(newChild(quoted_stringNode), "case_insensitive_string", ptr, 1);
         ptr += getLength(getLastChild(quoted_stringNode));
 
-        while (detect_qdtext(quoted_stringNode, ptr) == 0 || detect_quoted_string(quoted_stringNode, ptr) == 0) {
-            ptr += getLength(getLastChild(quoted_stringNode));
+        while (1) {
+            if (detect_qdtext(quoted_stringNode, ptr) == 0 || detect_quoted_pair(quoted_stringNode, ptr) == 0) {
+                ptr += getLength(getLastChild(quoted_stringNode));
+            } else {
+                break;
+            }
         }
 
         if (*ptr == '"') {
@@ -182,6 +212,7 @@ int detect_pchar(Node *parent, const char *ptr) {
         initNode(newChild(pcharNode), "case_insensitive_string", ptr, 1);
         ptr += getLength(getLastChild(pcharNode));
     } else {
+        delNode(pcharNode, parent);
         return 35;
     }
 
@@ -222,7 +253,7 @@ int detect_unreserved(Node *parent, const char *ptr) {
 
 int detect_pct_encoded(Node *parent, const char *ptr) {
     Node *pct_encodedNode = newChild(parent);
-    initNode(pct_encodedNode, "pct-encoded", ptr, 0);
+    initNode(pct_encodedNode, "pct_encoded", ptr, 0);
 
     if (*ptr == '%') {
         initNode(newChild(pct_encodedNode), "case_insensitive_string", ptr, 1);
@@ -234,12 +265,15 @@ int detect_pct_encoded(Node *parent, const char *ptr) {
             if (detect_HEXDIG(pct_encodedNode, ptr) == 0) {
                 ptr += getLength(getLastChild(pct_encodedNode));
             } else {
+                delNode(pct_encodedNode, parent);
                 return 37;
             }
         } else {
+            delNode(pct_encodedNode, parent);
             return 37;
         }
     } else {
+        delNode(pct_encodedNode, parent);
         return 37;
     }
 
@@ -367,15 +401,24 @@ int detect_qdtext(Node *parent, const char *ptr) {
 int detect_query(Node *parent, const char *ptr) {
     Node *queryNode = newChild(parent);
     initNode(queryNode, "query", ptr, 0);
+    int compteur = 0;
 
-    while (detect_pchar(queryNode, ptr) == 0 || *ptr == '/' || *ptr == '?') {
-
+    while (1) {
+        //detect_pchar(queryNode, ptr) == 0 || *ptr == '/' || *ptr == '?'
         if (detect_pchar(queryNode, ptr) == 0) {
             ptr += getLength(getLastChild(queryNode));
-        } else {
+            compteur++;
+        } else if (*ptr == '/' || *ptr == '?') {
             initNode(newChild(queryNode), "case_insensitive_string", ptr, 1);
             ptr += getLength(getLastChild(queryNode));
+            compteur++;
+        } else {
+            break;
         }
+    }
+
+    if (compteur == 0) {
+        delNode(queryNode, parent);
     }
 
     setLength(queryNode, getSumLengthChildren(queryNode));
@@ -437,13 +480,18 @@ int detect_RWS(Node *parent, const char *ptr) {
     Node *RWSNode = newChild(parent);
     initNode(RWSNode, "RWS", ptr, 0);
 
-    int comptage3 = 0;
-    while (detect_SP(RWSNode, ptr) == 0 || detect_HTAB(RWSNode, ptr) == 0) {
-        comptage3 += 1;
-        ptr += getLength(getLastChild(RWSNode));
+    int comptage = 0;
+    while (1) {
+        if (detect_SP(RWSNode, ptr) == 0 || detect_HTAB(RWSNode, ptr) == 0) {
+            comptage += 1;
+            ptr += getLength(getLastChild(RWSNode));
+        } else {
+            break;
+        }
     }
 
-    if (comptage3 == 0) {
+    if (comptage == 0) {
+        delNode(RWSNode, parent);
         return 44;
     }
 
@@ -455,9 +503,19 @@ int detect_RWS(Node *parent, const char *ptr) {
 int detect_segment(Node *parent, const char *ptr) {
     Node *segmentNode = newChild(parent);
     initNode(segmentNode, "segment", ptr, 0);
+    int compteur = 0;
 
-    while (detect_pchar(segmentNode, ptr) == 0) {
-        ptr += getLength(getLastChild(segmentNode));
+    while (1) {
+        if (detect_pchar(segmentNode, ptr) == 0) {
+            ptr += getLength(getLastChild(segmentNode));
+            compteur++;
+        } else {
+            break;
+        }
+    }
+
+    if (compteur == 0) {
+        delNode(segmentNode, parent);
     }
 
     setLength(segmentNode, getSumLengthChildren(segmentNode));
@@ -514,77 +572,81 @@ int detect_transfert_coding(Node *parent, const char *ptr) {
 }
 
 int detect_transfert_extension(Node *parent, const char *ptr) {
-    Node *transfert_extensionNode = newChild(parent);
-    initNode(transfert_extensionNode, "transfert-extension", ptr, 0);
+    Node *transfertExtensionNode = newChild(parent);
+    initNode(transfertExtensionNode, "transfert-extension", ptr, 0);
 
-    if (detect_token(transfert_extensionNode, ptr) == 0) {
-        ptr += getLength(getLastChild(transfert_extensionNode));
+    if (detect_token(transfertExtensionNode, ptr) == 0) {
+        ptr += getLength(getLastChild(transfertExtensionNode));
 
-        while (detect_OWS(transfert_extensionNode, ptr) == 0) {
-            ptr += getLength(getLastChild(transfert_extensionNode));
+        while (1) {
+            if (detect_OWS(transfertExtensionNode, ptr) == 0) {
+                ptr += getLength(getLastChild(transfertExtensionNode));
+            }
 
             if (*ptr == ';') {
-                initNode(newChild(transfert_extensionNode), "case_insensitive_string", ptr, 4);
-                ptr += getLength(getLastChild(transfert_extensionNode));
+                initNode(newChild(transfertExtensionNode), "case_insensitive_string", ptr, 4);
+                ptr += getLength(getLastChild(transfertExtensionNode));
 
-                if (detect_OWS(transfert_extensionNode, ptr) == 0) {
-                    ptr += getLength(getLastChild(transfert_extensionNode));
+                if (detect_OWS(transfertExtensionNode, ptr) == 0) {
+                    ptr += getLength(getLastChild(transfertExtensionNode));
+                }
 
-                    if (detect_transfert_parameter(transfert_extensionNode, ptr) == 0) {
-                        ptr += getLength(getLastChild(transfert_extensionNode));
-                    } else {
-                        return 47;
-                    }
+                if (detect_transfert_parameter(transfertExtensionNode, ptr) == 0) {
+                    ptr += getLength(getLastChild(transfertExtensionNode));
                 } else {
+                    delNode(transfertExtensionNode, parent);
                     return 47;
                 }
+
             } else {
-                return 47;
+                break;
             }
         }
     } else {
+        delNode(transfertExtensionNode, parent);
         return 47;
     }
 
-    setLength(transfert_extensionNode, getSumLengthChildren(transfert_extensionNode));
+    setLength(transfertExtensionNode, getSumLengthChildren(transfertExtensionNode));
 
     return 0;
 }
 
 int detect_transfert_parameter(Node *parent, const char *ptr) {
     Node *transfert_parameterNode = newChild(parent);
-    initNode(transfert_parameterNode, "transfert-parameter", ptr, 0);
+    initNode(transfert_parameterNode, "transfert_parameter", ptr, 0);
 
     if (detect_token(transfert_parameterNode, ptr) == 0) {
         ptr += getLength(getLastChild(transfert_parameterNode));
 
-        if (detect_OWS(transfert_parameterNode, ptr) == 0) {
+        if (detect_BWS(transfert_parameterNode, ptr) == 0) {
+            ptr += getLength(getLastChild(transfert_parameterNode));
+        }
+
+        if (*ptr == '=') {
+            initNode(newChild(transfert_parameterNode), "case_insensitive_string", ptr, 1);
             ptr += getLength(getLastChild(transfert_parameterNode));
 
-            if (*ptr == '=') {
-                initNode(newChild(transfert_parameterNode), "case_insensitive_string", ptr, 4);
+            if (detect_BWS(transfert_parameterNode, ptr) == 0) {
                 ptr += getLength(getLastChild(transfert_parameterNode));
+            }
 
-                if (detect_OWS(transfert_parameterNode, ptr) == 0) {
-                    ptr += getLength(getLastChild(transfert_parameterNode));
-
-                    if (detect_token(transfert_parameterNode, ptr) == 0) {
-                        ptr += getLength(getLastChild(transfert_parameterNode));
-                    } else if (detect_quoted_string(transfert_parameterNode, ptr) == 0) {
-                        ptr += getLength(getLastChild(transfert_parameterNode));
-                    } else {
-                        return 48;
-                    }
-                } else {
-                    return 48;
-                }
+            if (detect_token(transfert_parameterNode, ptr) == 0) {
+                ptr += getLength(getLastChild(transfert_parameterNode));
+            } else if (detect_quoted_string(transfert_parameterNode, ptr) == 0) {
+                ptr += getLength(getLastChild(transfert_parameterNode));
             } else {
+                delNode(transfert_parameterNode, parent);
                 return 48;
             }
+
         } else {
+            delNode(transfert_parameterNode, parent);
             return 48;
         }
+
     } else {
+        delNode(transfert_parameterNode, parent);
         return 48;
     }
 

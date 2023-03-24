@@ -7,12 +7,12 @@ Josias : erreurs : 1 - 30           |  OK  |        |
     comment                         |  OK  |        |
     ctext                           |  OK  |        |
     quoted-pair                     |  OK  |        |
-    connection-option               |  OK  |        |
+    connection-option               |  OK  |   OK   |
     token                           |  OK  |   OK   |
     codings                         |  OK  |        |
     content-coding                  |  OK  |        |
     cookie-octet                    |  OK  |   OK   |
-    cookie-pair                     |  OK  |        |
+    cookie-pair                     |  OK  |   OK   |
     cookie-name                     |  OK  |   OK   |
     cookie-value                    |  OK  |   OK   |
     CRLF                            |  OK  |   OK   |
@@ -27,27 +27,27 @@ Josias : erreurs : 1 - 30           |  OK  |        |
                                     |      |        |
 Nathan : erreurs : 31 - 60          |  OK  |        |
     language-range                  |  OK  |        |
-    ls32                            |  OK  |        |
+    ls32                            |  OK  |   OK   |
     OWS                             |  OK  |   OK   |
     parameter                       |  OK  |        |
     quoted-string                   |  OK  |        |
-    pchar                           |  OK  |        |
+    pchar                           |  OK  |   OK   |
     unreserved                      |  OK  |   OK   |
-    pct-encoded                     |  OK  |        |
+    pct-encoded                     |  OK  |   OK   |
     sub-delims                      |  OK  |   OK   |
     HEXDIGIT                        |  OK  |        |
     product                         |  OK  |        |
     product-version                 |  OK  |        |
     product_version                 |  OK  |        |
     qdtext                          |  OK  |   OK   |
-    query                           |  OK  |        |
+    query                           |  OK  |   OK   |
     qvalue                          |  OK  |        |
     RWS                             |  OK  |        |
-    segment                         |  OK  |        |
+    segment                         |  OK  |   OK   |
     tchar                           |  OK  |   OK   |
     transfert-coding                |  OK  |        |
     transfert-extension             |  OK  |        |
-    transfert-parameter             |  OK  |        |
+    transfert-parameter             |  OK  |   OK   |
     weight                          |  OK  |        |
                                     |      |        |
 Hugo : erreurs : 61 - 90            |  OK  |        |
@@ -56,25 +56,25 @@ Hugo : erreurs : 61 - 90            |  OK  |        |
     method                          |  OK  |        |
     request-target                  |  OK  |        |
     origin-form                     |  OK  |        |
-    absolute-path                   |  OK  |        |
-    HTTP-version                    |  OK  |        |
-    HTTP-name                       |  OK  |        |
+    absolute-path                   |  OK  |   OK   |
+    HTTP-version                    |  OK  |   OK   |
+    HTTP-name                       |  OK  |   OK   |
     header-field                    |  OK  |        |
-    field-name                      |  OK  |        |
+    field-name                      |  OK  |   OK   |
     field-value                     |  OK  |        |
-    field-content                   |  OK  |        |
-    obs-fold                        |  OK  |        |
+    field-content                   |  OK  |   OK   |
+    obs-fold                        |  OK  |   OK   |
     Connection-header               |  OK  |        |
-    Connection                      |  OK  |        |
+    Connection                      |  OK  |   OK   |
     Content-Length-header           |  OK  |        |
-    Content-Length                  |  OK  |        |
+    Content-Length                  |  OK  |   OK   |
     Content-Type-header             |  OK  |        |
     Content-Type                    |  OK  |        |
     media-type                      |  OK  |        |
-    type                            |  OK  |        |
-    subtype                         |  OK  |        |
+    type                            |  OK  |   OK   |
+    subtype                         |  OK  |   OK   |
     Cookie-header                   |  OK  |        |
-    cookie-string                   |  OK  |        |
+    cookie-string                   |  OK  |   OK   |
                                     |      |        |
 Mathis : erreurs : 91 - 120         |  OK  |        |
     Transfer-Encoding-header        |  OK  |        |
@@ -86,10 +86,10 @@ Mathis : erreurs : 91 - 120         |  OK  |        |
     uri-host                        |  OK  |        |
     host                            |  OK  |        |
     IP-literal                      |  OK  |        |
-    IPv4adress                      |  OK  |        |
+    IPv4adress                      |  OK  |   OK   |
     IPv6address                     |  OK  |        |
-    IPvFuture                       |  OK  |        |
-    reg-name                        |  OK  |        |
+    IPvFuture                       |  OK  |   OK   |
+    reg-name                        |  OK  |   OK   |
     port                            |  OK  |        |
     User-Agent-header               |  OK  |        |
     User-Agent                      |  OK  |        |

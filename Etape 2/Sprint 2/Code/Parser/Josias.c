@@ -149,9 +149,9 @@ int detect_quoted_pair(Node *parent, const char *ptr) {
 
 int detect_connection_option(Node *parent, const char *ptr) {
     Node *connectionOptionNode = newChild(parent);
-    initNode(connectionOptionNode, "connection-option", ptr, 0);
+    initNode(connectionOptionNode, "connection_option", ptr, 0);
 
-    if (detect_token(parent, ptr) == 0) {
+    if (detect_token(connectionOptionNode, ptr) == 0) {
         ptr += getLength(getLastChild(connectionOptionNode));
     } else {
         delNode(connectionOptionNode, parent);
@@ -305,12 +305,19 @@ int detect_cookie_value(Node *parent, const char *ptr) {
         }
 
     } else {
+        int compteur = 0;
         while (1) {
             if (detect_cookie_octet(cookieValueNode, ptr) == 0) {
                 ptr += getLength(getLastChild(cookieValueNode));
+                compteur++;
             } else {
                 break;
             }
+        }
+
+        if (compteur == 0) {
+            delNode(cookieValueNode, parent);
+            return 14;
         }
     }
 
@@ -361,7 +368,7 @@ int detect_obs_text(Node *parent, const char *ptr) {
 
 int detect_dec_octet(Node *parent, const char *ptr) {
     Node *decOctetNode = newChild(parent);
-    initNode(decOctetNode, "dec-octet", ptr, 0);
+    initNode(decOctetNode, "dec_octet", ptr, 0);
 
     if (startWith("25", ptr)) {
         initNode(newChild(decOctetNode), "case_insensitive_string", ptr, 2);
@@ -389,7 +396,6 @@ int detect_dec_octet(Node *parent, const char *ptr) {
         initNode(newChild(decOctetNode), "__digit", ptr + 1, 1);
         ptr += 2;
     } else if (detect_DIGIT(decOctetNode, ptr) == 0) {
-        printf("ici\n");
         initNode(newChild(decOctetNode), "__digit", ptr, 1);
         ptr += 1;
     } else {
@@ -420,7 +426,7 @@ int detect_field_vchar(Node *parent, const char *ptr) {
 
 int detect_VCHAR(Node *parent, const char *ptr) {
     if (0x21 <= *ptr && *ptr <= 0x7E) {
-        initNode(newChild(parent), "VCHAR", ptr, 1);
+        initNode(newChild(parent), "__vchar", ptr, 1);
     } else {
         return 21;
     }

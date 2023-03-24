@@ -81,14 +81,17 @@ int detect_Expect_header(Node *parent, const char *ptr) {
                 }
 
             } else {
+                delNode(expectNode, parent);
                 return 91;
             }
 
         } else {
+            delNode(expectNode, parent);
             return 91;
         }
 
     } else {
+        delNode(expectNode, parent);
         return 91;
     }
 
@@ -130,7 +133,6 @@ int detect_Host_header(Node *parent, const char *ptr) {
             }
 
             if (detect_Host(hostNode, ptr) == 0) {
-                printf("iciii\n");
                 if (detect_OWS(hostNode, ptr) == 0) {
                     ptr += getLength(getLastChild(hostNode));
                 }
@@ -153,7 +155,6 @@ int detect_Host_header(Node *parent, const char *ptr) {
 }
 
 int detect_Host(Node *parent, const char *ptr) {
-    printf("ici\n");
     Node *hostNode = newChild(parent);
     initNode(hostNode, "Host", ptr, 0);
 
@@ -257,10 +258,12 @@ int detect_IPv4address(Node *parent, const char *ptr) {
                 initNode(newChild(ipv4adressNode), "case_insensitive_string", ptr, 1);
                 ptr += getLength(getLastChild(ipv4adressNode));
             } else {
+                delNode(ipv4adressNode, parent);
                 return 98;
             }
 
         } else {
+            delNode(ipv4adressNode, parent);
             return 98;
         }
     }
@@ -269,6 +272,7 @@ int detect_IPv4address(Node *parent, const char *ptr) {
         ptr += getLength(getLastChild(ipv4adressNode));
 
     } else {
+        delNode(ipv4adressNode, parent);
         return 98;
     }
 
@@ -377,6 +381,7 @@ int detect_IPvFuture(Node *parent, const char *ptr) {
         }
 
         if (i < 1) {
+            delNode(ipvFutureNode, parent);
             return 100;
         }
 
@@ -401,14 +406,17 @@ int detect_IPvFuture(Node *parent, const char *ptr) {
             }
 
             if (j < 0) {
+                delNode(ipvFutureNode, parent);
                 return 100;
             }
 
         } else {
+            delNode(ipvFutureNode, parent);
             return 100;
         }
 
     } else {
+        delNode(ipvFutureNode, parent);
         return 100;
     }
 

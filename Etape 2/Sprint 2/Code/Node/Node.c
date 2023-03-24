@@ -121,6 +121,10 @@ const char *getStart(Node *this) {
 }
 
 int getLength(Node *this) {
+    if (this == NULL) {
+        return 0;
+    }
+
     return this->__length;
 }
 
