@@ -10,9 +10,9 @@ int detect_start_line(Node *parent, const char *ptr) {
     initNode(startLineNode, "start_line", ptr, 0);
 
     if (detect_request_line(startLineNode, ptr) == 0) {
-
         ptr += getLength(getLastChild(startLineNode));
     } else {
+        delNode(startLineNode, parent);
         return 61;
     }
 
@@ -26,15 +26,12 @@ int detect_request_line(Node *parent, const char *ptr) {
     initNode(requestLineNode, "request_line", ptr, 0);
 
     if (detect_method(requestLineNode, ptr) == 0) {
-
         ptr += getLength(getLastChild(requestLineNode));
 
         if (detect_SP(requestLineNode, ptr) == 0) {
-
             ptr += getLength(getLastChild(requestLineNode));
 
             if (detect_request_target(requestLineNode, ptr) == 0) {
-
                 ptr += getLength(getLastChild(requestLineNode));
 
                 if (detect_SP(requestLineNode, ptr) == 0) {
@@ -256,7 +253,7 @@ int detect_header_field(Node *parent, const char *ptr) {
         ptr += getLength(getLastChild(headerFieldNode));
 
         if (*ptr == ':') {
-            initNode(newChild(headerFieldNode), ":", ptr, 1);
+            initNode(newChild(headerFieldNode), "case_insensitive_string", ptr, 1);
             ptr += getLength(getLastChild(headerFieldNode));
 
             if (detect_OWS(headerFieldNode, ptr) == 0) {
@@ -283,6 +280,7 @@ int detect_header_field(Node *parent, const char *ptr) {
     }
 
     setLength(headerFieldNode, getSumLengthChildren(headerFieldNode));
+
 
     return 0;
 }
@@ -340,9 +338,21 @@ int detect_field_content(Node *parent, const char *ptr) {
         return 72;
     }
 
-    if (detect_RWS(fieldContentNode, ptr) == 0) {
-        ptr += getLength(getLastChild(fieldContentNode));
+    int compteur = 0;
 
+    while (1) {
+        if (detect_SP(fieldContentNode, ptr) == 0) {
+            ptr += getLength(getLastChild(fieldContentNode));
+            compteur++;
+        } else if (detect_HTAB(fieldContentNode, ptr) == 0) {
+            ptr += getLength(getLastChild(fieldContentNode));
+            compteur++;
+        } else {
+            break;
+        }
+    }
+
+    if (compteur >= 1) {
         if (detect_field_vchar(fieldContentNode, ptr) == 0) {
             ptr += getLength(getLastChild(fieldContentNode));
         } else {
@@ -350,6 +360,7 @@ int detect_field_content(Node *parent, const char *ptr) {
             return 72;
         }
     }
+
 
     setLength(fieldContentNode, getSumLengthChildren(fieldContentNode));
 
@@ -388,7 +399,7 @@ int detect_obs_fold(Node *parent, const char *ptr) {
 }
 
 int detect_Connection_header(Node *parent, const char *ptr) {
-        Node *connectionheaderNode = newChild(parent);
+    Node *connectionheaderNode = newChild(parent);
     initNode(connectionheaderNode, "Connection_header", ptr, 0);
 
     if (startWith("Connection", ptr)) {
@@ -448,14 +459,17 @@ int detect_Connection(Node *parent, const char *ptr) {
         ptr += getLength(getLastChild(connectionNode));
 
         while (1) { //problème ici comment savoir si c'est l'OWS du début du * ou de la fin du connection header
-            if (detect_OWS(connectionNode, ptr) == 0) {
+            if (detect_OWS(connectionNode, ptr) == 0 && *(ptr + getLength(getLastChild(connectionNode))) == ',') {
                 ptr += getLength(getLastChild(connectionNode));
-            }
-
-            if (*ptr == ',') {
+                initNode(newChild(connectionNode), "case_insensitive_string", ptr, 1);
+                ptr += getLength(getLastChild(connectionNode));
+            } else if (*ptr == ',') {
                 initNode(newChild(connectionNode), "case_insensitive_string", ptr, 1);
                 ptr += getLength(getLastChild(connectionNode));
             } else {
+                if (startWith("OWS", getLabel(getLastChild(connectionNode)))) {
+                    delNode(getLastChild(connectionNode), connectionNode);
+                }
                 break;
             }
 
@@ -478,7 +492,7 @@ int detect_Connection(Node *parent, const char *ptr) {
 }
 
 int detect_Content_Length_header(Node *parent, const char *ptr) {
-        Node *contentLengthHeaderNode = newChild(parent);
+    Node *contentLengthHeaderNode = newChild(parent);
     initNode(contentLengthHeaderNode, "Content_Length_header", ptr, 0);
 
     if (startWith("Content-Length", ptr)) {
@@ -543,7 +557,7 @@ int detect_Content_Length(Node *parent, const char *ptr) {
 }
 
 int detect_Content_Type_header(Node *parent, const char *ptr) {
-        Node *contentTypeHeaderNode = newChild(parent);
+    Node *contentTypeHeaderNode = newChild(parent);
     initNode(contentTypeHeaderNode, "Content_Type_header", ptr, 0);
 
     if (startWith("Content-Type", ptr)) {
@@ -559,6 +573,8 @@ int detect_Content_Type_header(Node *parent, const char *ptr) {
             }
 
             if (detect_Content_Type(contentTypeHeaderNode, ptr) == 0) {
+                ptr += getLength(getLastChild(contentTypeHeaderNode));
+
                 if (detect_OWS(contentTypeHeaderNode, ptr) == 0) {
                     ptr += getLength(getLastChild(contentTypeHeaderNode));
                 }
@@ -611,12 +627,13 @@ int detect_media_type(Node *parent, const char *ptr) {
             if (detect_subtype(mediaTypeNode, ptr) == 0) {
                 ptr += getLength(getLastChild(mediaTypeNode));
 
-                while (1) { //pareil ici comment sortir de cette boucle
-                    if (detect_OWS(mediaTypeNode, ptr) == 0) {
+                while (1) {
+                    if (detect_OWS(mediaTypeNode, ptr) == 0 && *(ptr + getLength(getLastChild(mediaTypeNode))) == ',') {
                         ptr += getLength(getLastChild(mediaTypeNode));
-                    }
+                        initNode(newChild(mediaTypeNode), "case_insensitive_string", ptr, 1);
+                        ptr += getLength(getLastChild(mediaTypeNode));
 
-                    if (*ptr == ';') {
+                    } else if (*ptr == ';') {
                         initNode(newChild(mediaTypeNode), "case_insensitive_string", ptr, 1);
                         ptr += getLength(getLastChild(mediaTypeNode));
 
@@ -631,6 +648,9 @@ int detect_media_type(Node *parent, const char *ptr) {
                             return 79;
                         }
                     } else {
+                        if (startWith("OWS", getLabel(getLastChild(mediaTypeNode)))) {
+                            delNode(getLastChild(mediaTypeNode), mediaTypeNode);
+                        }
                         break;
                     }
                 }
@@ -685,28 +705,28 @@ int detect_subtype(Node *parent, const char *ptr) {
 }
 
 int detect_Cookie_header(Node *parent, const char *ptr) {
-        Node *cookieHeaderNode = newChild(parent);
+    Node *cookieHeaderNode = newChild(parent);
     initNode(cookieHeaderNode, "Cookie_header", ptr, 0);
 
-    if (startWith("Cookie", ptr)) {
-        initNode(newChild(cookieHeaderNode), "Cookie", ptr, 6);
+    if (startWith("Cookie:", ptr)) {
+        initNode(newChild(cookieHeaderNode), "case_insensitive_string", ptr, 7);
         ptr += getLength(getLastChild(cookieHeaderNode));
 
-        if (*ptr == ':') {
-            initNode(newChild(cookieHeaderNode), "case_insensitive_string", ptr, 1);
+        if (detect_OWS(cookieHeaderNode, ptr) == 0) {
+            ptr += getLength(getLastChild(cookieHeaderNode));
+        }
+
+        if (detect_cookie_string(cookieHeaderNode, ptr) == 0) {
             ptr += getLength(getLastChild(cookieHeaderNode));
 
             if (detect_OWS(cookieHeaderNode, ptr) == 0) {
                 ptr += getLength(getLastChild(cookieHeaderNode));
             }
-
-            if (detect_cookie_string(cookieHeaderNode, ptr) == 0) {
-                ptr += getLength(getLastChild(cookieHeaderNode));
-            } else {
-                delNode(cookieHeaderNode, parent);
-                return 82;
-            }
+        } else {
+            delNode(cookieHeaderNode, parent);
+            return 82;
         }
+
     } else {
         delNode(cookieHeaderNode, parent);
         return 82;

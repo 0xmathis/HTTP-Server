@@ -3,4 +3,6 @@
 
 int startWith(const char *, const char *);
 
+int isIn(const char *, const char);
+
 #endif

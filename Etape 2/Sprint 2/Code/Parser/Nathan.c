@@ -8,30 +8,37 @@
 
 int detect_language_range(Node *parent, const char *ptr) {
     Node *languageNode = newChild(parent);
-    initNode(languageNode, "language-range", ptr, 0);
+    initNode(languageNode, "language_range", ptr, 0);
 
     if (detect_ALPHA(languageNode, ptr) == 0) {
+        initNode(newChild(languageNode), "__alpha", ptr, 1);
         ptr += getLength(getLastChild(languageNode));
-        int comptage0 = 1;
+        int comptage = 1;
 
-        while (detect_ALPHA(languageNode, ptr) == 0) {
-            comptage0 += 1;
-            ptr += getLength(getLastChild(languageNode));
+        while (1) {
+            if (detect_ALPHA(languageNode, ptr) == 0) {
+                initNode(newChild(languageNode), "__alpha", ptr, 1);
+                ptr += getLength(getLastChild(languageNode));
+                comptage++;
+            } else {
+                break;
+            }
         }
 
 
-        if (comptage0 <= 8) {
+        if (comptage <= 8) {
             while (*ptr == '-') {
                 initNode(newChild(languageNode), "case_insensitive_string", ptr, 1);
                 ptr += getLength(getLastChild(languageNode));
-                comptage0 = 0;
+                comptage = 0;
+
                 while (detect_alphanum(languageNode, ptr) == 0) {
-                    comptage0 += 1;
                     ptr += getLength(getLastChild(languageNode));
+                    comptage += 1;
                 }
 
 
-                if (comptage0 == 0 || comptage0 > 8) {
+                if (comptage == 0 || comptage > 8) {
                     return 31;
                 }
             }
@@ -39,7 +46,6 @@ int detect_language_range(Node *parent, const char *ptr) {
             return 31;
         }
     } else if (*ptr == '*') {
-
         initNode(newChild(languageNode), "case_insensitive_string", ptr, 1);
         ptr += getLength(getLastChild(languageNode));
     } else {
@@ -343,10 +349,12 @@ int detect_product(Node *parent, const char *ptr) {
             if (detect_product_version(productNode, ptr) == 0) {
                 ptr += getLength(getLastChild(productNode));
             } else {
+                delNode(productNode, parent);
                 return 40;
             }
         }
     } else {
+        delNode(productNode, parent);
         return 40;
     }
 
@@ -438,13 +446,19 @@ int detect_qvalue(Node *parent, const char *ptr) {
             initNode(newChild(qvalueNode), "case_insensitive_string", ptr, 1);
             ptr += getLength(getLastChild(qvalueNode));
 
-            int comptage1 = 0;
-            while (detect_DIGIT(qvalueNode, ptr) == 0) {
-                comptage1 += 1;
-                ptr += getLength(getLastChild(qvalueNode));
+            int comptage = 0;
+            while (1) {
+                if (detect_DIGIT(qvalueNode, ptr) == 0) {
+                    initNode(newChild(qvalueNode), "__digit", ptr, 1);
+                    ptr += getLength(getLastChild(qvalueNode));
+                    comptage++;
+                } else {
+                    break;
+                }
             }
 
-            if (comptage1 > 3) {
+            if (comptage > 3) {
+                delNode(qvalueNode, parent);
                 return 43;
             }
         }
@@ -455,19 +469,25 @@ int detect_qvalue(Node *parent, const char *ptr) {
         if (*ptr == '.') {
             initNode(newChild(qvalueNode), "case_insensitive_string", ptr, 1);
             ptr += getLength(getLastChild(qvalueNode));
+            int comptage = 0;
 
-            int comptage2 = 0;
-            while (*ptr == '0') {
-                comptage2 += 1;
-                initNode(newChild(qvalueNode), "case_insensitive_string", ptr, 1);
-                ptr += getLength(getLastChild(qvalueNode));
+            while (1) {
+                if (*ptr == '0') {
+                    initNode(newChild(qvalueNode), "case_insensitive_string", ptr, 1);
+                    ptr += getLength(getLastChild(qvalueNode));
+                    comptage++;
+                } else {
+                    break;
+                }
             }
 
-            if (comptage2 > 3) {
+            if (comptage > 3) {
+                delNode(qvalueNode, parent);
                 return 43;
             }
         }
     } else {
+        delNode(qvalueNode, parent);
         return 43;
     }
 
@@ -528,7 +548,7 @@ int detect_tchar(Node *parent, const char *ptr) {
     Node *tcharNode = newChild(parent);
     initNode(tcharNode, "tchar", ptr, 0);
 
-    if (strchr("!#$%&'*+-.^_`|~", *ptr) != NULL) {
+    if (isIn("!#$%&'*+-.^_`|~", *ptr)) {
         initNode(newChild(tcharNode), "case_insensitive_string", ptr, 1);
         setLength(tcharNode, 1);
     } else if (detect_DIGIT(tcharNode, ptr) == 0) {
@@ -541,6 +561,8 @@ int detect_tchar(Node *parent, const char *ptr) {
         delNode(tcharNode, parent);
         return 45;
     }
+
+    setLength(tcharNode, getSumLengthChildren(tcharNode));
 
     return 0;
 }
@@ -662,37 +684,39 @@ int detect_weight(Node *parent, const char *ptr) {
 
     if (detect_OWS(weightNode, ptr) == 0) {
         ptr += getLength(getLastChild(weightNode));
+    }
 
-        if (*ptr == ';') {
-            initNode(newChild(weightNode), "case_insensitive_string", ptr, 4);
+    if (*ptr == ';') {
+        initNode(newChild(weightNode), "case_insensitive_string", ptr, 1);
+        ptr += getLength(getLastChild(weightNode));
+
+        if (detect_OWS(weightNode, ptr) == 0) {
+            ptr += getLength(getLastChild(weightNode));
+        }
+
+        if (startWith("q=", ptr)) {
+            initNode(newChild(weightNode), "case_insensitive_string", ptr, 2);
             ptr += getLength(getLastChild(weightNode));
 
-            if (detect_OWS(weightNode, ptr) == 0) {
+            if (detect_qvalue(weightNode, ptr) == 0) {
                 ptr += getLength(getLastChild(weightNode));
-
-                if (startWith("q=", ptr)) {
-                    initNode(newChild(weightNode), "case_insensitive_string", ptr, 2);
-                    ptr += getLength(getLastChild(weightNode));
-
-                    if (detect_qvalue(weightNode, ptr) == 0) {
-                        ptr += getLength(getLastChild(weightNode));
-                    } else {
-                        return 49;
-                    }
-                } else {
-                    return 49;
-                }
             } else {
+                delNode(weightNode, parent);
                 return 49;
             }
         } else {
+            delNode(weightNode, parent);
             return 49;
         }
+
     } else {
+        delNode(weightNode, parent);
         return 49;
     }
 
     setLength(weightNode, getSumLengthChildren(weightNode));
+
+//    printChildren(weightNode, 0);
 
     return 0;
 }

@@ -76,6 +76,8 @@ int detect_Expect_header(Node *parent, const char *ptr) {
             }
 
             if (detect_Expect(expectNode, ptr) == 0) {
+
+                ptr += getLength(getLastChild(expectNode));
                 if (detect_OWS(expectNode, ptr) == 0) {
                     ptr += getLength(getLastChild(expectNode));
                 }
@@ -133,6 +135,8 @@ int detect_Host_header(Node *parent, const char *ptr) {
             }
 
             if (detect_Host(hostNode, ptr) == 0) {
+                ptr += getLength(getLastChild(hostNode));
+
                 if (detect_OWS(hostNode, ptr) == 0) {
                     ptr += getLength(getLastChild(hostNode));
                 }
@@ -164,6 +168,7 @@ int detect_Host(Node *parent, const char *ptr) {
     if (detect_uri_host(hostNode, ptr) == 0) {
         ptr += getLength(getLastChild(hostNode));
     } else {
+        delNode(hostNode, parent);
         return 94;
     }
 
@@ -174,6 +179,7 @@ int detect_Host(Node *parent, const char *ptr) {
         if (detect_port(hostNode, ptr) == 0) {
             ptr += getLength(getLastChild(hostNode));
         } else {
+            delNode(hostNode, parent);
             return 94;
         }
     }
@@ -190,6 +196,7 @@ int detect_uri_host(Node *parent, const char *ptr) {
     if (detect_host(uriHostNode, ptr) == 0) {
         ptr += getLength(getLastChild(uriHostNode));
     } else {
+        delNode(uriHostNode, parent);
         return 95;
     }
 
@@ -209,6 +216,7 @@ int detect_host(Node *parent, const char *ptr) {
     } else if (detect_reg_name(hostNode, ptr) == 0) {
         ptr += getLength(getLastChild(hostNode));
     } else {
+        delNode(hostNode, parent);
         return 96;
     }
 
@@ -230,6 +238,7 @@ int detect_IP_literal(Node *parent, const char *ptr) {
         } else if (detect_IPvFuture(ipLiteralNode, ptr) == 0) {
             ptr += getLength(getLastChild(ipLiteralNode));
         } else {
+            delNode(ipLiteralNode, parent);
             return 97;
         }
 
@@ -237,10 +246,12 @@ int detect_IP_literal(Node *parent, const char *ptr) {
             initNode(newChild(ipLiteralNode), "case_insensitive_string", ptr, 1);
             ptr += getLength(getLastChild(ipLiteralNode));
         } else {
+            delNode(ipLiteralNode, parent);
             return 97;
         }
 
     } else {
+        delNode(ipLiteralNode, parent);
         return 97;
     }
 
@@ -489,6 +500,7 @@ int detect_User_Agent_header(Node *parent, const char *ptr) {
             }
 
             if (detect_User_Agent(userAgentNode, ptr) == 0) {
+                ptr += getLength(getLastChild(userAgentNode));
                 if (detect_OWS(userAgentNode, ptr) == 0) {
                     ptr += getLength(getLastChild(userAgentNode));
                 }
@@ -526,8 +538,8 @@ int detect_User_Agent(Node *parent, const char *ptr) {
                 } else if (detect_comment(userAgentNode, ptr) == 0) {
                     ptr += getLength(getLastChild(userAgentNode));
                 } else {
-                    delNode(userAgentNode, parent);
-                    return 102;
+                    delNode(getLastChild(userAgentNode), userAgentNode);
+                    break;
                 }
             } else {
                 break;
@@ -561,6 +573,7 @@ int detect_Accept_Language_header(Node *parent, const char *ptr) {
             }
 
             if (detect_Accept_Language(acceptLanguageNode, ptr) == 0) {
+                ptr += getLength(getLastChild(acceptLanguageNode));
                 if (detect_OWS(acceptLanguageNode, ptr) == 0) {
                     ptr += getLength(getLastChild(acceptLanguageNode));
                 }
@@ -592,8 +605,6 @@ int detect_Accept_Language(Node *parent, const char *ptr) {
 
         if (detect_OWS(acceptLanguageNode, ptr) == 0) {
             ptr += getLength(getLastChild(acceptLanguageNode));
-        } else {
-            return 104;
         }
     }
 
@@ -605,7 +616,7 @@ int detect_Accept_Language(Node *parent, const char *ptr) {
         }
 
         while (1) {
-            if (detect_OWS(acceptLanguageNode, ptr) == 0 && ptr[1] == ',') {
+            if (detect_OWS(acceptLanguageNode, ptr) == 0 && *(ptr + getLength(getLastChild(acceptLanguageNode))) == ',') {
                 ptr += getLength(getLastChild(acceptLanguageNode));
                 initNode(newChild(acceptLanguageNode), "case_insensitive_string", ptr, 1);
                 ptr += getLength(getLastChild(acceptLanguageNode));
@@ -613,8 +624,10 @@ int detect_Accept_Language(Node *parent, const char *ptr) {
             } else if (*ptr == ',') {
                 initNode(newChild(acceptLanguageNode), "case_insensitive_string", ptr, 1);
                 ptr += getLength(getLastChild(acceptLanguageNode));
-
             } else {
+                if (startWith("OWS", getLabel(getLastChild(acceptLanguageNode)))) {
+                    delNode(getLastChild(acceptLanguageNode), acceptLanguageNode);
+                }
                 break;
             }
 
@@ -630,7 +643,9 @@ int detect_Accept_Language(Node *parent, const char *ptr) {
                 }
             }
         }
+
     } else {
+        delNode(acceptLanguageNode, parent);
         return 104;
     }
 
@@ -656,6 +671,8 @@ int detect_Accept_header(Node *parent, const char *ptr) {
             }
 
             if (detect_Accept(acceptNode, ptr) == 0) {
+                ptr += getLength(getLastChild(acceptNode));
+
                 if (detect_OWS(acceptNode, ptr) == 0) {
                     ptr += getLength(getLastChild(acceptNode));
                 }
@@ -682,7 +699,7 @@ int detect_Accept_header(Node *parent, const char *ptr) {
 
 int detect_Accept(Node *parent, const char *ptr) {
     Node *acceptNode = newChild(parent);
-    initNode(acceptNode, "Accept_header", ptr, 0);
+    initNode(acceptNode, "Accept", ptr, 0);
 
     if (*ptr == ',') {
         initNode(newChild(acceptNode), "case_insensitive_string", ptr, 1);
@@ -699,7 +716,7 @@ int detect_Accept(Node *parent, const char *ptr) {
     }
 
     while (1) {
-        if (detect_OWS(acceptNode, ptr) == 0 && ptr[1] == ',') {
+        if (detect_OWS(acceptNode, ptr) == 0 && *(ptr + getLength(getLastChild(acceptNode))) == ',') {
             ptr += getLength(getLastChild(acceptNode));
             initNode(newChild(acceptNode), "case_insensitive_string", ptr, 1);
             ptr += getLength(getLastChild(acceptNode));
@@ -707,8 +724,10 @@ int detect_Accept(Node *parent, const char *ptr) {
         } else if (*ptr == ',') {
             initNode(newChild(acceptNode), "case_insensitive_string", ptr, 1);
             ptr += getLength(getLastChild(acceptNode));
-
         } else {
+            if (startWith("OWS", getLabel(getLastChild(acceptNode)))) {
+                delNode(getLastChild(acceptNode), acceptNode);
+            }
             break;
         }
 
@@ -722,9 +741,6 @@ int detect_Accept(Node *parent, const char *ptr) {
             if (detect_accept_params(acceptNode, ptr) == 0) {
                 ptr += getLength(getLastChild(acceptNode));
             }
-        } else {
-            delNode(acceptNode, parent);
-            return 106;
         }
     }
 
@@ -752,19 +768,22 @@ int detect_media_range(Node *parent, const char *ptr) {
                 ptr += getLength(getLastChild(mediaRangeNode));
 
             } else {
+                delNode(mediaRangeNode, parent);
                 return 107;
             }
 
         } else {
+            delNode(mediaRangeNode, parent);
             return 107;
         }
 
     } else {
+        delNode(mediaRangeNode, parent);
         return 107;
     }
 
     while (1) {
-        if (detect_OWS(mediaRangeNode, ptr) == 0 && ptr[1] == ';') {
+        if (detect_OWS(mediaRangeNode, ptr) == 0 && *(ptr + getLength(getLastChild(mediaRangeNode))) == ',') {
             ptr += getLength(getLastChild(mediaRangeNode));
             initNode(newChild(mediaRangeNode), "case_insensitive_string", ptr, 1);
             ptr += getLength(getLastChild(mediaRangeNode));
@@ -774,6 +793,9 @@ int detect_media_range(Node *parent, const char *ptr) {
             ptr += getLength(getLastChild(mediaRangeNode));
 
         } else {
+            if (startWith("OWS", getLabel(getLastChild(mediaRangeNode)))) {
+                delNode(getLastChild(mediaRangeNode), mediaRangeNode);
+            }
             break;
         }
 
@@ -785,6 +807,7 @@ int detect_media_range(Node *parent, const char *ptr) {
             ptr += getLength(getLastChild(mediaRangeNode));
 
         } else {
+            delNode(mediaRangeNode, parent);
             return 107;
         }
     }
@@ -801,11 +824,16 @@ int detect_accept_params(Node *parent, const char *ptr) {
     if (detect_weight(parameterNode, ptr) == 0) {
         ptr += getLength(getLastChild(parameterNode));
 
-        while (detect_accept_ext(parameterNode, ptr) == 0) {
-            ptr += getLength(getLastChild(parameterNode));
+        while (1) {
+            if (detect_accept_ext(parameterNode, ptr) == 0) {
+                ptr += getLength(getLastChild(parameterNode));
+            } else {
+                break;
+            }
         }
 
     } else {
+        delNode(parameterNode, parent);
         return 108;
     }
 
@@ -864,7 +892,7 @@ int detect_Accept_Encoding_header(Node *parent, const char *ptr) {
     Node *acceptEncodingNode = newChild(parent);
     initNode(acceptEncodingNode, "Accept_Encoding_header", ptr, 0);
 
-    if (startWith("Accept-Encodign", ptr)) {
+    if (startWith("Accept-Encoding", ptr)) {
         initNode(newChild(acceptEncodingNode), "case_insensitive_string", ptr, 15);
         ptr += getLength(getLastChild(acceptEncodingNode));
 
@@ -877,6 +905,8 @@ int detect_Accept_Encoding_header(Node *parent, const char *ptr) {
             }
 
             if (detect_Accept_Encoding(acceptEncodingNode, ptr) == 0) {
+                ptr += getLength(getLastChild(acceptEncodingNode));
+
                 if (detect_OWS(acceptEncodingNode, ptr) == 0) {
                     ptr += getLength(getLastChild(acceptEncodingNode));
                 }
@@ -913,22 +943,24 @@ int detect_Accept_Encoding(Node *parent, const char *ptr) {
         if (detect_weight(acceptEncodingNode, ptr) == 0) {
             ptr += getLength(getLastChild(acceptEncodingNode));
         }
-
     } else {
+        delNode(acceptEncodingNode, parent);
         return 111;
     }
 
     while (1) {
-        if (detect_OWS(acceptEncodingNode, ptr) == 0 && ptr[1] == ',') {
+        if (detect_OWS(acceptEncodingNode, ptr) == 0 && *(ptr + getLength(getLastChild(acceptEncodingNode))) == ',') {
             ptr += getLength(getLastChild(acceptEncodingNode));
             initNode(newChild(acceptEncodingNode), "case_insensitive_string", ptr, 1);
             ptr += getLength(getLastChild(acceptEncodingNode));
 
-        } else if (*ptr == ';') {
+        } else if (*ptr == ',') {
             initNode(newChild(acceptEncodingNode), "case_insensitive_string", ptr, 1);
             ptr += getLength(getLastChild(acceptEncodingNode));
-
         } else {
+            if (startWith("OWS", getLabel(getLastChild(acceptEncodingNode)))) {
+                delNode(getLastChild(acceptEncodingNode), acceptEncodingNode);
+            }
             break;
         }
 

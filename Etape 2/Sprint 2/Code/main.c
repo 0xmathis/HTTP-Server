@@ -25,15 +25,14 @@ int main(int argc, char **argv) {
 
 
     char *message = (char *) malloc(sizeof(char) * (taille + 1));
-
-//    fgets(message, 499, file);
-//    fscanf(file, "%[^'\r\n\r\n']", message);
-
     fread(message, sizeof(char), taille, file);
+
+    //
+//    char message[500] = "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:44.0) Gecko/20100101 Firefox/44.0 (\"comment\") ";
 
     fclose(file);
 
-    printf("%s\n", message);
+//    printf("%s\n", message);
 
     char *ptr = message;
 
@@ -41,7 +40,14 @@ int main(int argc, char **argv) {
     initNode(HTTPMessageNode, "HTTP_message", ptr, 0);
 
     int error = detect_HTTP_message(HTTPMessageNode, ptr);
-    printf("Error : %d\n", error);
+//    printf("Error : %d\n", error);
+
+    if (error) {
+//        printf("NOK\n");
+//        return 0;
+    }
+//    int error = detect_Accept_Encoding_header(HTTPMessageNode, ptr);
+//    printf("Error : %d\n", error);
 
     printChildren(HTTPMessageNode, 0);
     delTree(HTTPMessageNode);

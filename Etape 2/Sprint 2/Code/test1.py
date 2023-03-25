@@ -6,8 +6,9 @@ import pytest
 
 BASE_DIR = os.environ.get("BASE_DIR", ".")
 EMUL_HTTP = os.path.join(BASE_DIR, "httpParser")
-ALL_FILES = glob.glob(os.path.join(BASE_DIR, "../../Tests/premier-jeu-test/*.txt"))
+ALL_FILES = glob.glob(os.path.join(BASE_DIR, "../../Tests/premier-jeu-test/get*[!'.out']"))
 ALL_FILES.sort()
+print(ALL_FILES)
 
 
 class TestHTTP:

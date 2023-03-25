@@ -11,8 +11,11 @@ clean:
 	rm -f ../../Tests/Only4G33ks/testFile/*.me ../../Tests/Only4G33ks/testFile/*.prof
 	rm -f Tests/*.me* Tests/*.prof*
 
-tests1: $(MAIN)
+testsSimple: $(MAIN)
 	@ python test1.py
 
-tests2: $(MAIN)
+testsMedium: $(MAIN)
 	@ python test2.py
+
+testsHard: $(MAIN)
+	@ python test3.py

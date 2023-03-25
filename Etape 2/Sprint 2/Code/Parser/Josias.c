@@ -4,12 +4,12 @@
 #include "Hugo.h"
 #include "utils.h"
 #include <stdio.h>
-#include <ctype.h>
 
 int detect_HTTP_message(Node *parent, const char *ptr) { //C'est sans doute le plus grand noeud donc pas de parent
     if (detect_start_line(parent, ptr) == 0) {
         ptr += getLength(getLastChild(parent));
 
+        int compteur = 1;
         while (1) {
             if (detect_header_field(parent, ptr) == 0) {
                 ptr += getLength(getLastChild(parent));
@@ -22,6 +22,8 @@ int detect_HTTP_message(Node *parent, const char *ptr) { //C'est sans doute le p
             } else {
                 break;
             }
+
+            compteur++;
         }
 
         if (detect_CRLF(parent, ptr) == 0) {
@@ -50,11 +52,19 @@ int detect_ALPHA(Node *parent, const char *ptr) {
 }
 
 int detect_alphanum(Node *parent, const char *ptr) {
-    if (detect_ALPHA(parent, ptr) == 0 || detect_DIGIT(parent, ptr) == 0) {
-        initNode(newChild(parent), "alphanum", ptr, 1);
+    Node *alphanumNode = newChild(parent);
+    initNode(alphanumNode, "alphanum", ptr, 0);
+
+    if (detect_ALPHA(parent, ptr) == 0) {
+        initNode(newChild(alphanumNode), "__alpha", ptr, 1);
+    } else if (detect_DIGIT(parent, ptr) == 0) {
+        initNode(newChild(alphanumNode), "__digit", ptr, 1);
     } else {
+        delNode(alphanumNode, parent);
         return 3;
     }
+
+    setLength(alphanumNode, getSumLengthChildren(alphanumNode));
 
     return 0;
 }
@@ -186,7 +196,7 @@ int detect_token(Node *parent, const char *ptr) {
 
 int detect_codings(Node *parent, const char *ptr) {
     Node *codingsNode = newChild(parent);
-    initNode(codingsNode, "codingsNode", ptr, 0);
+    initNode(codingsNode, "codings", ptr, 0);
 
     if (detect_content_coding(codingsNode, ptr) == 0) {
         ptr += getLength(getLastChild(codingsNode));
@@ -205,9 +215,9 @@ int detect_codings(Node *parent, const char *ptr) {
 
 int detect_content_coding(Node *parent, const char *ptr) {
     Node *contentCodingNode = newChild(parent);
-    initNode(contentCodingNode, "content-coding", ptr, 0);
+    initNode(contentCodingNode, "content_coding", ptr, 0);
 
-    if (detect_token(contentCodingNode, ptr)) {
+    if (detect_token(contentCodingNode, ptr) == 0) {
         ptr += getLength(getLastChild(contentCodingNode));
     } else {
         delNode(contentCodingNode, parent);
@@ -327,6 +337,7 @@ int detect_CRLF(Node *parent, const char *ptr) {
     if (startWith("\r\n", ptr)) {
         initNode(newChild(parent), "__crlf", ptr, 2);
     } else {
+//        printf("Probleme CRLF : %s\n", getLabel(parent));
         return 15;
     }
 
