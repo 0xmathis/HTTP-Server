@@ -39,16 +39,19 @@ int detect_language_range(Node *parent, const char *ptr) {
 
 
                 if (comptage == 0 || comptage > 8) {
+                    delNode(languageNode, parent);
                     return 31;
                 }
             }
         } else {
+            delNode(languageNode, parent);
             return 31;
         }
     } else if (*ptr == '*') {
         initNode(newChild(languageNode), "case_insensitive_string", ptr, 1);
         ptr += getLength(getLastChild(languageNode));
     } else {
+        delNode(languageNode, parent);
         return 31;
     }
 
@@ -61,7 +64,10 @@ int detect_ls32(Node *parent, const char *ptr) {
     Node *ls32Node = newChild(parent);
     initNode(ls32Node, "ls32", ptr, 0);
 
-    if (detect_h16(ls32Node, ptr) == 0) {
+    if (detect_IPv4address(ls32Node, ptr) == 0) {
+        ptr += getLength(getLastChild(ls32Node));
+
+    } else if (detect_h16(ls32Node, ptr) == 0) {
         ptr += getLength(getLastChild(ls32Node));
 
         if (*ptr == ':') {
@@ -79,9 +85,6 @@ int detect_ls32(Node *parent, const char *ptr) {
             delNode(ls32Node, parent);
             return 32;
         }
-    } else if (detect_IPv4address(ls32Node, ptr) == 0) {
-        ptr += getLength(getLastChild(ls32Node));
-
     } else {
         delNode(ls32Node, parent);
         return 32;
@@ -290,7 +293,7 @@ int detect_pct_encoded(Node *parent, const char *ptr) {
 
 int detect_sub_delims(Node *parent, const char *ptr) {
     Node *sub_delimsNode = newChild(parent);
-    initNode(sub_delimsNode, "sub-delims", ptr, 0);
+    initNode(sub_delimsNode, "sub_delims", ptr, 0);
 
     if (*ptr == '!') {
         initNode(newChild(sub_delimsNode), "case_insensitive_string", ptr, 1);

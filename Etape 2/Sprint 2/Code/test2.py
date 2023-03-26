@@ -21,10 +21,14 @@ class TestHTTP:
         prof_resultat = open(f"{name}.out", "r")
         a = my_resultat.read().strip('\n').split('\n')
         b = prof_resultat.read().strip('\n').split('\n')
-        if a == '':
-            pytest.fail(f"Sortie vide")
 
-        for i in range(1, min(len(a), len(b))):
+        if a == '':
+            pytest.fail("Sortie vide")
+
+        if len(a) != len(b):
+            pytest.fail("Longueurs différentes")
+
+        for i in range(len(a)):
             if a[i] != b[i]:
                 pytest.fail(f"Error ligne {i}")
 

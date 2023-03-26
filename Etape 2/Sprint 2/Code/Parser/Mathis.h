@@ -59,4 +59,42 @@ int detect_OCTET(Node *, const char *);
 
 int detect_DQUOTE(Node *, const char *);
 
+int detect_Referer_header(Node *, const char *);
+
+int detect_Referer(Node *, const char *);
+
+int detect_absolute_URI(Node *, const char *);
+
+int detect_scheme(Node *, const char *);
+
+int detect_hier_part(Node *, const char *);
+
+int detect_autority(Node *, const char *);
+
+int detect_path_abempty(Node *, const char *);
+
+int detect_path_absolute(Node *, const char *);
+
+int detect_path_rootless(Node *, const char *);
+
+//int detect_path_empty(Node *, const char *);
+
+int detect_partial_URI(Node *, const char *);
+
+int detect_userinfo(Node *, const char *);
+
+int detect_segment_nz(Node *, const char *);
+
+int detect_path_noscheme(Node *, const char *);
+
+int detect_relative_part(Node *, const char *);
+
+int detect_segment_nz_nc(Node *, const char *);
+
+int detect_Accept_Charset_Header(Node *, const char *);
+
+int detect_Accept_Charset(Node *, const char *);
+
+int detect_charset(Node *, const char *);
+
 #endif

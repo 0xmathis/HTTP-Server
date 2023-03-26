@@ -76,7 +76,7 @@ Hugo : erreurs : 61 - 90            |  OK  |        |
     Cookie-header                   |  OK  |        |
     cookie-string                   |  OK  |   OK   |
                                     |      |        |
-Mathis : erreurs : 91 - 120         |  OK  |        |
+Mathis : erreurs : 91 - 150         |  OK  |        |
     Transfer-Encoding-header        |  OK  |        |
     Transfert-Encoding              |  OK  |        |
     Expect-header                   |  OK  |   OK   |
@@ -86,7 +86,7 @@ Mathis : erreurs : 91 - 120         |  OK  |        |
     uri-host                        |  OK  |        |
     host                            |  OK  |        |
     IP-literal                      |  OK  |        |
-    IPv4adress                      |  OK  |   OK   |
+    IPv4address                     |  OK  |   OK   |
     IPv6address                     |  OK  |        |
     IPvFuture                       |  OK  |   OK   |
     reg-name                        |  OK  |   OK   |

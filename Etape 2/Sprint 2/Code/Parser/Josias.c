@@ -324,7 +324,7 @@ int detect_cookie_value(Node *parent, const char *ptr) {
 
         if (compteur == 0) {
             delNode(cookieValueNode, parent);
-            return 14;
+//            return 14;
         }
     }
 
@@ -337,7 +337,7 @@ int detect_CRLF(Node *parent, const char *ptr) {
     if (startWith("\r\n", ptr)) {
         initNode(newChild(parent), "__crlf", ptr, 2);
     } else {
-//        printf("Probleme CRLF : %s\n", getLabel(parent));
+//        printf("oh noooooon\n");
         return 15;
     }
 
@@ -365,7 +365,7 @@ int detect_SP(Node *parent, const char *ptr) {
 }
 
 int detect_obs_text(Node *parent, const char *ptr) {
-    if ((unsigned int) 0x80 <= (unsigned int) *ptr && (unsigned int) *ptr <= (unsigned int) 0xFF) {
+    if (0x80 <= (*ptr & 0xFF) && (*ptr & 0xFF) <= 0xFF) {
         initNode(newChild(parent), "__obs-text", ptr, 1);
     } else {
         return 18;
@@ -456,7 +456,7 @@ int detect_h16(Node *parent, const char *ptr) {
         }
     }
 
-    if (comptage < 1 || comptage > 4) {
+    if (comptage < 1 || 4 < comptage) {
         delNode(h16Node, parent);
         return 22;
     }

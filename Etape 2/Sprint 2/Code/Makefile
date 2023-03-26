@@ -7,9 +7,8 @@ $(MAIN): $(SRC_C)
 clean:
 	rm -f $(MAIN)
 	rm -rf __pycache__ .pytest_cache
-	rm -f ../../Tests/premier-jeu-test/*.me ../../Tests/premier-jeu-test/*.prof
-	rm -f ../../Tests/Only4G33ks/testFile/*.me ../../Tests/Only4G33ks/testFile/*.prof
-	rm -f Tests/*.me* Tests/*.prof*
+	rm -f ../../Tests/premier-jeu-test/*.me ../../Tests/premier-jeu-test/*.out
+	rm -f ../../Tests/Only4G33ks/testFile/*.me ../../Tests/Only4G33ks/testFile/*.out
 
 testsSimple: $(MAIN)
 	@ python test1.py

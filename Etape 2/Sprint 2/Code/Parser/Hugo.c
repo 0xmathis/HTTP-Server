@@ -249,6 +249,10 @@ int detect_header_field(Node *parent, const char *ptr) {
         ptr += getLength(getLastChild(headerFieldNode));
     } else if (detect_Accept_Encoding_header(headerFieldNode, ptr) == 0) {
         ptr += getLength(getLastChild(headerFieldNode));
+    } else if (detect_Referer_header(headerFieldNode, ptr) == 0) {
+        ptr += getLength(getLastChild(headerFieldNode));
+    } else if (detect_Accept_Charset_Header(headerFieldNode, ptr) == 0) {
+        ptr += getLength(getLastChild(headerFieldNode));
     } else if (detect_field_name(headerFieldNode, ptr) == 0) {
         ptr += getLength(getLastChild(headerFieldNode));
 
