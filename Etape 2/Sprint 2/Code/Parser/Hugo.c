@@ -237,6 +237,8 @@ int detect_header_field(Node *parent, const char *ptr) {
         ptr += getLength(getLastChild(headerFieldNode));
     } else if (detect_Cookie_header(headerFieldNode, ptr) == 0) {
         ptr += getLength(getLastChild(headerFieldNode));
+    } else if (detect_Transfer_Encoding_header(headerFieldNode, ptr) == 0) {
+        ptr += getLength(getLastChild(headerFieldNode));
     } else if (detect_Expect_header(headerFieldNode, ptr) == 0) {
         ptr += getLength(getLastChild(headerFieldNode));
     } else if (detect_Host_header(headerFieldNode, ptr) == 0) {
@@ -360,8 +362,9 @@ int detect_field_content(Node *parent, const char *ptr) {
         if (detect_field_vchar(fieldContentNode, ptr) == 0) {
             ptr += getLength(getLastChild(fieldContentNode));
         } else {
-            delNode(fieldContentNode, parent);
-            return 72;
+            while (startWith("__sp", getLabel(getLastChild(fieldContentNode))) || startWith("__htab", getLabel(getLastChild(fieldContentNode)))) {
+                delNode(getLastChild(fieldContentNode), fieldContentNode);
+            }
         }
     }
 
@@ -632,7 +635,7 @@ int detect_media_type(Node *parent, const char *ptr) {
                 ptr += getLength(getLastChild(mediaTypeNode));
 
                 while (1) {
-                    if (detect_OWS(mediaTypeNode, ptr) == 0 && *(ptr + getLength(getLastChild(mediaTypeNode))) == ',') {
+                    if (detect_OWS(mediaTypeNode, ptr) == 0 && *(ptr + getLength(getLastChild(mediaTypeNode))) == ';') {
                         ptr += getLength(getLastChild(mediaTypeNode));
                         initNode(newChild(mediaTypeNode), "case_insensitive_string", ptr, 1);
                         ptr += getLength(getLastChild(mediaTypeNode));
@@ -641,21 +644,22 @@ int detect_media_type(Node *parent, const char *ptr) {
                         initNode(newChild(mediaTypeNode), "case_insensitive_string", ptr, 1);
                         ptr += getLength(getLastChild(mediaTypeNode));
 
-                        if (detect_OWS(mediaTypeNode, ptr) == 0) {
-                            ptr += getLength(getLastChild(mediaTypeNode));
-                        }
-
-                        if (detect_parameter(mediaTypeNode, ptr) == 0) {
-                            ptr += getLength(getLastChild(mediaTypeNode));
-                        } else {
-                            delNode(mediaTypeNode, parent);
-                            return 79;
-                        }
                     } else {
                         if (startWith("OWS", getLabel(getLastChild(mediaTypeNode)))) {
                             delNode(getLastChild(mediaTypeNode), mediaTypeNode);
                         }
                         break;
+                    }
+
+                    if (detect_OWS(mediaTypeNode, ptr) == 0) {
+                        ptr += getLength(getLastChild(mediaTypeNode));
+                    }
+
+                    if (detect_parameter(mediaTypeNode, ptr) == 0) {
+                        ptr += getLength(getLastChild(mediaTypeNode));
+                    } else {
+                        delNode(mediaTypeNode, parent);
+                        return 79;
                     }
                 }
             } else {

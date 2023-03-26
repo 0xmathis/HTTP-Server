@@ -5,11 +5,10 @@
 #include "utils.h"
 #include <stdio.h>
 
-int detect_HTTP_message(Node *parent, const char *ptr) { //C'est sans doute le plus grand noeud donc pas de parent
+int detect_HTTP_message(Node *parent, const char *ptr) {
     if (detect_start_line(parent, ptr) == 0) {
         ptr += getLength(getLastChild(parent));
 
-        int compteur = 1;
         while (1) {
             if (detect_header_field(parent, ptr) == 0) {
                 ptr += getLength(getLastChild(parent));
@@ -17,14 +16,14 @@ int detect_HTTP_message(Node *parent, const char *ptr) { //C'est sans doute le p
                 if (detect_CRLF(parent, ptr) == 0) {
                     ptr += getLength(getLastChild(parent));
                 } else {
+//                    printChildren(parent, 0);
                     return 1;
                 }
             } else {
                 break;
             }
-
-            compteur++;
         }
+
 
         if (detect_CRLF(parent, ptr) == 0) {
             ptr += getLength(getLastChild(parent));
@@ -134,7 +133,7 @@ int detect_ctext(Node *parent, const char *ptr) {
 
 int detect_quoted_pair(Node *parent, const char *ptr) {
     Node *quotedPairNode = newChild(parent);
-    initNode(quotedPairNode, "quoted-pair", ptr, 0);
+    initNode(quotedPairNode, "quoted_pair", ptr, 0);
 
     if (*ptr == '\\') {
         initNode(newChild(quotedPairNode), "case_insensitive_string", ptr, 1);
@@ -365,11 +364,17 @@ int detect_SP(Node *parent, const char *ptr) {
 }
 
 int detect_obs_text(Node *parent, const char *ptr) {
+    Node *obsTextNode = newChild(parent);
+    initNode(obsTextNode, "obs_text", ptr, 0);
+
     if (0x80 <= (*ptr & 0xFF) && (*ptr & 0xFF) <= 0xFF) {
-        initNode(newChild(parent), "__obs-text", ptr, 1);
+        initNode(newChild(obsTextNode), "__range", ptr, 1);
     } else {
+        delNode(obsTextNode, parent);
         return 18;
     }
+
+    setLength(obsTextNode, getSumLengthChildren(obsTextNode));
 
     return 0;
 }

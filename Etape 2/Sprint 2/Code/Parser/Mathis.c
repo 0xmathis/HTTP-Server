@@ -9,56 +9,98 @@
 // detect_OWS renvoie 0 même si on ne trouve rien puisque c'est optionnel, mais si ça trouve un OWS ça l'ajoute quand même à l'arbre ??
 // on ne met pas detect_OWS dans un if ou un while puisque c'est optionnel et qu'on ne peut pas avoir plusieurs OWS à la suite par definition
 
-// TODO : faire Transfert Encoding
-/*
-int detect_Transfer_Encoding_header(Node *parent, const char *ptr) { // pas demandé ?
-    if (startWith("Transfert-Encoding", ptr)) {
-        initNode(newChild(parent), "case_insensitive_string", ptr, 18);
-        ptr += getLength(getLastChild(parent));
+int detect_Transfer_Encoding_header(Node *parent, const char *ptr) {
+    Node *transferEncodingNode = newChild(parent);
+    initNode(transferEncodingNode, "Transfer_Encoding_header", ptr, 0);
+
+    if (startWith("Transfer-Encoding", ptr)) {
+        initNode(newChild(transferEncodingNode), "case_insensitive_string", ptr, 17);
+        ptr += getLength(getLastChild(transferEncodingNode));
 
         if (*ptr == ':') {
-            initNode(newChild(parent), "case_insensitive_string", ptr, 1);
-            ptr += getLength(getLastChild(parent));
+            initNode(newChild(transferEncodingNode), "case_insensitive_string", ptr, 1);
+            ptr += getLength(getLastChild(transferEncodingNode));
 
-            if (detect_OWS(parent, ptr) == 0) {
-                ptr += getLength(getLastChild(parent));
+            if (detect_OWS(transferEncodingNode, ptr) == 0) {
+                ptr += getLength(getLastChild(transferEncodingNode));
             }
 
-            if (detect_Transfert_Encoding(parent, ptr) == 0) {
-                if (detect_OWS(parent, ptr) == 0) {
-                    ptr += getLength(getLastChild(parent));
+            if (detect_Transfer_Encoding(transferEncodingNode, ptr) == 0) {
+                ptr += getLength(getLastChild(transferEncodingNode));
+
+                if (detect_OWS(transferEncodingNode, ptr) == 0) {
+                    ptr += getLength(getLastChild(transferEncodingNode));
                 }
-
             } else {
-                return -1;
+                delNode(transferEncodingNode, parent);
+                return 133;
             }
-
         } else {
-            return -1;
+            delNode(transferEncodingNode, parent);
+            return 133;
         }
-
     } else {
-        return -1;
+        delNode(transferEncodingNode, parent);
+        return 133;
     }
+
+    setLength(transferEncodingNode, getSumLengthChildren(transferEncodingNode));
 
     return 0;
 }
 
-int detect_Transfert_Encoding(Node *parent, const char *ptr) { // pas demandé ?
-    while (*ptr == ',') {
-        initNode(newChild(parent), "case_insensitive_string", ptr, 1);
-        ptr += getLength(getLastChild(parent));
+int detect_Transfer_Encoding(Node *parent, const char *ptr) {
+    Node *transferEncodingNode = newChild(parent);
+    initNode(transferEncodingNode, "Transfer_Encoding", ptr, 0);
 
-        if (detect_OWS(parent, ptr) == 0) {
-            ptr += getLength(getLastChild(parent));
+    while (1) {
+        if (*ptr == ',') {
+            initNode(newChild(transferEncodingNode), "case_insensitive_string", ptr, 1);
+            ptr += getLength(getLastChild(transferEncodingNode));
+
+            if (detect_OWS(transferEncodingNode, ptr) == 0) {
+                ptr += getLength(getLastChild(transferEncodingNode));
+            }
         } else {
-            return -1;
+            break;
         }
     }
 
+    if (detect_transfer_coding(transferEncodingNode, ptr) == 0) {
+        ptr += getLength(getLastChild(transferEncodingNode));
+    } else {
+        delNode(transferEncodingNode, parent);
+        return 134;
+    }
+
+    while (1) {
+        if (detect_OWS(transferEncodingNode, ptr) == 0 && *(ptr + getLength(getLastChild(transferEncodingNode))) == ',') {
+            ptr += getLength(getLastChild(transferEncodingNode));
+            initNode(newChild(transferEncodingNode), "case_insensitive_string", ptr, 1);
+            ptr += getLength(getLastChild(transferEncodingNode));
+        } else if (*ptr == ',') {
+            initNode(newChild(transferEncodingNode), "case_insensitive_string", ptr, 1);
+            ptr += getLength(getLastChild(transferEncodingNode));
+        } else {
+            if (startWith("OWS", getLabel(getLastChild(transferEncodingNode)))) {
+                delNode(getLastChild(transferEncodingNode), transferEncodingNode);
+            }
+            break;
+        }
+
+        if (detect_OWS(transferEncodingNode, ptr) == 0) {
+            ptr += getLength(getLastChild(transferEncodingNode));
+        }
+
+        if (detect_transfer_coding(transferEncodingNode, ptr) == 0) {
+            ptr += getLength(getLastChild(transferEncodingNode));
+        }
+    }
+
+    setLength(transferEncodingNode, getSumLengthChildren(transferEncodingNode));
+
     return 0;
 }
- */
 
 int detect_Expect_header(Node *parent, const char *ptr) {
     Node *expectNode = newChild(parent);
@@ -454,17 +496,26 @@ int detect_IPvFuture(Node *parent, const char *ptr) {
 int detect_reg_name(Node *parent, const char *ptr) {
     Node *regNameNode = newChild(parent);
     initNode(regNameNode, "reg_name", ptr, 0);
+    int compteur = 0;
 
     while (1) {
         if (detect_unreserved(regNameNode, ptr) == 0) {
             ptr += getLength(getLastChild(regNameNode));
+            compteur++;
         } else if (detect_pct_encoded(regNameNode, ptr) == 0) {
             ptr += getLength(getLastChild(regNameNode));
+            compteur++;
         } else if (detect_sub_delims(regNameNode, ptr) == 0) {
             ptr += getLength(getLastChild(regNameNode));
+            compteur++;
         } else {
             break;
         }
+    }
+
+    if (compteur == 0) {
+        delNode(regNameNode, parent);
+        return 135;
     }
 
     setLength(regNameNode, getSumLengthChildren(regNameNode));

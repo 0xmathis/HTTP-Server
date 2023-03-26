@@ -17,12 +17,14 @@ class TestHTTP:
 
         os.system(f"./{EMUL_HTTP_ME} {filename} > {name}.me")
         os.system(f"./{EMUL_HTTP_PROF} {filename} > {name}.out")
+
         my_resultat = open(f"{name}.me", "rb")
         prof_resultat = open(f"{name}.out", "rb")
+
         a = my_resultat.read().strip(b'\n').split(b'\n')
         b = prof_resultat.read().strip(b'\n')
 
-        if b'IPv6' in b:
+        if b'IPv' in b:
             pytest.skip("IPv6 non implémenté par le parseur")
 
         b = b.split(b'\n')

@@ -5,7 +5,7 @@
 
 int detect_Transfer_Encoding_header(Node *, const char *);
 
-int detect_Transfert_Encoding(Node *, const char *);
+int detect_Transfer_Encoding(Node *, const char *);
 
 int detect_Expect_header(Node *, const char *);
 
