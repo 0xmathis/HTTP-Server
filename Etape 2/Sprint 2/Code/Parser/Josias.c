@@ -16,6 +16,7 @@ int detect_HTTP_message(Node *parent, const char *ptr) {
                 if (detect_CRLF(parent, ptr) == 0) {
                     ptr += getLength(getLastChild(parent));
                 } else {
+//                    printf("la\n");
 //                    printChildren(parent, 0);
                     return 1;
                 }
@@ -23,7 +24,6 @@ int detect_HTTP_message(Node *parent, const char *ptr) {
                 break;
             }
         }
-
 
         if (detect_CRLF(parent, ptr) == 0) {
             ptr += getLength(getLastChild(parent));
@@ -231,7 +231,9 @@ int detect_cookie_octet(Node *parent, const char *ptr) {
     Node *cookieOctetNode = newChild(parent);
     initNode(cookieOctetNode, "cookie_octet", ptr, 0);
 
-    if (*ptr == 0x21 || 0x23 <= *ptr && *ptr <= 0x2B || 0x2D <= *ptr && *ptr <= 0x3A ||
+    if (*ptr == '!') {
+        initNode(newChild(cookieOctetNode), "__num", ptr, 1);
+    } else if (*ptr == 0x21 || 0x23 <= *ptr && *ptr <= 0x2B || 0x2D <= *ptr && *ptr <= 0x3A ||
         0x3C <= *ptr && *ptr <= 0x5B || 0x5D <= *ptr && *ptr <= 0x7E) {
         initNode(newChild(cookieOctetNode), "__range", ptr, 1);
     } else {

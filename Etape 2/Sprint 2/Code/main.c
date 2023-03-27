@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
     char *message = (char *) malloc(sizeof(char) * (taille + 1));
     fread(message, sizeof(char), taille, file);
 
-//    char message[500] = "3A;\t\t\t \ttabbCh# = \t\t  \t J$0Wc   \t  \t; 14\t=_k*IDzP  \t\t \t      \t  ;\t\tfE-\t=\t \t  \t\t\"D\"\t\t  \t \t \t \t \t;\t\t\t 6^ioL$c=  \"ŸX\\N\"\t;\tVB= \t \t\"ã\\~©\\²\";  \t\td_lyh\t \t=\t\"\\¥öX\\O\\Ì\" \t\t ;ZPM=   \t   \t\"\\À\\¥ñv\\`t\\^\"";
+//    char message[500] = "";
 
     fclose(file);
 

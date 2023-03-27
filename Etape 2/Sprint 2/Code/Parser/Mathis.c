@@ -167,35 +167,37 @@ int detect_Host_header(Node *parent, const char *ptr) {
     if (startWith("Host", ptr)) {
         initNode(newChild(hostNode), "case_insensitive_string", ptr, 4);
         ptr += getLength(getLastChild(hostNode));
-
-        if (*ptr == ':') {
-            initNode(newChild(hostNode), "case_insensitive_string", ptr, 1);
-            ptr += getLength(getLastChild(hostNode));
-
-            if (detect_OWS(hostNode, ptr) == 0) {
-                ptr += getLength(getLastChild(hostNode));
-            }
-
-            if (detect_Host(hostNode, ptr) == 0) {
-                ptr += getLength(getLastChild(hostNode));
-
-                if (detect_OWS(hostNode, ptr) == 0) {
-                    ptr += getLength(getLastChild(hostNode));
-                }
-
-            } else {
-                delNode(hostNode, parent);
-                return 93;
-            }
-
-        } else {
-            delNode(hostNode, parent);
-            return 93;
-        }
-
     } else {
         delNode(hostNode, parent);
         return 93;
+    }
+
+    if (*ptr == ':') {
+        initNode(newChild(hostNode), "case_insensitive_string", ptr, 1);
+        ptr += getLength(getLastChild(hostNode));
+    } else {
+        delNode(hostNode, parent);
+        return 93;
+    }
+
+    if (detect_OWS(hostNode, ptr) == 0) {
+        ptr += getLength(getLastChild(hostNode));
+    }
+
+
+    if (detect_Host(hostNode, ptr) == 0) {
+        if (getLength(getLastChild(hostNode)) == 0) {
+            delNode(getLastChild(hostNode), hostNode);
+        } else {
+            ptr += getLength(getLastChild(hostNode));
+        }
+    } else {
+        delNode(hostNode, parent);
+        return 93;
+    }
+
+    if (detect_OWS(hostNode, ptr) == 0) {
+        ptr += getLength(getLastChild(hostNode));
     }
 
     setLength(hostNode, getSumLengthChildren(hostNode));
@@ -244,6 +246,10 @@ int detect_uri_host(Node *parent, const char *ptr) {
 
     setLength(uriHostNode, getSumLengthChildren(uriHostNode));
 
+    if (getLength(uriHostNode) == 0) {
+        delNode(uriHostNode, parent);
+    }
+
     return 0;
 }
 
@@ -254,6 +260,8 @@ int detect_host(Node *parent, const char *ptr) {
     if (detect_IP_literal(hostNode, ptr) == 0) {
         ptr += getLength(getLastChild(hostNode));
     } else if (detect_IPv4address(hostNode, ptr) == 0) {
+        ptr += getLength(getLastChild(hostNode));
+    } else if (detect_IPv6address(hostNode, ptr) == 0) {
         ptr += getLength(getLastChild(hostNode));
     } else if (detect_reg_name(hostNode, ptr) == 0) {
         ptr += getLength(getLastChild(hostNode));
@@ -511,11 +519,6 @@ int detect_reg_name(Node *parent, const char *ptr) {
         } else {
             break;
         }
-    }
-
-    if (compteur == 0) {
-        delNode(regNameNode, parent);
-        return 135;
     }
 
     setLength(regNameNode, getSumLengthChildren(regNameNode));
