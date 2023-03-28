@@ -52,9 +52,10 @@ _Token *searchTree(void *start,char *name){
     }
     else{
 
-        _Token * liste = malloc(sizeof(_Token));
+        _Token * liste;
 
         if(!strcmp(start->__label,name)){
+            liste  = malloc(sizeof(_Token));
             liste->node = start;
 
             if(start->__child!=NULL){
