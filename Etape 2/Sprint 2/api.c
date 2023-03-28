@@ -52,33 +52,66 @@ _Token *searchTree(void *start,char *name){
     }
     else{
 
-        _Token * liste = NULL;
-        _Token * p = liste
-        
-        searchTree_Recursif(start, name, &p);
-        
+        _Token * liste = malloc(sizeof(_Token));
+
+        if(!strcmp(start->__label,name)){
+            liste->node = start;
+
+            if(start->__child!=NULL){
+                liste->next = searchTree(start->__child, name);
+            }
+            else{
+                return NULL;
+            }
+
+            if(start->__brother!=NULL){
+                liste->next = searchTree(start->__brother, name);
+            }
+            else{
+                return NULL;
+            }
+
+        }
+        else{
+            if(start->__child!=NULL){
+                searchTree(start->__child, name);
+            }
+            else{
+                return NULL;
+            }
+
+            if(start->__brother!=NULL){
+                searchTree(start->__brother, name);
+            }
+            else{
+                return NULL;
+            }
+        }
+
         return liste;
+
+        
     }
     
 }
 
-void searchTree_Recursif(void *start, char *name, _Token ** p){
+// void searchTree_Recursif(void *start, char *name, _Token ** p){
 
-    if(!strcmp(start->__label,name)){
-        _Token * newElement = malloc(sizeof(_Token));
+//     if(!strcmp(start->__label,name)){
+//         _Token * newElement = malloc(sizeof(_Token));
 
-        newElement->node = start;
-        newElement->next = NULL;
-        (*p)->next = newElement;
-        (*p) = (*p)->next;
-    }
+//         newElement->node = start;
+//         newElement->next = NULL;
+//         (*p)->next = newElement;
+//         (*p) = (*p)->next;
+//     }
 
-    if(start->__child!=NULL){
-        searchTree_Recursif(start->__child, name, p);
-    }
+//     if(start->__child!=NULL){
+//         searchTree_Recursif(start->__child, name, p);
+//     }
 
-    if(start->__brother!=NULL){
-        searchTree_Recursif(start->__brother, name, p);
-    }
+//     if(start->__brother!=NULL){
+//         searchTree_Recursif(start->__brother, name, p);
+//     }
 
-}
+// }
