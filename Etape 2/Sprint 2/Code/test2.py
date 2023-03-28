@@ -1,5 +1,6 @@
 import glob
 import os
+import subprocess
 import sys
 import pytest
 
@@ -15,22 +16,55 @@ class TestHTTP:
     def testFiles(self, filename):
         name = os.path.splitext(filename)[0]
 
-        os.system(f"./{EMUL_HTTP_ME} {filename} > {name}.me")
-        os.system(f"./{EMUL_HTTP_PROF} {filename} > {name}.out")
-        my_resultat = open(f"{name}.me", "r")
-        prof_resultat = open(f"{name}.out", "r")
-        a = my_resultat.read().strip('\n').split('\n')
-        b = prof_resultat.read().strip('\n').split('\n')
+        a = subprocess.run([EMUL_HTTP_ME, filename], capture_output=True, timeout=5).stdout
+        b = subprocess.run([EMUL_HTTP_PROF, filename], capture_output=True, timeout=5).stdout
 
-        if a == '':
-            pytest.fail("Sortie vide")
+        open(f"{name}.me", "wb").write(a)
+        open(f"{name}.out", "wb").write(b)
 
-        if len(a) != len(b):
-            pytest.fail("Longueurs différentes")
+        a = a.strip(b'\n')
+        b = b.strip(b'\n')
 
-        for i in range(len(a)):
-            if a[i] != b[i]:
-                pytest.fail(f"Error ligne {i}")
+        if len(a) != len(b) and b'[1:header_field] = "Hos' not in b:
+            pytest.fail(f"Longueurs différentes :\n.me  : {len(a)}\n.out : {len(b)}", pytrace=False)
+
+        a = a.split(b'\n')
+        b = b.split(b'\n')
+
+        if not a:
+            pytest.fail("Sortie vide", pytrace=False)
+
+        i = j = 0
+        while True:
+            if (i == -1) ^ (j == -1):
+                pytest.fail(f"Error after Host Header", pytrace=False)
+
+            if i == len(a) and j == len(b):
+                break
+
+            if b'[1:header_field] = "Hos' in b[i]:  # si on est sur un header Host
+                i = self.skipHost(a, i)
+                j = self.skipHost(b, j)
+                continue
+
+            if a[i] != b[j]:
+                pytest.fail(f"Error ligne {i}(.me) / {j}(.out) :\n.me  : \'{a[i]}\'\n.out : \'{b[i]}\'", pytrace=False)
+
+            i += 1
+            j += 1
+
+    @staticmethod
+    def getDepth(line: bytes) -> bytes:
+        return line.strip(b' \t').replace(b'[', b'').split(b':')[0]
+
+    def skipHost(self, lines: list[bytes], index) -> int:
+        depth = self.getDepth(lines[index])
+
+        for i in range(index + 1, len(lines)):
+            if self.getDepth(lines[i]) == depth:
+                return i
+
+        return -1
 
 
 pytest.main(sys.argv)

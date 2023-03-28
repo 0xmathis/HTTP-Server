@@ -16,8 +16,6 @@ int detect_HTTP_message(Node *parent, const char *ptr) {
                 if (detect_CRLF(parent, ptr) == 0) {
                     ptr += getLength(getLastChild(parent));
                 } else {
-//                    printf("la\n");
-//                    printChildren(parent, 0);
                     return 1;
                 }
             } else {
@@ -234,7 +232,7 @@ int detect_cookie_octet(Node *parent, const char *ptr) {
     if (*ptr == '!') {
         initNode(newChild(cookieOctetNode), "__num", ptr, 1);
     } else if (*ptr == 0x21 || 0x23 <= *ptr && *ptr <= 0x2B || 0x2D <= *ptr && *ptr <= 0x3A ||
-        0x3C <= *ptr && *ptr <= 0x5B || 0x5D <= *ptr && *ptr <= 0x7E) {
+               0x3C <= *ptr && *ptr <= 0x5B || 0x5D <= *ptr && *ptr <= 0x7E) {
         initNode(newChild(cookieOctetNode), "__range", ptr, 1);
     } else {
         delNode(cookieOctetNode, parent);
@@ -338,7 +336,6 @@ int detect_CRLF(Node *parent, const char *ptr) {
     if (startWith("\r\n", ptr)) {
         initNode(newChild(parent), "__crlf", ptr, 2);
     } else {
-//        printf("oh noooooon\n");
         return 15;
     }
 
@@ -385,17 +382,10 @@ int detect_dec_octet(Node *parent, const char *ptr) {
     Node *decOctetNode = newChild(parent);
     initNode(decOctetNode, "dec_octet", ptr, 0);
 
-    if (startWith("25", ptr)) {
+    if (startWith("25", ptr) && 0x30 <= *(ptr + 2) && *(ptr + 2) <= 0x35) {
         initNode(newChild(decOctetNode), "case_insensitive_string", ptr, 2);
-        ptr += getLength(getLastChild(decOctetNode));
-
-        if (0x30 <= *ptr && *ptr <= 0x35) {
-            initNode(newChild(decOctetNode), "__range", ptr, 1);
-            ptr += getLength(getLastChild(decOctetNode));
-        } else {
-            delNode(decOctetNode, parent);
-            return 19;
-        }
+        initNode(newChild(decOctetNode), "__digit", ptr + 2, 1);
+        ptr += 3;
     } else if (*ptr == '2' && 0x30 <= *(ptr + 1) && *(ptr + 1) <= 0x34 && detect_DIGIT(decOctetNode, ptr + 2) == 0) {
         initNode(newChild(decOctetNode), "case_insensitive_string", ptr, 1);
         initNode(newChild(decOctetNode), "__range", ptr + 1, 1);

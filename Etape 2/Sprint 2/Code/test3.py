@@ -7,7 +7,7 @@ import subprocess
 BASE_DIR = os.environ.get("BASE_DIR", ".")
 EMUL_HTTP_ME = os.path.join(BASE_DIR, "httpParser")
 EMUL_HTTP_PROF = os.path.join(BASE_DIR, "../httpparser")
-ALL_FILES = glob.glob(os.path.join(BASE_DIR, "../../Tests/Only4G33ks/testFile/test?.txt"))
+ALL_FILES = glob.glob(os.path.join(BASE_DIR, "../../Tests/Only4G33ks/testFile/test*.txt"))
 ALL_FILES.sort()
 
 
@@ -17,43 +17,52 @@ class TestHTTP:
         name = os.path.splitext(filename)[0]
 
         a = subprocess.run([EMUL_HTTP_ME, filename], capture_output=True, timeout=5).stdout
-        # os.system(f"./{EMUL_HTTP_ME} {filename} > {name}.me")
-        os.system(f"./{EMUL_HTTP_PROF} {filename} > {name}.out")
+        b = subprocess.run([EMUL_HTTP_PROF, filename], capture_output=True, timeout=5).stdout
 
         open(f"{name}.me", "wb").write(a)
-        # my_resultat = open(f"{name}.me", "rb")
-        prof_resultat = open(f"{name}.out", "rb")
+        open(f"{name}.out", "wb").write(b)
 
-        # a = my_resultat.read().strip(b'\n').split(b'\n')
-        a = a.strip(b'\n').split(b'\n')
-        b = prof_resultat.read().strip(b'\n')
+        a = a.strip(b'\n')
+        b = b.strip(b'\n')
 
-        # if b'IPv' in b:
-        #     pytest.skip("IPv6 non implémenté par le parseur")
+        if len(a) != len(b) and b'[1:header_field] = "Hos' not in b:
+            pytest.fail(f"Longueurs différentes :\n.me  : {len(a)}\n.out : {len(b)}", pytrace=False)
 
+        a = a.split(b'\n')
         b = b.split(b'\n')
 
         if not a:
             pytest.fail("Sortie vide", pytrace=False)
 
-        if len(a) != len(b):
-            pytest.fail("Longueurs différentes", pytrace=False)
+        i = j = 0
+        while True:
+            if (i == -1) ^ (j == -1):
+                pytest.fail(f"Error after Host Header", pytrace=False)
 
-        depth = -1
-        for i in range(len(a)):
-            if b'[1:header_field] = "Hos' in b[i]:  # si on est sur un header Host
-                depth = self.getDepth(b[i])
-            elif self.getDepth(b[i]) == depth:
-                depth = -1
+            if i == len(a) and j == len(b):
+                break
 
-            if depth != -1:
-                continue
-            if a[i] != b[i]:
-                pytest.fail(f"Error ligne {i} :\n.me  : \'{a[i]}\'\n.out : \'{b[i]}\'", pytrace=False)
+            if b'[1:header_field] = \"Hos' in b[j]:  # si on est sur un header Host
+                i = self.skipHost(a, i)
+                j = self.skipHost(b, j)
+            elif a[i] != b[j]:
+                pytest.fail(f"Error line {i}(.me) / {j}(.out) :\n.me  : \'{a[i]}\'\n.out : \'{b[j]}\'", pytrace=False)
+
+            i += 1
+            j += 1
 
     @staticmethod
     def getDepth(line: bytes) -> bytes:
         return line.strip(b' \t').replace(b'[', b'').split(b':')[0]
+
+    def skipHost(self, lines: list[bytes], index) -> int:
+        depth = self.getDepth(lines[index])
+
+        for i in range(index + 1, len(lines)):
+            if self.getDepth(lines[i]) == depth:
+                return i
+
+        return -1
 
 
 pytest.main(sys.argv)

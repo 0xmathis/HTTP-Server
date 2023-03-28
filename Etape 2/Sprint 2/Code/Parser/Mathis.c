@@ -184,7 +184,6 @@ int detect_Host_header(Node *parent, const char *ptr) {
         ptr += getLength(getLastChild(hostNode));
     }
 
-
     if (detect_Host(hostNode, ptr) == 0) {
         if (getLength(getLastChild(hostNode)) == 0) {
             delNode(getLastChild(hostNode), hostNode);
@@ -261,8 +260,6 @@ int detect_host(Node *parent, const char *ptr) {
         ptr += getLength(getLastChild(hostNode));
     } else if (detect_IPv4address(hostNode, ptr) == 0) {
         ptr += getLength(getLastChild(hostNode));
-    } else if (detect_IPv6address(hostNode, ptr) == 0) {
-        ptr += getLength(getLastChild(hostNode));
     } else if (detect_reg_name(hostNode, ptr) == 0) {
         ptr += getLength(getLastChild(hostNode));
     } else {
@@ -283,10 +280,9 @@ int detect_IP_literal(Node *parent, const char *ptr) {
         initNode(newChild(ipLiteralNode), "case_insensitive_string", ptr, 1);
         ptr += getLength(getLastChild(ipLiteralNode));
 
-//        if (detect_IPv6address(ipLiteralNode, ptr) == 0) {
-//            ptr += getLength(getLastChild(ipLiteralNode));
-//        } else
         if (detect_IPvFuture(ipLiteralNode, ptr) == 0) {
+            ptr += getLength(getLastChild(ipLiteralNode));
+        } else if (detect_IPv6address(ipLiteralNode, ptr) == 0) {
             ptr += getLength(getLastChild(ipLiteralNode));
         } else {
             delNode(ipLiteralNode, parent);
@@ -318,15 +314,14 @@ int detect_IPv4address(Node *parent, const char *ptr) {
     for (int i = 0; i < 3; i++) {
         if (detect_dec_octet(ipv4adressNode, ptr) == 0) {
             ptr += getLength(getLastChild(ipv4adressNode));
+        } else {
+            delNode(ipv4adressNode, parent);
+            return 98;
+        }
 
-            if (*ptr == '.') {
-                initNode(newChild(ipv4adressNode), "case_insensitive_string", ptr, 1);
-                ptr += getLength(getLastChild(ipv4adressNode));
-            } else {
-                delNode(ipv4adressNode, parent);
-                return 98;
-            }
-
+        if (*ptr == '.') {
+            initNode(newChild(ipv4adressNode), "case_insensitive_string", ptr, 1);
+            ptr += getLength(getLastChild(ipv4adressNode));
         } else {
             delNode(ipv4adressNode, parent);
             return 98;
@@ -335,7 +330,6 @@ int detect_IPv4address(Node *parent, const char *ptr) {
 
     if (detect_dec_octet(ipv4adressNode, ptr) == 0) {
         ptr += getLength(getLastChild(ipv4adressNode));
-
     } else {
         delNode(ipv4adressNode, parent);
         return 98;
@@ -353,45 +347,101 @@ int detect_IPv6address(Node *parent, const char *ptr) {
     int compteur = 0;
 
     while (1) {
+        if (compteur == 6) {
+            break;
+        }
+
         if (detect_h16(ipv6addressNode, ptr) == 0) {
             ptr += getLength(getLastChild(ipv6addressNode));
             compteur++;
+        } else {
+            break;
+        }
 
-            if (compteur == 7) {
-                if (startWith("::", ptr)) {
-                    initNode(newChild(ipv6addressNode), "case_insensitive_string", ptr, 2);
-                    ptr += getLength(getLastChild(ipv6addressNode));
-                    break;
-                } else {
-                    delNode(ipv6addressNode, parent);
-                    return 99;
-                }
-            } else if (startWith("::", ptr)) {
-                break;
-            } else if (*ptr == ':') {
-                initNode(newChild(ipv6addressNode), "case_insensitive_string", ptr, 1);
+        if (startWith("::", ptr)) {
+            break;
+        } else if (*ptr == ':') {
+            initNode(newChild(ipv6addressNode), "case_insensitive_string", ptr, 1);
+            ptr += getLength(getLastChild(ipv6addressNode));
+        } else {
+            delNode(ipv6addressNode, parent);
+            return 99;
+        }
+    }
+
+//    printChildren(ipv6addressNode, 0);
+
+    if (compteur == 6) {
+        if (detect_ls32(ipv6addressNode, ptr) == 0) {
+            ptr += getLength(getLastChild(ipv6addressNode));
+        } else if (detect_h16(ipv6addressNode, ptr) == 0) {
+            ptr += getLength(getLastChild(ipv6addressNode));
+
+            if (startWith("::", ptr)) {
+                initNode(newChild(ipv6addressNode), "case_insensitive_string", ptr, 2);
                 ptr += getLength(getLastChild(ipv6addressNode));
-
-                if (compteur == 6) {
-                    if (detect_ls32(ipv6addressNode, ptr) == 0) {
-                        ptr += getLength(getLastChild(ipv6addressNode));
-
-                        setLength(ipv6addressNode, getSumLengthChildren(ipv6addressNode));
-                        return 0;
-                    } else {
-                        delNode(ipv6addressNode, parent);
-                        return 99;
-                    }
-                }
             } else {
                 delNode(ipv6addressNode, parent);
                 return 99;
             }
+
+        } else if (startWith("::", ptr)) {
+            initNode(newChild(ipv6addressNode), "case_insensitive_string", ptr, 2);
+            ptr += getLength(getLastChild(ipv6addressNode));
+
+            if (detect_h16(ipv6addressNode, ptr) == 0) {
+                ptr += getLength(getLastChild(ipv6addressNode));
+            }
         } else {
-            break;
+            delNode(ipv6addressNode, parent);
+            return 99;
+        }
+    } else if (startWith("::", ptr)) {
+        initNode(newChild(ipv6addressNode), "case_insensitive_string", ptr, 2);
+        ptr += getLength(getLastChild(ipv6addressNode));
+
+        while (1) {
+            if (detect_ls32(ipv6addressNode, ptr) == 0 && *(ptr + getLength(getLastChild(ipv6addressNode))) == ']') {
+                ptr += getLength(getLastChild(ipv6addressNode));
+
+                if (compteur > 5) {
+                    delNode(ipv6addressNode, parent);
+                    return 99;
+                }
+
+                break;
+
+
+            } else if (startWith("ls32", getLabel(getLastChild(ipv6addressNode)))) {
+                delNode(getLastChild(ipv6addressNode), ipv6addressNode);
+            }
+
+            if (detect_h16(ipv6addressNode, ptr) == 0) {
+                ptr += getLength(getLastChild(ipv6addressNode));
+                compteur++;
+
+                if (*ptr == ']') {
+                    break;
+                }
+            } else {
+                break;
+            }
+
+            if (*ptr == ':') {
+                initNode(newChild(ipv6addressNode), "case_insensitive_string", ptr, 1);
+                ptr += getLength(getLastChild(ipv6addressNode));
+            } else {
+                delNode(ipv6addressNode, parent);
+                return 99;
+            }
         }
     }
 
+    setLength(ipv6addressNode, getSumLengthChildren(ipv6addressNode));
+
+    return 0;
+
+    /*
     if (startWith("::", ptr)) {
         initNode(newChild(ipv6addressNode), "case_insensitive_string", ptr, 2);
         ptr += getLength(getLastChild(ipv6addressNode));
@@ -434,6 +484,7 @@ int detect_IPv6address(Node *parent, const char *ptr) {
     setLength(ipv6addressNode, getSumLengthChildren(ipv6addressNode));
 
     return 0;
+     */
 }
 
 int detect_IPvFuture(Node *parent, const char *ptr) {

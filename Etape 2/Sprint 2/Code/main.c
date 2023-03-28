@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
     char *message = (char *) malloc(sizeof(char) * (taille + 1));
     fread(message, sizeof(char), taille, file);
 
-//    char message[500] = "";
+//    char message[500] = "8F::250.48.8.255]";
 
     fclose(file);
 
