@@ -52,20 +52,31 @@ _Token *searchTree(void *start,char *name){
     }
     else{
 
-        _Token * Element = NULL;
+        _Token * liste = NULL;
         
-        if(!strcmp(start->__label,name)){
-            _Token * newElement = malloc(sizeof(_Token));
-
-            newElement->node = start;
-            newElement->next = NULL;
-
-            return newElement;
-        }
+        searchTree_Recursif(start, name, &liste);
         
-        Element->next = searchTree(start, name);
-
         return Element;
     }
     
+}
+
+void searchTree_Recursif(void *start, char *name, _Token ** liste){
+
+    if(!strcmp(start->__label,name)){
+        _Token * newElement = malloc(sizeof(_Token));
+
+        newElement->node = start;
+        newElement->next = NULL;
+        (*liste)->next = newElement;
+    }
+
+    if(racine->__child!=NULL){
+        searchTree_Recursif(start->__child, name, liste);
+    }
+
+    if(racine->__brother!=NULL){
+        searchTree_Recursif(start->__brother, name, liste);
+    }
+
 }
