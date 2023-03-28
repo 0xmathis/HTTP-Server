@@ -2,7 +2,7 @@ MAIN := httpParser
 SRC_C := $(wildcard */*.c *.c)
 
 $(MAIN): $(SRC_C)
-	gcc $^ -o $@
+	gcc -Wall $^ -o $@
 
 clean:
 	rm -f $(MAIN)

@@ -1,8 +1,9 @@
 import glob
 import os
-import sys
-import pytest
 import subprocess
+import sys
+
+import pytest
 
 BASE_DIR = os.environ.get("BASE_DIR", ".")
 EMUL_HTTP_ME = os.path.join(BASE_DIR, "httpParser")

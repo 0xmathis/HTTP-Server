@@ -3,45 +3,45 @@
 #include "Josias.h"
 #include "Hugo.h"
 #include "utils.h"
-#include <stdio.h>
 
 int detect_HTTP_message(Node *parent, const char *ptr) {
     if (detect_start_line(parent, ptr) == 0) {
         ptr += getLength(getLastChild(parent));
 
-        while (1) {
-            if (detect_header_field(parent, ptr) == 0) {
-                ptr += getLength(getLastChild(parent));
-
-                if (detect_CRLF(parent, ptr) == 0) {
-                    ptr += getLength(getLastChild(parent));
-                } else {
-                    return 1;
-                }
-            } else {
-                break;
-            }
-        }
-
-        if (detect_CRLF(parent, ptr) == 0) {
-            ptr += getLength(getLastChild(parent));
-
-            if (detect_message_body(parent, ptr) == 0) {
-                ptr += getLength(getLastChild(parent));
-            }
-        } else {
-            return 1;
-        }
     } else {
         return 1;
+    }
+
+    while (1) {
+        if (detect_header_field(parent, ptr) == 0) {
+            ptr += getLength(getLastChild(parent));
+
+            if (detect_CRLF(parent, ptr) == 0) {
+                ptr += getLength(getLastChild(parent));
+            } else {
+                return 1;
+            }
+        } else {
+            break;
+        }
+    }
+
+    if (detect_CRLF(parent, ptr) == 0) {
+        ptr += getLength(getLastChild(parent));
+    } else {
+        return 1;
+    }
+
+    if (detect_message_body(parent, ptr) == 0) {
+        ptr += getLength(getLastChild(parent));
     }
 
     setLength(parent, getSumLengthChildren(parent));
     return 0;
 }
 
-int detect_ALPHA(Node *parent, const char *ptr) {
-    if (0x41 <= *ptr && *ptr <= 0x5A || 0x61 <= *ptr && *ptr <= 0x7A) {
+int detect_ALPHA(const char *ptr) {
+    if ((0x41 <= *ptr && *ptr <= 0x5A) || (0x61 <= *ptr && *ptr <= 0x7A)) {
     } else {
         return 2;
     }
@@ -52,9 +52,9 @@ int detect_alphanum(Node *parent, const char *ptr) {
     Node *alphanumNode = newChild(parent);
     initNode(alphanumNode, "alphanum", ptr, 0);
 
-    if (detect_ALPHA(parent, ptr) == 0) {
+    if (detect_ALPHA(ptr) == 0) {
         initNode(newChild(alphanumNode), "__alpha", ptr, 1);
-    } else if (detect_DIGIT(parent, ptr) == 0) {
+    } else if (detect_DIGIT(ptr) == 0) {
         initNode(newChild(alphanumNode), "__digit", ptr, 1);
     } else {
         delNode(alphanumNode, parent);
@@ -62,11 +62,10 @@ int detect_alphanum(Node *parent, const char *ptr) {
     }
 
     setLength(alphanumNode, getSumLengthChildren(alphanumNode));
-
     return 0;
 }
 
-int detect_DIGIT(Node *parent, const char *ptr) {
+int detect_DIGIT(const char *ptr) {
     if (0x30 <= *ptr && *ptr <= 0x39) {
     } else {
         return 4;
@@ -82,26 +81,26 @@ int detect_comment(Node *parent, const char *ptr) {
     if (*ptr == '(') {
         initNode(newChild(commentNode), "case_insensitive_string", ptr, 1);
         ptr += getLength(getLastChild(commentNode));
+    } else {
+        delNode(commentNode, parent);
+        return 5;
+    }
 
-        while (1) {
-            if (detect_ctext(commentNode, ptr) == 0) {
-                ptr += getLength(getLastChild(commentNode));
-            } else if (detect_quoted_pair(commentNode, ptr) == 0) {
-                ptr += getLength(getLastChild(commentNode));
-            } else if (detect_comment(commentNode, ptr) == 0) {
-                ptr += getLength(getLastChild(commentNode));
-            } else {
-                break;
-            }
-        }
-
-        if (*ptr == ')') {
-            initNode(newChild(commentNode), "case_insensitive_string", ptr, 1);
+    while (1) {
+        if (detect_ctext(commentNode, ptr) == 0) {
+            ptr += getLength(getLastChild(commentNode));
+        } else if (detect_quoted_pair(commentNode, ptr) == 0) {
+            ptr += getLength(getLastChild(commentNode));
+        } else if (detect_comment(commentNode, ptr) == 0) {
             ptr += getLength(getLastChild(commentNode));
         } else {
-            delNode(commentNode, parent);
-            return 5;
+            break;
         }
+    }
+
+    if (*ptr == ')') {
+        initNode(newChild(commentNode), "case_insensitive_string", ptr, 1);
+        ptr += getLength(getLastChild(commentNode));
     } else {
         delNode(commentNode, parent);
         return 5;
@@ -117,7 +116,7 @@ int detect_ctext(Node *parent, const char *ptr) {
 
     if (detect_HTAB(ctextNode, ptr) == 0 || detect_SP(ctextNode, ptr) == 0 || detect_obs_text(parent, ptr) == 0) {
         ptr += getLength(getLastChild(ctextNode));
-    } else if (0x21 <= *ptr && *ptr <= 0x27 || 0x2A <= *ptr && *ptr <= 0x5B || 0x5D <= *ptr && *ptr <= 0x7E) {
+    } else if ((0x21 <= *ptr && *ptr <= 0x27) || (0x2A <= *ptr && *ptr <= 0x5B) || (0x5D <= *ptr && *ptr <= 0x7E)) {
         initNode(newChild(ctextNode), "__range", ptr, 1);
         ptr += getLength(getLastChild(ctextNode));
     } else {
@@ -136,14 +135,13 @@ int detect_quoted_pair(Node *parent, const char *ptr) {
     if (*ptr == '\\') {
         initNode(newChild(quotedPairNode), "case_insensitive_string", ptr, 1);
         ptr += getLength(getLastChild(quotedPairNode));
+    } else {
+        delNode(quotedPairNode, parent);
+        return 7;
+    }
 
-        if (detect_HTAB(quotedPairNode, ptr) == 0 || detect_SP(quotedPairNode, ptr) == 0 ||
-            detect_VCHAR(quotedPairNode, ptr) == 0 || detect_obs_text(quotedPairNode, ptr) == 0) {
-            ptr += getLength(getLastChild(quotedPairNode));
-        } else {
-            delNode(quotedPairNode, parent);
-            return 7;
-        }
+    if (detect_HTAB(quotedPairNode, ptr) == 0 || detect_SP(quotedPairNode, ptr) == 0 || detect_VCHAR(quotedPairNode, ptr) == 0 || detect_obs_text(quotedPairNode, ptr) == 0) {
+        ptr += getLength(getLastChild(quotedPairNode));
     } else {
         delNode(quotedPairNode, parent);
         return 7;
@@ -231,8 +229,7 @@ int detect_cookie_octet(Node *parent, const char *ptr) {
 
     if (*ptr == '!') {
         initNode(newChild(cookieOctetNode), "__num", ptr, 1);
-    } else if (*ptr == 0x21 || 0x23 <= *ptr && *ptr <= 0x2B || 0x2D <= *ptr && *ptr <= 0x3A ||
-               0x3C <= *ptr && *ptr <= 0x5B || 0x5D <= *ptr && *ptr <= 0x7E) {
+    } else if (*ptr == 0x21 || (0x23 <= *ptr && *ptr <= 0x2B) || (0x2D <= *ptr && *ptr <= 0x3A) || (0x3C <= *ptr && *ptr <= 0x5B) || (0x5D <= *ptr && *ptr <= 0x7E)) {
         initNode(newChild(cookieOctetNode), "__range", ptr, 1);
     } else {
         delNode(cookieOctetNode, parent);
@@ -249,21 +246,21 @@ int detect_cookie_pair(Node *parent, const char *ptr) {
 
     if (detect_cookie_name(cookiePairNode, ptr) == 0) {
         ptr += getLength(getLastChild(cookiePairNode));
+    } else {
+        delNode(cookiePairNode, parent);
+        return 12;
+    }
 
-        if (*ptr == '=') {
-            initNode(newChild(cookiePairNode), "case_insensitive_string", ptr, 1);
-            ptr += getLength(getLastChild(cookiePairNode));
+    if (*ptr == '=') {
+        initNode(newChild(cookiePairNode), "case_insensitive_string", ptr, 1);
+        ptr += getLength(getLastChild(cookiePairNode));
+    } else {
+        delNode(cookiePairNode, parent);
+        return 12;
+    }
 
-            if (detect_cookie_value(cookiePairNode, ptr) == 0) {
-                ptr += getLength(getLastChild(cookiePairNode));
-            } else {
-                delNode(cookiePairNode, parent);
-                return 12;
-            }
-        } else {
-            delNode(cookiePairNode, parent);
-            return 12;
-        }
+    if (detect_cookie_value(cookiePairNode, ptr) == 0) {
+        ptr += getLength(getLastChild(cookiePairNode));
     } else {
         delNode(cookiePairNode, parent);
         return 12;
@@ -323,7 +320,6 @@ int detect_cookie_value(Node *parent, const char *ptr) {
 
         if (compteur == 0) {
             delNode(cookieValueNode, parent);
-//            return 14;
         }
     }
 
@@ -374,7 +370,6 @@ int detect_obs_text(Node *parent, const char *ptr) {
     }
 
     setLength(obsTextNode, getSumLengthChildren(obsTextNode));
-
     return 0;
 }
 
@@ -386,21 +381,21 @@ int detect_dec_octet(Node *parent, const char *ptr) {
         initNode(newChild(decOctetNode), "case_insensitive_string", ptr, 2);
         initNode(newChild(decOctetNode), "__digit", ptr + 2, 1);
         ptr += 3;
-    } else if (*ptr == '2' && 0x30 <= *(ptr + 1) && *(ptr + 1) <= 0x34 && detect_DIGIT(decOctetNode, ptr + 2) == 0) {
+    } else if (*ptr == '2' && 0x30 <= *(ptr + 1) && *(ptr + 1) <= 0x34 && detect_DIGIT(ptr + 2) == 0) {
         initNode(newChild(decOctetNode), "case_insensitive_string", ptr, 1);
         initNode(newChild(decOctetNode), "__range", ptr + 1, 1);
         initNode(newChild(decOctetNode), "__digit", ptr + 2, 1);
         ptr += 3;
-    } else if (*ptr == '1' && detect_DIGIT(decOctetNode, ptr + 1) == 0 && detect_DIGIT(decOctetNode, ptr + 2) == 0) {
+    } else if (*ptr == '1' && detect_DIGIT(ptr + 1) == 0 && detect_DIGIT(ptr + 2) == 0) {
         initNode(newChild(decOctetNode), "case_insensitive_string", ptr, 1);
         initNode(newChild(decOctetNode), "__digit", ptr + 1, 1);
         initNode(newChild(decOctetNode), "__digit", ptr + 2, 1);
         ptr += 3;
-    } else if (0x31 <= *ptr && *ptr <= 0x39 && detect_DIGIT(decOctetNode, ptr + 1) == 0) {
+    } else if (0x31 <= *ptr && *ptr <= 0x39 && detect_DIGIT(ptr + 1) == 0) {
         initNode(newChild(decOctetNode), "__range", ptr, 1);
         initNode(newChild(decOctetNode), "__digit", ptr + 1, 1);
         ptr += 2;
-    } else if (detect_DIGIT(decOctetNode, ptr) == 0) {
+    } else if (detect_DIGIT(ptr) == 0) {
         initNode(newChild(decOctetNode), "__digit", ptr, 1);
         ptr += 1;
     } else {
@@ -463,7 +458,7 @@ int detect_h16(Node *parent, const char *ptr) {
 }
 
 int detect_HEXDIG(Node *parent, const char *ptr) {
-    if (0x30 <= *ptr && *ptr <= 0x39 || 0x41 <= *ptr && *ptr <= 0x46 || 0x61 <= *ptr && *ptr <= 0x66) {
+    if ((0x30 <= *ptr && *ptr <= 0x39) || (0x41 <= *ptr && *ptr <= 0x46) || (0x61 <= *ptr && *ptr <= 0x66)) {
         initNode(newChild(parent), "__hexdig", ptr, 1);
     } else {
         return 23;

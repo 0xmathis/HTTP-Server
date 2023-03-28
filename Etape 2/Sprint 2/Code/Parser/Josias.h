@@ -5,11 +5,11 @@
 
 int detect_HTTP_message(Node *, const char *);
 
-int detect_ALPHA(Node *, const char *);
+int detect_ALPHA(const char *);
 
 int detect_alphanum(Node *, const char *);
 
-int detect_DIGIT(Node *, const char *);
+int detect_DIGIT(const char *);
 
 int detect_comment(Node *, const char *);
 
