@@ -62,8 +62,6 @@ void delTree(Node *this) {
     }
 
     free(this);
-
-    return;
 }
 
 void delNode(Node *this, Node *parent) {

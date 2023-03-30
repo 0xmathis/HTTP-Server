@@ -5,6 +5,8 @@
 #include "utils.h"
 
 int detect_HTTP_message(Node *parent, const char *ptr) {
+    initNode(parent, "HTTP_message", ptr, 0);
+
     if (detect_start_line(parent, ptr) == 0) {
         ptr += getLength(getLastChild(parent));
 
