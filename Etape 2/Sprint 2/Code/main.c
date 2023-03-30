@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "Node/Node.h"
 #include "Parser/Josias.h"
+#include "api.h"
 
 int main(int argc, char **argv) {
     if (argc == 1) {
@@ -28,18 +29,32 @@ int main(int argc, char **argv) {
 
     char *ptr = message;
 
-    Node *HTTPMessageNode = newNode();
-    initNode(HTTPMessageNode, "HTTP_message", ptr, 0);
+    root = newNode();
+    initNode(root, "HTTP_message", ptr, 0);
 
-    int error = detect_HTTP_message(HTTPMessageNode, ptr);
+    int error = detect_HTTP_message(root, ptr);
 
     if (error) {
         printf("NOK\n");
         return 0;
     }
 
-    printChildren(HTTPMessageNode, 0);
-    delTree(HTTPMessageNode);
+    printChildren(root, 0);
+
+    if (argc == 2) {
+    } else if (argc == 3) {
+        _Token *token = searchTree(root, argv[2]);
+        printf("%ld\n", token);
+
+
+//        while (token != NULL) {
+//            printf("%s\n", getLabel(((Node *)token->node)));
+//            token = token->next;
+//        }
+    }
+
+
+//    delTree(root);
 
     return 0;
 }
