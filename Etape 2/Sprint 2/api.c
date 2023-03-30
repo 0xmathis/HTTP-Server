@@ -1,111 +1,106 @@
 #include "api.h"
-#include "/Code/Node.h"
 #include <string.h>
+#include <stdlib.h>
 
-char *getElementTag(void *node,int *len){
-    noeud = (Node*) node; 
+Node *root = NULL;
 
-    if(len != NULL){
-        *len = strlen(noeud->__label); 
-    }
-
-    return noeud->__label;
+void *getRootTree() {
+    return root;
 }
 
-char *getElementValue(void *node,int *len){
-    noeud = (Node*) node; 
+char *getElementTag(void *node, int *len) {
+    Node *noeud = (Node *) node;
 
-    if(len != NULL){
-        *len = noeud->__length; 
+    if (len != NULL) {
+        *len = getLength(noeud);
     }
 
-    return noeud->__start;
+    return (char *) getLabel(noeud);
 }
 
-void purgeTree(void *root){
-    racine = (Node*) root;
+char *getElementValue(void *node, int *len) {
+    Node *noeud = (Node *) node;
 
-    if(racine->__child!=NULL){
-        Supprimer_arbre(racine->__child);
+    if (len != NULL) {
+        *len = getLength(noeud);
     }
-    if(racine->__brother!=NULL){
 
-        Supprimer_arbre(racine->__brother);
+    return (char *) getStart(noeud);
+}
+
+void purgeTree(void *root) {
+    Node *racine = (Node *) root;
+
+    if (racine->__child != NULL) {
+        purgeTree(racine->__child);
+    }
+    if (racine->__brother != NULL) {
+
+        purgeTree(racine->__brother);
     }
 
     free(racine);
 }
 
-void purgeElement(_Token **r){
-
-    if((*r)->next != NULL){
+void purgeElement(_Token **r) {
+    if ((*r)->next != NULL) {
         purgeElement(&((*r)->next));
     }
 
     free(*r);
 }
 
-_Token *searchTree(void *start,char *name){
+_Token *searchTree(void *start, char *name) {
+    start = (Node *) start;
 
-    if(start == NULL){
-        searchTree(getRootTree(), name);
-    }
-    else{
+    if (start == NULL) {
+        return searchTree(getRootTree(), name);
+    } else {
+        _Token *liste;
 
-        _Token * liste;
-
-        if(!strcmp(start->__label,name)){
-            liste  = malloc(sizeof(_Token));
+        if (!strcmp(getLabel(start), name)) {
+            liste = malloc(sizeof(_Token));
             liste->node = start;
             liste->next = NULL;
 
-            if(start->__child!=NULL){
-                liste->next = searchTree(start->__child, name);
-            }
-
-            if(start->__brother!=NULL){
-                _Token *p = liste;
-
-                while(p->next != NULL){
-                    p = p->next;
-                }
-
-                p->next = searchTree(start->__brother, name);
-            }
-
-            if(start->__child==NULL && start->__brother==NULL){
+            if (getChild(start) == NULL && getBrother(start) == NULL) {
                 return NULL;
             }
 
-        }
-        else{
-
-            liste = NULL;
-
-            if(start->__child!=NULL){
-                liste = searchTree(start->__child, name);
+            if (getChild(start) != NULL) {
+                liste->next = searchTree(getChild(start), name);
             }
 
-            if(start->__brother!=NULL){
+            if (getBrother(start) != NULL) {
                 _Token *p = liste;
 
-                while(p != NULL){
+                while (p != NULL) {
                     p = p->next;
                 }
 
-                p = searchTree(start->__brother, name);
+                p->next = searchTree(getBrother(start), name);
             }
 
-            if(start->__child==NULL && start->__brother==NULL){
+        } else {
+            liste = NULL;
+
+            if (getChild(start) != NULL) {
+                searchTree(getChild(start), name);
+            } else {
+                return NULL;
+            }
+
+            if (getBrother(start) != NULL) {
+                searchTree(getBrother(start), name);
+            } else {
                 return NULL;
             }
         }
 
         return liste;
 
-        
+
     }
-    
 }
 
 // void searchTree_Recursif(void *start, char *name, _Token ** p){
