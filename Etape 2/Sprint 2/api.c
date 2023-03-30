@@ -79,6 +79,9 @@ _Token *searchTree(void *start,char *name){
 
         }
         else{
+            
+            liste = NULL;
+
             if(start->__child!=NULL){
                 liste = searchTree(start->__child, name);
             }
