@@ -28,22 +28,19 @@ _Token *searchTree(void *start, char *name) {
 }
 
 void searchTree_Recursif(void *start, char *name, _Token *liste) {
-    Node *noeud = (Node *) start;
+    start = (Node *) start;
 
-    if (strcmp(noeud->__label, name) == 0) {
-
-        insertion(liste, noeud);
-
+    if (strcmp(getLabel(start), name) == 0) {
+        insertion(liste, start);
     }
 
-    if (noeud->__child) {
-        searchTree_Recursif(noeud->__child, name, liste);
+    if (getChild(start)) {
+        searchTree_Recursif(getChild(start), name, liste);
     }
 
-    if (noeud->__brother) {
-        searchTree_Recursif(noeud->__brother, name, liste);
+    if (getBrother(start)) {
+        searchTree_Recursif(getBrother(start), name, liste);
     }
-
 }
 
 void insertion(_Token *liste, Node *newNode) {
@@ -61,23 +58,23 @@ void insertion(_Token *liste, Node *newNode) {
 }
 
 char *getElementTag(void *node, int *len) {
-    Node *noeud = (Node *) node;
+    node = (Node *) node;
 
-    if (len != NULL) {
-        *len = getLength(noeud);
+    if (len) {
+        *len = getLength(node);
     }
 
-    return (char *) getLabel(noeud);
+    return (char *) getLabel(node);
 }
 
 char *getElementValue(void *node, int *len) {
-    Node *noeud = (Node *) node;
+    node = (Node *) node;
 
-    if (len != NULL) {
-        *len = getLength(noeud);
+    if (len) {
+        *len = getLength(node);
     }
 
-    return (char *) getStart(noeud);
+    return (char *) getStart(node);
 }
 
 void purgeElement(_Token **r) {
