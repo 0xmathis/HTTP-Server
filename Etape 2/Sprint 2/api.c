@@ -79,7 +79,7 @@ _Token *searchTree(void *start,char *name){
 
         }
         else{
-            
+
             liste = NULL;
 
             if(start->__child!=NULL){
@@ -89,11 +89,11 @@ _Token *searchTree(void *start,char *name){
             if(start->__brother!=NULL){
                 _Token *p = liste;
 
-                while(p->next != NULL){
+                while(p != NULL){
                     p = p->next;
                 }
 
-                p->next = searchTree(start->__brother, name);
+                p = searchTree(start->__brother, name);
             }
 
             if(start->__child==NULL && start->__brother==NULL){
