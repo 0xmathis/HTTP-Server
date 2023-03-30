@@ -80,11 +80,11 @@ _Token *searchTree(void *start,char *name){
         }
         else{
             if(start->__child!=NULL){
-                searchTree(start->__child, name);
+                liste = searchTree(start->__child, name);
             }
 
             if(start->__brother!=NULL){
-                searchTree(start->__brother, name);
+                liste = searchTree(start->__brother, name);
             }
 
             if(start->__child==NULL && start->__brother==NULL){
