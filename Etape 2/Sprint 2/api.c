@@ -57,6 +57,7 @@ _Token *searchTree(void *start,char *name){
         if(!strcmp(start->__label,name)){
             liste  = malloc(sizeof(_Token));
             liste->node = start;
+            liste->next = NULL;
 
             if(start->__child!=NULL){
                 liste->next = searchTree(start->__child, name);
@@ -66,7 +67,13 @@ _Token *searchTree(void *start,char *name){
             }
 
             if(start->__brother!=NULL){
-                liste->next = searchTree(start->__brother, name);
+                _Token *p = liste;
+
+                while(p->next != NULL){
+                    p = p->next;
+                }
+
+                p->next = searchTree(start->__brother, name);
             }
             else{
                 return NULL;
