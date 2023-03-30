@@ -80,29 +80,29 @@ char *getElementValue(void *node, int *len) {
     return (char *) getStart(noeud);
 }
 
-void purgeElement(_Token **r) {
-    if (!*r) {
+void purgeElement(_Token **root) {
+    if (!*root) {
         return;
     }
 
-    if ((*r)->next) {
-        purgeElement(&((*r)->next));
+    if ((*root)->next) {
+        purgeElement(&((*root)->next));
     }
 
-    free(*r);
-    *r = NULL;
+    free(*root);
+    *root = NULL;
 }
 
 void purgeTree(void *root) {
     delTree((Node *) root);
 }
 
-int parseur(char *req, int len) {
+int parseur(char *message, int length) {
     root = newNode();
-    int error = detect_HTTP_message(root, req);
+    int error = detect_HTTP_message(root, message);
 
-    if (getLength(root) > len) {
-        setLength(root, len);
+    if (getLength(root) > length) {
+        setLength(root, length);
     }
 
     return error;
