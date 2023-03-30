@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
         while (token) {
             int length;
             char *start = getElementValue(token->node, &length);
-            printf("FOUND [%.*s]\n", length, start);
+            printf("%s --> FOUND [%.*s]\n", argv[2], length, start);
 
             token = token->next;
         }
