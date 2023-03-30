@@ -83,6 +83,7 @@ When running a test, the parser generates in the test folder:
 - `.out` file : the output of the teacher's parser
 - `.me` file : the output of our parser
 
+Use `make clean` after testing to delete `.out` and `.me` files generated
 ##
 ### Check if the parser is able to parse valid files without error for simple files
 ```
