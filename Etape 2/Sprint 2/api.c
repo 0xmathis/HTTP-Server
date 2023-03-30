@@ -84,7 +84,13 @@ _Token *searchTree(void *start,char *name){
             }
 
             if(start->__brother!=NULL){
-                liste = searchTree(start->__brother, name);
+                _Token *p = liste;
+
+                while(p->next != NULL){
+                    p = p->next;
+                }
+
+                p->next = searchTree(start->__brother, name);
             }
 
             if(start->__child==NULL && start->__brother==NULL){
