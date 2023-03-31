@@ -20,7 +20,7 @@ void *getRootTree();
 // sinon on effectue une recherche dans le sous-arbre à partir du noeud start
 _Token *searchTree(void *, char *);
 
-void searchTree_Recursif(void *, char *, _Token *);
+void searchTreeRecursif(void *, char *, _Token *);
 
 void insertion(_Token *, Node *);
 

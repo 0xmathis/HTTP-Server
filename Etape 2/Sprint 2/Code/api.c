@@ -27,7 +27,7 @@ _Token *searchTree(void *start, char *name) {
     }
 }
 
-void searchTree_Recursif(void *start, char *name, _Token *liste) {
+void searchTreeRecursif(void *start, char *name, _Token *liste) {
     start = (Node *) start;
 
     if (strcmp(getLabel(start), name) == 0) {
@@ -35,11 +35,11 @@ void searchTree_Recursif(void *start, char *name, _Token *liste) {
     }
 
     if (getChild(start)) {
-        searchTree_Recursif(getChild(start), name, liste);
+        searchTreeRecursif(getChild(start), name, liste);
     }
 
     if (getBrother(start)) {
-        searchTree_Recursif(getBrother(start), name, liste);
+        searchTreeRecursif(getBrother(start), name, liste);
     }
 }
 
