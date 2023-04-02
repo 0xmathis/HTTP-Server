@@ -9,11 +9,10 @@
 
 
 We coded a HTTP Parser requests coded with C  
-[Separation.txt](Separation.txt) shows the separation of tasks within the group  
-[HTTP-message.xmind](HTTP-message.xmind) is the mindmap of the HTTP ABNF  
-[httpParser](httpparser) is an old version of the teacher's parser  
-[httpParser2](httpparser2) is the latest version of the teacher's parser  
-[Code/](Code) contains the code of our parser
+[Separation.txt](doc/Separation.txt) shows the separation of tasks within the group  
+[HTTP-message.xmind](doc/HTTP-message.xmind) is the mindmap of the HTTP ABNF  
+[httpparser](bin/httpparser) is an old version of the teacher's parser  
+[httpparser2](bin/httpparser2) is the latest version of the teacher's parser  
 We implemented more accepted fields than needed because we first used the oldest version of the parser. Tests are using the oldest version too.
 
 ## Authors

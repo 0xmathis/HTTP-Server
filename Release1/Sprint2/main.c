@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Node/Node.h"
-#include "api.h"
+#include "include/Node.h"
+#include "include/api.h"
 
 int main(int argc, char **argv) {
     if (argc == 1) {

@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "../include/utils.h"
 
 int startWith(const char *start, const char *ptr) {
     for (int i = 0; start[i] != '\0'; i++) {

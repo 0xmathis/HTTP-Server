@@ -1,7 +1,7 @@
-#include "api.h"
+#include "../include/api.h"
 #include <string.h>
 #include <stdlib.h>
-#include "Parser/Josias.h"
+#include "../include/Josias.h"
 
 Node *root = NULL;
 

@@ -1,7 +1,7 @@
 #ifndef PROJET_RESEAU_HUGO_H
 #define PROJET_RESEAU_HUGO_H
 
-#include "../Node/Node.h"
+#include "Node.h"
 
 int detect_start_line(Node *, const char *);
 

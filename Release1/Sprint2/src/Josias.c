@@ -1,8 +1,8 @@
-#include "Mathis.h"
-#include "Nathan.h"
-#include "Josias.h"
-#include "Hugo.h"
-#include "utils.h"
+#include "../include/Mathis.h"
+#include "../include/Nathan.h"
+#include "../include/Josias.h"
+#include "../include/Hugo.h"
+#include "../include/utils.h"
 
 int detect_HTTP_message(Node *parent, const char *ptr) {
     initNode(parent, "HTTP_message", ptr, 0);

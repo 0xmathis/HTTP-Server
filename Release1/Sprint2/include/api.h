@@ -1,7 +1,7 @@
 #ifndef PROJET_RESEAU_API_H
 #define PROJET_RESEAU_API_H
 
-#include "Node/Node.h"
+#include "Node.h"
 
 // defini un type pour la liste chainee renvoyée en réponse de la requete de recherche dans l'arbre.
 

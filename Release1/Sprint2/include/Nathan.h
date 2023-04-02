@@ -1,7 +1,7 @@
 #ifndef PROJET_RESEAU_NATHAN_H
 #define PROJET_RESEAU_NATHAN_H
 
-#include "../Node/Node.h"
+#include "Node.h"
 
 int detect_language_range(Node *, const char *);
 

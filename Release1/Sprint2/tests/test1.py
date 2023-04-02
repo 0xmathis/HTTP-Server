@@ -2,13 +2,16 @@ import glob
 import os
 import sys
 
-import pytest
+try:
+    import pytest
+except ModuleNotFoundError:
+    os.system('python3 -m pip install pytest')
+    import pytest
 
 BASE_DIR = os.environ.get("BASE_DIR", ".")
-EMUL_HTTP = os.path.join(BASE_DIR, "httpParser")
-ALL_FILES = glob.glob(os.path.join(BASE_DIR, "../../Tests/premier-jeu-test/get*[!'.out']"))
+EMUL_HTTP = os.path.join(BASE_DIR, "bin/httpParser")
+ALL_FILES = glob.glob(os.path.join(BASE_DIR, "../Tests/premier-jeu-test/get*[!'.out''.me']"))
 ALL_FILES.sort()
-print(ALL_FILES)
 
 
 class TestHTTP:

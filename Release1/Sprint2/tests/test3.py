@@ -3,12 +3,16 @@ import os
 import subprocess
 import sys
 
-import pytest
+try:
+    import pytest
+except ModuleNotFoundError:
+    os.system('python3 -m pip install pytest')
+    import pytest
 
 BASE_DIR = os.environ.get("BASE_DIR", ".")
-EMUL_HTTP_ME = os.path.join(BASE_DIR, "httpParser")
-EMUL_HTTP_PROF = os.path.join(BASE_DIR, "../httpparser")
-ALL_FILES = glob.glob(os.path.join(BASE_DIR, "../../Tests/Only4G33ks/testFile/test*.txt"))
+EMUL_HTTP_ME = os.path.join(BASE_DIR, "bin/httpParser")
+EMUL_HTTP_PROF = os.path.join(BASE_DIR, "bin/httpparser")
+ALL_FILES = glob.glob(os.path.join(BASE_DIR, "../Tests/Only4G33ks/testFile/test*.txt"))
 ALL_FILES.sort()
 
 

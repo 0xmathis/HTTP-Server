@@ -1,8 +1,8 @@
-#include "Nathan.h"
-#include "Josias.h"
-#include "Mathis.h"
-#include "Hugo.h"
-#include "utils.h"
+#include "../include/Nathan.h"
+#include "../include/Josias.h"
+#include "../include/Mathis.h"
+#include "../include/Hugo.h"
+#include "../include/utils.h"
 
 int detect_start_line(Node *parent, const char *ptr) {
     Node *startLineNode = newChild(parent);

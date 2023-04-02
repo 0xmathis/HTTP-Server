@@ -1,7 +1,7 @@
 #ifndef PROJET_RESEAU_JOSIAS_H
 #define PROJET_RESEAU_JOSIAS_H
 
-#include "../Node/Node.h"
+#include "Node.h"
 
 int detect_HTTP_message(Node *, const char *);
 

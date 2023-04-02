@@ -1,7 +1,7 @@
-#include "Mathis.h"
-#include "Nathan.h"
-#include "Josias.h"
-#include "utils.h"
+#include "../include/Mathis.h"
+#include "../include/Nathan.h"
+#include "../include/Josias.h"
+#include "../include/utils.h"
 
 int detect_language_range(Node *parent, const char *ptr) {
     Node *languageNode = newChild(parent);
