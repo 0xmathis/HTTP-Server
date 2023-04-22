@@ -4,6 +4,7 @@
 #include "include/api.h"
 
 int main(int argc, char **argv) {
+    printf("ici\n");
     if (argc == 1) {
         printf("Usage: httpParser <file>\n");
         return -1;

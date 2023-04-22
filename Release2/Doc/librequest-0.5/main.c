@@ -16,7 +16,6 @@
 
 int main(int argc, char *argv[]) {
     printf("la\n");
-    system("export export LD_LIBRARY_PATH=.");
 
     message *requete;
 

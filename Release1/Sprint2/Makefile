@@ -4,6 +4,17 @@ SRC_C := $(wildcard src/*.c main.c)
 $(MAIN): $(SRC_C)
 	gcc -Wall $^ -o $@
 
+shared: $(SRC_C)
+	gcc -Wall -c -fPIC src/api.c -o bin/api.o
+	gcc -Wall -c -fPIC src/Hugo.c -o bin/Hugo.o
+	gcc -Wall -c -fPIC src/Josias.c -o bin/Josias.o
+	gcc -Wall -c -fPIC src/Mathis.c -o bin/Mathis.o
+	gcc -Wall -c -fPIC src/Nathan.c -o bin/Nathan.o
+	gcc -Wall -c -fPIC src/Node.c -o bin/Node.o
+	gcc -Wall -c -fPIC src/utils.c -o bin/utils.o
+	gcc -shared -o bin/httpParser.so bin/*.o
+	rm bin/*.o
+
 clean:
 	rm -f $(MAIN)
 	rm -rf __pycache__ .pytest_cache
