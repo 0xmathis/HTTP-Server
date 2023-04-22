@@ -1,8 +1,11 @@
 
 all : librequest.so sock 
 
-sock : librequest.so main.o 
-	gcc -g -o sock main.o -L. -lrequest
+sock : librequest.so main.o
+	gcc -g -o sock main.o librequest.so -L. -lrequest
+
+run: sock
+	./run.sh
 
 %.o: %.c 
 	gcc -fPIC -g -I../../abnf -I./api -c $< 
@@ -10,9 +13,9 @@ sock : librequest.so main.o
 main.o: main.c
 	gcc -fPIC -g -I./api -c $< 
 
-librequest.so : socket.o 
-	ld -shared -Bsymbolic -Bsymbolic-function -soname librequest.so -o librequest.so ./parser/librequest.o ./socket.o 
-#	gcc -Wall -shared -I./abnf -I ./api -o librequest.so socket.o ./parser/librequest.o 
+#librequest.so : socket.o
+	#ld -shared -Bsymbolic -Bsymbolic-function -soname librequest.so -o librequest.so ./parser/librequest.o ./socket.o
+	#gcc -Wall -shared -I./abnf -I ./api -o librequest.so socket.o ./parser/librequest.o
 
 clean : 
 	rm -rf rfc*.c 
@@ -20,4 +23,3 @@ clean :
 	rm -rf httpparser
 	rm -rf *.o 
 	rm -rf *.so 
-
