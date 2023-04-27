@@ -1,0 +1,10 @@
+Josias
+	Accept
+Nathan
+	Accept-Encoding
+	Accept-Language
+Hugo
+	Connection
+	Content-Encoding
+Mathis
+	Transfer-Encoding
