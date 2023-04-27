@@ -3,6 +3,8 @@
 #include "include/Node.h"
 #include "include/api.h"
 
+Node *root = NULL;
+
 int main(int argc, char **argv) {
     printf("ici\n");
     if (argc == 1) {
@@ -28,6 +30,8 @@ int main(int argc, char **argv) {
     fclose(file);
 
     int error = parseur(message, length);
+
+    printf("%d\n", root);
 
     if (error) {
         printf("NOK\n");

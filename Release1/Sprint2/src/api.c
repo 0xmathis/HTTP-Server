@@ -1,9 +1,9 @@
 #include "../include/api.h"
+#include "../include/Josias.h"
 #include <string.h>
 #include <stdlib.h>
-#include "../include/Josias.h"
+#include <stdio.h>
 
-Node *root = NULL;
 
 void *getRootTree() {
     return root;

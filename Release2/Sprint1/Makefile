@@ -1,11 +1,10 @@
 MAIN=server
-SRC_C=$(wildcard src/*.c main.c)
-BIN=bin
-PARSER_BIN=bin/httpParser
-PARSER_SRC=../../Release1/Sprint2/src
+SRC=$(wildcard src/*.c main.c)
+PARSER_SRC=../../Release1/Sprint2/src/*.c
 
-$(MAIN): $(SRC_C)
-	gcc -I ../Doc/libparser -I ../Doc/librequest-0.5/api -L ../Doc/libparser -L ../Doc/librequest-0.5 -o bin/server main.c -lparser -lrequest
+
+$(MAIN): $(SRC) $(PARSER_SRC)
+	gcc -Wall -Wextra -L ../Doc/librequest-0.5 -o bin/server $^ -lrequest
 
 run: $(MAIN)
 	./run.sh
