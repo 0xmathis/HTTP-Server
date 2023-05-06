@@ -15,7 +15,7 @@ char *getHeaderValue(Node *, char *);
 
 char *getFilePath(Node *);
 
-char *getFileExtension(char *);
+void getFileExtension(char *, char *);
 
 unsigned char *getDataFromFile(char *, int *);
 
@@ -31,9 +31,11 @@ void send_Date_Header(int);
 
 void send_Server_Header(int);
 
-void send_headers(int, char *);
+void send_headers(int, char *, Node *);
 
 void send_message_body(int, char *);
+
+int isConnectionToClose(Node *);
 
 
 #endif

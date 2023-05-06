@@ -27,7 +27,7 @@ void showDebugInfos(message *requete) {
 void sendTestFile(int clientId) {
     char *path = getFilePath(root);
 
-    send_headers(clientId, path);
+    send_headers(clientId, path, root);
 
     if (isGet(root)) {
         send_message_body(clientId, path);

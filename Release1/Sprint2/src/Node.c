@@ -162,7 +162,7 @@ int getSumLengthChildren(Node *this) {
 // Autre
 
 void printChildren(Node *this, int depth) {
-    for (int i = 0; i < 4*depth; i++) { printf(" "); }
+    for (int i = 0; i < 4 * depth; i++) { printf(" "); }
 
     printf("[%d:%s] = \"", depth, getLabel(this));
 

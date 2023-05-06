@@ -25,6 +25,8 @@ int check_method(Node *root, int clientId) {
         return 0;
     }
 
+    free(method);
+
     return 1;
 }
 
@@ -48,11 +50,17 @@ int check_path(Node *root, int clientId) {
 int isGet(Node *root) {
     char *method = getHeaderValue(root, "method");
 
-    return strcmp(method, "GET") == 0;
+    if (strcmp(method, "GET") == 0) {
+        free(method);
+        return 1;
+    }
+
+    free(method);
+    return 0;
 }
 
-char *getHeaderValue(Node *root, char *header) {
-    _Token *result = searchTree(root, header);
+char *getHeaderValue(Node *root, char *headerValue) {
+    _Token *result = searchTree(root, headerValue);
 
     if (result) {
         Node *node = (Node *) result->node;
@@ -78,17 +86,18 @@ char *getFilePath(Node *root) {
         sprintf(fullPath, "%s%s", PATH, path);
     }
 
+    free(path);
+
     return fullPath;
 }
 
-char *getFileExtension(char *ptr) {
+void getFileExtension(char *ptr, char *output) {
     for (int i = 0; ptr[i] != '\0'; i++) {
         if (ptr[i] == '.') {
-            return &ptr[i];
+            strcpy(output, &ptr[i]);
+            break;
         }
     }
-
-    return NULL;
 }
 
 unsigned char *getDataFromFile(char *path, int *size) {
@@ -117,8 +126,10 @@ char *getDirectoryRepresentationHTML() {  // renvoie la liste des fichiers prés
 
 char *detect_MIME_type(Node *root) {
     char *path = getFilePath(root);
-    char *extension = getFileExtension(path);
+    char extension[50];
+    getFileExtension(path, extension);
     printf("extension : %s\n", extension);
+    free(path);
 
     if (startWith(".aac", extension)) {
         return "audio/aac";
@@ -171,15 +182,18 @@ char *detect_MIME_type(Node *root) {
 
 void sendErrorCode(Node *root, int clientId, int errorCode, char *errorMessage) {
     char *version = getHeaderValue(root, "HTTP_version");
-    char statusLine[150];
-    sprintf(statusLine, TEMPLATE_STATUS_LINE, version, errorCode);
-    free(version);
-    writeDirectClient(clientId, statusLine, strlen(statusLine));
+    char statusLine[150], message[150];
 
-    char message[150];
+    sprintf(statusLine, TEMPLATE_STATUS_LINE, version, errorCode, errorMessage);
     sprintf(message, TEMPLATE_ERROR, errorCode, errorMessage, errorCode, errorMessage);
 
+    writeDirectClient(clientId, statusLine, strlen(statusLine));
+    send_Date_Header(clientId);
+    send_Server_Header(clientId);
+    writeDirectClient(clientId, "\r\n", 2);
     writeDirectClient(clientId, message, strlen(message));
+
+    free(version);
 }
 
 void send_Content_Type_Header(int clientId, char *mimeType) {
@@ -206,7 +220,18 @@ void send_Server_Header(int clientId) {
     writeDirectClient(clientId, message, strlen(message));
 }
 
-void send_headers(int clientId, char *path) {
+void send_Connection_Header(int clientId, Node *root) {
+    char *connectionOption = getHeaderValue(root, "connection_option");
+
+    if (connectionOption) {
+        char message[30];
+        sprintf(message, "Connection: %s\r\n", connectionOption);
+        writeDirectClient(clientId, message, strlen(message));
+        free(connectionOption);
+    }
+}
+
+void send_headers(int clientId, char *path, Node *root) {
     char mimeType[25];
 
     if (path[strlen(path) - 1] == '/') {  // si on demande un dossier du site
@@ -217,6 +242,7 @@ void send_headers(int clientId, char *path) {
 
     send_Server_Header(clientId);
     send_Date_Header(clientId);
+    send_Connection_Header(clientId, root);
     send_Content_Type_Header(clientId, mimeType);
     writeDirectClient(clientId, "\r\n", 2);
 }
@@ -232,4 +258,12 @@ void send_message_body(int clientId, char *path) {
             free(buffer);
         }
     }
+}
+
+int isConnectionToClose(Node *root) {
+    char *connection = getHeaderValue(root, "connection_option");
+
+    printf("connection : %s\n", connection);
+
+    return 0;
 }

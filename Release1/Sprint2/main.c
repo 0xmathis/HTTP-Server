@@ -6,7 +6,6 @@
 Node *root = NULL;
 
 int main(int argc, char **argv) {
-    printf("ici\n");
     if (argc == 1) {
         printf("Usage: httpParser <file>\n");
         return -1;
@@ -30,8 +29,6 @@ int main(int argc, char **argv) {
     fclose(file);
 
     int error = parseur(message, length);
-
-    printf("%d\n", root);
 
     if (error) {
         printf("NOK\n");
