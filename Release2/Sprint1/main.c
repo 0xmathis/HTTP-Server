@@ -16,6 +16,9 @@
 #define ERROR "HTTP/1.0 400 SUCKA\r\n\r\n"
 #define REPONSE "HTTP/1.0 200 OK\r\n"
 
+// TODO : Content-Length-Header
+// TODO : Renvoyer le bon site en fonction des valeurs de Host
+
 Node *root = NULL;
 
 void showDebugInfos(message *requete) {
