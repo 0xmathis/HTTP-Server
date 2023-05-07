@@ -81,9 +81,9 @@ char *getFilePath(Node *root) {
     char *path = getHeaderValue(root, "request_target");
 
     if (strlen(path) == 1 && *path == '/') {  // si on demande la racine du site
-        sprintf(fullPath, "%s%sindex.html", PATH, path);
+        sprintf(fullPath, "%s%sindex.html", PATH1, path);
     } else {
-        sprintf(fullPath, "%s%s", PATH, path);
+        sprintf(fullPath, "%s%s", PATH1, path);
     }
 
     free(path);
@@ -100,7 +100,7 @@ void getFileExtension(char *ptr, char *output) {
     }
 }
 
-unsigned char *getDataFromFile(char *path, int *size) {
+unsigned char *getFileData(char *path, int *size) {
     FILE *file = fopen(path, "rb");
 
     if (!file) {
@@ -209,7 +209,7 @@ void send_Date_Header(int clientId) {
 
     time_t t = time(NULL);
     struct tm tm = *gmtime(&t);
-    sprintf(message, "Date: %s, %02d %s %d %02d:%02d:%02d GMT\r\n", days[tm.tm_wday - 1], tm.tm_mday, months[tm.tm_mon - 1], tm.tm_year + 1900, tm.tm_hour, tm.tm_min, tm.tm_sec);
+    sprintf(message, "Date: %s, %02d %s %d %02d:%02d:%02d GMT\r\n", days[(tm.tm_wday - 1 + 7) % 7], tm.tm_mday, months[(tm.tm_mon - 1 + 12) % 12], tm.tm_year + 1900, tm.tm_hour, tm.tm_min, tm.tm_sec);
 
     writeDirectClient(clientId, message, strlen(message));
 }
@@ -231,6 +231,13 @@ void send_Connection_Header(int clientId, Node *root) {
     }
 }
 
+void send_Content_Length_Header(int clientId, int size) {
+    char message[30];
+
+    sprintf(message, "Content-Length: %d\r\n", size);
+    writeDirectClient(clientId, message, strlen(message));
+}
+
 void send_headers(int clientId, char *path, Node *root) {
     char mimeType[25];
 
@@ -244,7 +251,6 @@ void send_headers(int clientId, char *path, Node *root) {
     send_Date_Header(clientId);
     send_Connection_Header(clientId, root);
     send_Content_Type_Header(clientId, mimeType);
-    writeDirectClient(clientId, "\r\n", 2);
 }
 
 void send_message_body(int clientId, char *path) {
@@ -252,8 +258,10 @@ void send_message_body(int clientId, char *path) {
 
     } else {
         int size;
-        unsigned char *buffer = getDataFromFile(path, &size);
+        unsigned char *buffer = getFileData(path, &size);
         if (buffer) {
+            send_Content_Length_Header(clientId, size);
+            writeDirectClient(clientId, "\r\n", 2);
             writeDirectClient(clientId, (char *) buffer, size);
             free(buffer);
         }

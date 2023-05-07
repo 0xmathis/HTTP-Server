@@ -17,7 +17,7 @@ char *getFilePath(Node *);
 
 void getFileExtension(char *, char *);
 
-unsigned char *getDataFromFile(char *, int *);
+unsigned char *getFileData(char *, int *);
 
 char *getDirectoryRepresentationHTML();  // renvoie la liste des fichiers présents dans le dossier demandé cf : challenge01.root-me.org
 
@@ -30,6 +30,10 @@ void send_Content_Type_Header(int, char *);
 void send_Date_Header(int);
 
 void send_Server_Header(int);
+
+void send_Connection_Header(int, Node *);
+
+void send_Content_Length_Header(int, int);
 
 void send_headers(int, char *, Node *);
 
