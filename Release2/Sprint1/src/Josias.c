@@ -36,7 +36,7 @@ int check_accept(Node *root, int clientId){
     _Token *accept_header = searchTree(root, "accept_header");
     if(accept_header != NULL)
     {//Si on a un accept header
-        
+
     }
 
     int length;
@@ -44,6 +44,7 @@ int check_accept(Node *root, int clientId){
     char *value = (char *) malloc(sizeof(char) * (length+1));
     sprintf(value, "%.*s", length, start);
     
+
 
 
     
