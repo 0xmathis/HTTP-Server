@@ -22,7 +22,7 @@
 Node *root = NULL;
 
 void showDebugInfos(message *requete) {
-    printf("#########################################\nDemande recue depuis le client %d\n", requete->clientId);
+    printf("Demande recue depuis le client %d\n", requete->clientId);
     printf("Client [%d] [%s:%d]\n", requete->clientId, inet_ntoa(requete->clientAddress->sin_addr), htons(requete->clientAddress->sin_port));
     printf("Contenu de la demande\n%.*s\n\n", requete->len, requete->buf);
 }
@@ -31,10 +31,7 @@ void sendTestFile(int clientId) {
     char *path = getFilePath(root);
 
     send_headers(clientId, path, root);
-
-    if (isGet(root)) {
-        send_message_body(clientId, path);
-    }
+    send_message_body(clientId, path);
 
     printf("\"%s\" envoyé\n", path);
     free(path);
@@ -106,10 +103,12 @@ int main() {
         // on attend la reception d'une requete HTTP requete pointera vers une ressource allouée par librequest.
         if ((requete = getRequest(8080)) == NULL) return -1;
 
+        printf("#########################################\n");
         // Affichage de debug
         showDebugInfos(requete);
 
         if (!parseur(requete->buf, requete->len)) {
+//            printChildren(root, 0);
             if (check_request(root, requete->clientId)) {
                 writeDirectClient(requete->clientId, REPONSE, strlen(REPONSE));
 
@@ -118,13 +117,15 @@ int main() {
                 purgeTree(root);
             }
         } else {
-//            writeDirectClient(requete->clientId, ERROR, strlen(ERROR));
+            printf("Problème requête\n");
         }
 
         endWriteDirectClient(requete->clientId);
         requestShutdownSocket(requete->clientId);
         // on ne se sert plus de requete à partir de maintenant, on peut donc liberer...
         freeRequest(requete);
+
+        printf("#########################################\n");
     }
 
     return (1);
