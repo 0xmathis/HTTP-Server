@@ -14,17 +14,22 @@ int check_accept(Node *root, int clientId){
     _Token *media_range = searchTree(root, "media_range");
 
     //RECOMMENDED
-     _Token *accept_params = searchTree(root, "accept_params");
-    int length;
-    char *start = getElementValue(accept_params, &length);
-    char *value = (char *) malloc(sizeof(char) * (length+1));
-    sprintf(value, "%.*s", length, start);
+    _Token *accept_params = searchTree(root, "accept_params");
+        int length;
+        char *start = getElementValue(accept_params, &length);
+        char *value = (char *) malloc(sizeof(char) * (length+1));
 
     bool flag = false;
     while(accept_params->next != NULL){
+        
+        *start = getElementValue(accept_params, &length);
+        *value = (char *) malloc(sizeof(char) * (length+1));
+        sprintf(value, "%.*s", length, start);
+
         if(strcmp(value, detect_MIME_type(root)) == 0){
             flag = true;
         }
+
     }
     if(!flag)
     {//Si le type de la ressource ne fait pas parti de ceux acceptés par le client
@@ -38,6 +43,7 @@ int check_accept(Node *root, int clientId){
     {//Si on a un accept header
 
     }
+    
 
     int length;
     char *start = getElementValue(accept_header, &length);
