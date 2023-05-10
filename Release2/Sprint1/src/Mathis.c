@@ -4,12 +4,13 @@
 #include <time.h>
 #include "../include/api.h"
 #include "../include/constantes.h"
+#include "../include/Josias.h"
 #include "../include/Mathis.h"
 #include "../include/request.h"
 #include "../include/utils.h"
 
 int check_request(Node *root, int clientId) {
-    if (!check_method(root, clientId) || !check_path(root, clientId)) {
+    if (!check_method(root, clientId) || !check_Headers(root, clientId) || !check_path(root, clientId)) {
         printf("laaaaaa\n");
         return 0;
     }
@@ -35,6 +36,13 @@ int check_path(Node *root, int clientId) {
     FILE *file = fopen(path, "rb");
     printf("path : %s\n", path);
 
+    for (int i = 0; i < (int) strlen(path) - 1; i++) {
+        if (path[i] == '.' && path[i + 1] == '.') {
+            sendErrorCode(root, clientId, 401, "Unauthorized");
+            return 0;
+        }
+    }
+
     if (!file) {
         printf("Problème fichier\n");
         sendErrorCode(root, clientId, 404, "Not Found");
@@ -59,8 +67,8 @@ int isGet(Node *root) {
     return 0;
 }
 
-char *getHeaderValue(Node *root, char *headerValue) {
-    _Token *result = searchTree(root, headerValue);
+char *getHeaderValue(Node *start, char *headerValue) {
+    _Token *result = searchTree(start, headerValue);
 
     if (result) {
         Node *node = (Node *) result->node;
@@ -76,19 +84,85 @@ char *getHeaderValue(Node *root, char *headerValue) {
     return NULL;
 }
 
+char *getHostTarget(Node *root) {
+    char *host = getHeaderValue(root, "Host");
+
+    if (!host) {
+        return NULL;
+    }
+
+    char *hostTarget = (char *) malloc(strlen(host) * sizeof(char));
+    int i = 0;
+    int j = 0;
+
+    if (startWith("www.", host)) {
+        i = 4;
+    }
+
+    while (host[i] != ':') {
+        hostTarget[j] = host[i];
+        i++;
+        j++;
+    }
+
+    free(host);
+    return hostTarget;
+}
+
 char *getFilePath(Node *root) {
+    char *partialPath = (char *) malloc(sizeof(char) * 200);
     char *fullPath = (char *) malloc(sizeof(char) * 200);
     char *path = getHeaderValue(root, "request_target");
+    char *host = getHostTarget(root);
+
+    if (host) {
+        printf("host : %s\n", host);
+        if (strcmp(host, HOST1) == 0) {
+            sprintf(partialPath, "%s", PATH1);
+        } else if (strcmp(host, HOST2) == 0) {
+            sprintf(partialPath, "%s", PATH2);
+        }
+    } else {
+        sprintf(partialPath, "%s", PATH_DEFAULT);
+    }
 
     if (strlen(path) == 1 && *path == '/') {  // si on demande la racine du site
-        sprintf(fullPath, "%s%sindex.html", PATH1, path);
+        sprintf(fullPath, "%s%sindex.html", partialPath, path);
     } else {
-        sprintf(fullPath, "%s%s", PATH1, path);
+        sprintf(fullPath, "%s%s", partialPath, path);
     }
 
     free(path);
+    free(partialPath);
+    free(host);
 
     return fullPath;
+}
+
+int check_Host_Header(Node *root, int clientId) {
+    char *version = getHeaderValue(root, "HTTP_version");
+
+    _Token *result = searchTree(root, "Host_header");
+    if ((result && result->next) || (!result && strcmp(version, "HTTP/1.1") == 0)) {  // s'il y a 0 ou plusieurs header host
+        sendErrorCode(root, clientId, 400, "Bad Request");
+        return 0;
+    }
+
+    char *host = getHostTarget(root);
+
+    if (strcmp(host, HOST1) && strcmp(host, HOST2)) {
+        sendErrorCode(root, clientId, 400, "Bad Request");
+        return 0;
+    }
+
+
+    free(version);
+    free(host);
+    return 1;
+}
+
+int check_Headers(Node *root, int clientId) {
+    return check_Host_Header(root, clientId);
 }
 
 void getFileExtension(char *ptr, char *output) {
@@ -152,7 +226,7 @@ char *detect_MIME_type(Node *root) {
     } else if (startWith(".htm", extension)) {
         return "text/html";
     } else if (startWith(".ico", extension)) {
-        return "image/vnd.microsoft.icon";
+        return "image/x-icon";
     } else if (startWith(".jpeg", extension)) {
         return "image/jpeg";
     } else if (startWith(".jpg", extension)) {
@@ -261,8 +335,11 @@ void send_message_body(int clientId, char *path) {
         unsigned char *buffer = getFileData(path, &size);
         if (buffer) {
             send_Content_Length_Header(clientId, size);
-            writeDirectClient(clientId, "\r\n", 2);
-            writeDirectClient(clientId, (char *) buffer, size);
+
+            if (isGet(root)) {
+                writeDirectClient(clientId, "\r\n", 2);
+                writeDirectClient(clientId, (char *) buffer, size);
+            }
             free(buffer);
         }
     }
