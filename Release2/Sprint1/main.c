@@ -108,7 +108,7 @@ int main() {
 
         // Affichage de debug
         showDebugInfos(requete);
-
+ 
         if (!parseur(requete->buf, requete->len)) {
             if (check_request(root, requete->clientId)) {
                 writeDirectClient(requete->clientId, REPONSE, strlen(REPONSE));
@@ -122,7 +122,11 @@ int main() {
         }
 
         endWriteDirectClient(requete->clientId);
-        requestShutdownSocket(requete->clientId);
+
+        if(!check_connection(root, requete->clientId)){
+            requestShutdownSocket(requete->clientId);
+        }
+
         // on ne se sert plus de requete à partir de maintenant, on peut donc liberer...
         freeRequest(requete);
     }
