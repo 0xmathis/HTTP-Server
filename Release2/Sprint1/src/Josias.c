@@ -87,56 +87,43 @@
 //    return 1;
 //}
 
-int check_accept(Node *root, int clientId){
+int check_Accept_Header(Node *root, int clientId){
 
-    //OPTIONNAL
-    _Token *media_range = searchTree(root, "media_range");
-
-    //RECOMMENDED
-    _Token *accept_params = searchTree(root, "accept_params");
-    int length;
-    char *start = getElementValue(accept_params, &length);
-    char *value = (char *) malloc(sizeof(char) * (length+1));
+ _Token  media_range = searchTree(root, "media_range");
+        int length;
+        char *start;
+        char *value;
 
     bool flag = false;
-    while(accept_params->next != NULL){
-
-        *start = getElementValue(accept_params, &length);
+    while(media_range->next != NULL){
+        //Stockage de media
+        *start = getElementValue(media_range, &length);
         *value = (char *) malloc(sizeof(char) * (length+1));
         sprintf(value, "%.*s", length, start);
+        /
+        if(strstr(value, detect_MIME_type(root)))
+        { //Si le MIME Type correspond a un des media range 
+            //On verifie que accepte params ne contient pas q = 0
+            _Token accept_params = searchTree(root, "accept_params")
 
-        if(strcmp(value, detect_MIME_type(root)) == 0){
-            flag = true;
+            while(accept_params->next != NULL)
+            {
+                *start = getElementValue(media_range, &length);
+                *value = (char *) malloc(sizeof(char) * (length+1));
+                sprintf(value, "%.*s", length, start);
+
+                if(strstr(value,"q=0") == NULL){
+                    flag = true;
+                }
+            }
         }
+        media_range = media_range->next;
 
     }
     if(!flag)
-    {//Si le type de la ressource ne fait pas parti de ceux acceptés par le client
+    {
         sendErrorCode(root, clientId, 406, "Not accepted media type");
         return 1;
     }
-
-    //Accept-header
-    _Token *accept_header = searchTree(root, "accept_header");
-    if(accept_header != NULL)
-    {//Si on a un accept header
-
-    }
-
-
-    int length;
-    char *start = getElementValue(accept_header, &length);
-    char *value = (char *) malloc(sizeof(char) * (length+1));
-    sprintf(value, "%.*s", length, start);
-
-
-
-
-
-
-
-
-
-
 
 }
