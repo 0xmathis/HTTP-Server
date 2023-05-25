@@ -6,15 +6,17 @@ PARSER_SRC=../../Release1/Sprint2/src/*.c
 $(MAIN): $(SRC) $(PARSER_SRC)
 	gcc -Wall -Wextra -L ../Doc/librequest-0.5 -o bin/server $^ -lrequest
 
-run: $(MAIN)
-	./run.sh
+run: $(MAIN) prepa
+	./scripts/run.sh
+
+valgrind: $(MAIN) prepa
+	./scripts/run.sh "valgrind"
 
 clean:
 	rm -f $(BIN)/$(MAIN)
 
 prepa:
-	sudo mv /etc/hosts /etc/hosts.temp
-	sudo cp hosts /etc/hosts
+	./scripts/prepa.sh
 
 unprepa:
-	sudo mv /etc/hosts.temp /etc/hosts
+	./scripts/unprepa.sh

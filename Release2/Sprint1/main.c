@@ -16,8 +16,9 @@
 #define ERROR "HTTP/1.0 400 SUCKA\r\n\r\n"
 #define REPONSE "HTTP/1.0 200 OK\r\n"
 
-// TODO : Content-Length-Header
-// TODO : Renvoyer le bon site en fonction des valeurs de Host
+// TODO: Corriger version réponse 200
+// TODO: Corriger le truc des pourcents
+// TODO: Corriger le truc des points (apparemment ya un algo pour ca dans la RFC
 
 Node *root = NULL;
 
@@ -122,9 +123,9 @@ int main() {
 
         endWriteDirectClient(requete->clientId);
 
-        if(!check_connection(root, requete->clientId)){
-            requestShutdownSocket(requete->clientId);
-        }
+//        if(!check_connection(root, requete->clientId)){
+//            requestShutdownSocket(requete->clientId);
+//        }
 
         // on ne se sert plus de requete à partir de maintenant, on peut donc liberer...
         freeRequest(requete);
