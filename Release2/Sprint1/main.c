@@ -16,9 +16,15 @@
 #define ERROR "HTTP/1.0 400 SUCKA\r\n\r\n"
 #define REPONSE "HTTP/1.0 200 OK\r\n"
 
-// TODO: Corriger version réponse 200
-// TODO: Corriger le truc des pourcents
-// TODO: Corriger le truc des points (apparemment ya un algo pour ca dans la RFC
+// TODO: Personnaliser la première ligne de la réponse
+// TODO: Percent Encoding (RFC3986)
+// TODO: Dot Segment Removal (RFC3986)
+// TODO: Pas de content length -> transfer-encoding = chunked
+// TODO: Être capable de parser/créer du chunked encoding
+// TODO: Si on applique un autre transfer-encoding que chunked dans la requête, le client doit appliquer chunked à la fin
+// TODO: Si on applique un autre transfer-encoding que chunked dans la réponse, le serveur doit soit appliquer chunked à la fin, soit fermer la connection après l'envoie
+// TODO: Transfer-coding inconnu -> erreur 501
+// TODO: Si HTTP/1.0 -> Pas de Transfer-Encoding dans la réponse du serveur
 
 Node *root = NULL;
 

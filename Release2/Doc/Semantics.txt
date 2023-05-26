@@ -1,10 +1,9 @@
-GET/HEAD :
-	forcément Host (voir Burp pour voir)
-	Content-Length : envoie la longueur de la représentation après avoir appliqué les transfert-encoding
-
-HEAD, message d'erreur 1xx, 204, 304 :
-	pas de message body
-
-Transfer Codings :
-	s'il y a l'encodage "chuncked", ca DOIT être le dernier encodage utilisé
-	l'encodage "chuncked" NE DOIT PAS être utilisé plus d'une fois au message body
+Personnaliser la première ligne de la réponse
+Percent Encoding (RFC3986)
+Dot Segment Removal (RFC3986)
+Pas de content length -> transfer-encoding = chunked
+Être capable de parser/créer du chunked encoding
+Si on applique un autre transfer-encoding que chunked dans la requête, le client doit appliquer chunked à la fin
+Si on applique un autre transfer-encoding que chunked dans la réponse, le serveur doit soit appliquer chunked à la fin, soit fermer la connection après l'envoie
+Transfer-coding inconnu -> erreur 501
+Si HTTP/1.0 -> Pas de Transfer-Encoding dans la réponse du serveur
