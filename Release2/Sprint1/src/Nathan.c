@@ -154,7 +154,7 @@ void send_Encoding(int clientId, Node *root) {
 
     if (encoding) {
         char message[50];
-        sprintf(message, "Content-type: %s\r\n", encoding);
+        sprintf(message, "Content-coding: %s\r\n", encoding);
         writeDirectClient(clientId, message, strlen(message));
         free(encoding);
     }
