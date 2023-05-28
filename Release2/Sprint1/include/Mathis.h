@@ -9,13 +9,21 @@ int check_method(Node *, int);
 
 int check_Host_Header(Node *, int);
 
-int check_Headers(Node *, int);
+int check_Range_Header(Node *, int);
+
+void getRangeRange(Node *, int *, int *);
+
+int check_headers(Node *, int);
 
 int isGet(Node *);
+
+int isRange(Node *);
 
 char *getHeaderValue(Node *, char *);
 
 char *getHostTarget(Node *);
+
+Node *getRangeHeader(Node *);
 
 char *getFilePath(Node *);
 
@@ -25,7 +33,9 @@ unsigned char *getFileData(char *, int *);
 
 char *getDirectoryRepresentationHTML();  // renvoie la liste des fichiers présents dans le dossier demandé cf : challenge01.root-me.org
 
-char *detect_MIME_type(Node *);
+char *detect_MIME_type(char *);
+
+void send_status_line(Node *, int, int, char *);
 
 void sendErrorCode(Node *, int, int, char *);
 
@@ -43,7 +53,8 @@ void send_headers(int, char *, Node *);
 
 void send_message_body(int, char *);
 
-int isConnectionToClose(Node *);
+void send_message_body_streaming(int, char *);
 
+int isVideoContent(char *);
 
 #endif

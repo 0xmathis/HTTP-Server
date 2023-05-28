@@ -1,13 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include "include/api.h"
 #include "include/Mathis.h"
-#include "include/constantes.h"
-#include <time.h>
+#include "include/Hugo.h"
 
 
 // for librequest
@@ -25,6 +23,7 @@
 // TODO: Si on applique un autre transfer-encoding que chunked dans la réponse, le serveur doit soit appliquer chunked à la fin, soit fermer la connection après l'envoie
 // TODO: Transfer-coding inconnu -> erreur 501
 // TODO: Si HTTP/1.0 -> Pas de Transfer-Encoding dans la réponse du serveur
+// TODO: faire une fonction séparée qui envoie les vidéos en streaming (donc pas toute la vidéo d'un coup) on doit envoyer un Range-header (voir la vidéo sur le streaming dans l'historique youtube)
 
 Node *root = NULL;
 
@@ -34,92 +33,55 @@ void showDebugInfos(message *requete) {
     printf("Contenu de la demande\n%.*s\n\n", requete->len, requete->buf);
 }
 
-void sendTestFile(int clientId) {
-    char *path = getFilePath(root);
-
+void sendFullResponse(int clientId, char *path) {
+    send_status_line(root, clientId, 200, "OK");
     send_headers(clientId, path, root);
     send_message_body(clientId, path);
+}
+
+void sendPartialResponse(int clientId, char *path) {
+    send_status_line(root, clientId, 206, "Partial Content");
+    send_headers(clientId, path, root);
+    send_message_body_streaming(clientId, path);
+}
+
+void sendResponse(int clientId) {
+    char *path = getFilePath(root);
+
+    if (isVideoContent(path)) {
+        sendPartialResponse(clientId, path);
+    } else {
+        sendFullResponse(clientId, path);
+    }
 
     printf("\"%s\" envoyé\n", path);
     free(path);
 }
 
-//void sendTest(int clientId) {
-//    FILE *file = fopen("testSite/test.html", "rb");
-//
-//    if (!file) {
-//        printf("Problème fichier");
-//        return;
-//    }
-//
-//    fseek(file, 0L, SEEK_END);
-//    long size = ftell(file);
-//    rewind(file);
-//
-//    unsigned char *buffer = (unsigned char *) malloc(size);
-//
-//    fread(buffer, size, 1, file);
-//    fclose(file);
-//
-//    writeDirectClient(clientId, (char *) buffer, size);
-//
-//    free(buffer);
-//}
-//
-//void sendImageTest(int clientId) {
-//    FILE *file = fopen("testSite/ecureuil.jpg", "rb");
-//
-//    if (!file) {
-//        printf("Problème image");
-//        return;
-//    }
-//
-//    fseek(file, 0L, SEEK_END);
-//    long size = ftell(file);
-//    rewind(file);
-//
-//    unsigned char *buffer = (unsigned char *) malloc(size);
-//
-//    fread(buffer, size, 1, file);
-//    fclose(file);
-//
-//    writeDirectClient(clientId, (char *) buffer, size);
-//
-//    free(buffer);
-//}
-//
-//void sendBackRequest(int clientId) {
-//    _Token *result = searchTree(NULL, "HTTP_message");
-//    _Token *token = result;
-//
-//    while (token) {
-//        Node *node = (Node *) token->node;
-//        writeDirectClient(clientId, (char *) getStart(node), getLength(node));
-//        token = token->next;
-//    }
-//
-//    purgeElement(&result);
-//}
 
 int main() {
     message *requete;
 
+//    check_path(root,0);
+//
+//    return 1;
+
     while (1) {
         printf("en attente\n");
 
-        // on attend la reception d'une requete HTTP requete pointera vers une ressource allouée par librequest.
+        // on attend la reception d'une requete HTTP
+        // requete pointera vers une ressource allouée par librequest
         if ((requete = getRequest(8080)) == NULL) return -1;
 
         printf("#########################################\n");
         // Affichage de debug
         showDebugInfos(requete);
- 
-        if (!parseur(requete->buf, requete->len)) {
+
+        if (parseur(requete->buf, requete->len) == 0) {
 //            printChildren(root, 0);
             if (check_request(root, requete->clientId)) {
-                writeDirectClient(requete->clientId, REPONSE, strlen(REPONSE));
-
-                sendTestFile(requete->clientId);
+                printf("ici\n");
+                sendResponse(requete->clientId);
 
                 purgeTree(root);
             }
