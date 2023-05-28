@@ -108,7 +108,7 @@ _Token *mediaRanges = searchTree(root, "media_range");
         char *value = (char *) malloc(sizeof(char) * (length + 1));
         sprintf(value, "%.*s", length, start);
 
-        if(value=='/'){
+        if(strcmp(value,"*/*") == 0){
             flag1 = 1;
             flag2 = 1;
         }
