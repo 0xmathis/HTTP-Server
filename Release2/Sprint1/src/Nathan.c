@@ -34,7 +34,7 @@ int check_accept_encoding(Node *root, int clientId) {
 
         while (codings->next != NULL) {
 
-            start = *start = getElementValue(codings, &length);
+            start = getElementValue(codings, &length);
             value = (char *) malloc(sizeof(char) * length+1);
             sprintf(value, "%.*s", length, start);
             
@@ -104,7 +104,7 @@ char *get_encoding(Node *root, int clientId) {
 
         while (codings->next != NULL) {
 
-            start = *start = getElementValue(codings, &length);
+            start = getElementValue(codings, &length);
             value = (char *) malloc(sizeof(char) * length+1);
             sprintf(value, "%.*s", length, start);
             
