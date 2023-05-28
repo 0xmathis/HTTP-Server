@@ -89,21 +89,60 @@
 
 int check_Accept_Header(Node *root, int clientId){
 
- _Token  media_range = searchTree(root, "media_range");
-        int length;
-        char *start;
-        char *value;
+_Token *mediaRanges = searchTree(root, "media_range");
 
-    bool flag = false;
-    while(media_range->next != NULL){
-        //Stockage de media
-        *start = getElementValue(media_range, &length);
-        *value = (char *) malloc(sizeof(char) * (length+1));
+    if (!mediaRanges) {  // si pas de media range (donc pas de Accept Header), on accepte tout les types
+        return 1;
+    }
+
+    char *mimeType = detect_MIME_type(root);    
+    int flag1= flag2 = 0;
+
+    while (mediaRanges.next != NULL) {
+
+        Node *node = mediaRanges->node;
+
+        //On ecrit dans la variable value la chaine de media-range
+        int length;
+        char *start = getElementValue(node, &length);
+        char *value = (char *) malloc(sizeof(char) * (length + 1));
         sprintf(value, "%.*s", length, start);
-        /
-        if(strstr(value, detect_MIME_type(root)))
-        { //Si le MIME Type correspond a un des media range 
-            //On verifie que accepte params ne contient pas q = 0
+
+        if(value=='/'){
+            flag1 = 1;
+            flag2 = 1;
+        }
+
+        if (startWith(mimeType, value)) { //Si type et sous-type coïncident remplacable par strstr(value, mimeType)
+            char *parameter = getHeaderValue(node, "parameter");
+            flag1 =1;
+        
+        }
+
+        //Stockage du type et du sous-type 
+        Node *type = getChild(node);
+        int lenght_type;
+        char *start_type = getElementValue(type, &lenght_type);
+        char *value_type = (char *) malloc(sizeof(char) * (lenght_type + 1));
+        sprintf(value_type, "%.*s", lenght_type, start);
+
+        Node *subtype = getChild(node);
+        int lenght_subtype;
+        char *start_subtype = getElementValue(subtype, &lenght_subtype);
+        char *value_subtype = (char *) malloc(sizeof(char) * (lenght_subtype + 1));
+        sprintf(value_subtype, "%.*s", lenght_subtype, start);
+
+        if (startWith(mimeType, type)) { //Si les types ne coïncident pas
+            char *shortenMimeType = strcpy(shortenMimeType, mimeType + lenght_type); //chaine mimeType sans le type 
+            if (startWith(shortenMimeType, value_subtype) || value_subtype == '*')
+            { //Si le sous-type est accepté
+                flag1 = 1;
+            }
+        }
+
+        if(flag1)
+        { //Type et sous-type sont acceptés 
+            //On verifie que accept_params ne contient pas q = 0
             _Token accept_params = searchTree(root, "accept_params")
 
             while(accept_params->next != NULL)
@@ -113,17 +152,18 @@ int check_Accept_Header(Node *root, int clientId){
                 sprintf(value, "%.*s", length, start);
 
                 if(strstr(value,"q=0") == NULL){
-                    flag = true;
+                    flag2 = 1;
                 }
             }
         }
         media_range = media_range->next;
+    }
+    // Fin de parcours des media-range
 
-    }
-    if(!flag)
-    {
+    if(!flag2){ // Si les mime type n'est pas accepté
         sendErrorCode(root, clientId, 406, "Not accepted media type");
-        return 1;
     }
+
+    return 0;
 
 }
