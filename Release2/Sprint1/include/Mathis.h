@@ -7,8 +7,6 @@ int check_request(Node *, int);
 
 int check_method(Node *, int);
 
-int check_path(Node *, int);
-
 int check_Host_Header(Node *, int);
 
 int check_Headers(Node *, int);

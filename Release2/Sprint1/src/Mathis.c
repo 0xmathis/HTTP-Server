@@ -31,29 +31,43 @@ int check_method(Node *root, int clientId) {
     return 1;
 }
 
-int check_path(Node *root, int clientId) {
-    char *path = getFilePath(root);
-    FILE *file = fopen(path, "rb");
-    printf("path : %s\n", path);
+// int check_path(Node *root, int clientId) {
+//     char *path = getFilePath(root);
+//     FILE *file = fopen(path, "rb");
+//     printf("path : %s\n", path);
 
-    for (int i = 0; i < (int) strlen(path) - 1; i++) {
-        if (path[i] == '.' && path[i + 1] == '.') {
-            sendErrorCode(root, clientId, 401, "Unauthorized");
-            return 0;
-        }
-    }
+//     for (int i = 0; i < (int) strlen(path) - 1; i++) {
 
-    if (!file) {
-        printf("Problème fichier\n");
-        sendErrorCode(root, clientId, 404, "Not Found");
-        return 0;
-    }
+//         if (path[i] == '/' && path[i + 1] == '.' && (i + 2 >= strlen(path) || path[i + 2] == '/')) {
+            
+//             for(int j = i+3; j < (int) strlen(path) - 1; j++){
+//                 path[j-3] = path[j];
+//             }
+//         }
 
-    fclose(file);
-    free(path);
+//         if (path[i] == '/' && path[i + 1] == '.' && path[i + 2] == '.' && (i + 3 >= strlen(path) || path[i + 3] == '/')) {
+//             i --;
+//             while(path[i] != '/'){
+//                 i --;
+//             }
+            
+//             for(int j = i+3; j < (int) strlen(path) - 1; j++){
+//                 path[j-3] = path[j];
+//             }
+//         }
+//     }
 
-    return 1;
-}
+//     if (!file) {
+//         printf("Problème fichier\n");
+//         sendErrorCode(root, clientId, 404, "Not Found");
+//         return 0;
+//     }
+
+//     fclose(file);
+//     free(path);
+
+//     return 1;
+// }
 
 int isGet(Node *root) {
     char *method = getHeaderValue(root, "method");
