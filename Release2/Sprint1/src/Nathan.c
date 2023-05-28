@@ -158,7 +158,7 @@ void send_Encoding(int clientId, Node *root) {
         writeDirectClient(clientId, message, strlen(message));
         free(encoding);
     }
-    
+
 }
 
 int check_accept_language(Node *root, int clientId) {
@@ -181,3 +181,31 @@ int check_accept_language(Node *root, int clientId) {
     return 1;
 
 }
+
+char *getnewPath(Node *root, int clientId) {
+    char *path = getFilePath(root);
+    int len = strlen(path);
+    char *newpath[len];
+    int j = 0;
+
+    for (int i = 0; i < len+1; i++) {
+        if (path[i] == '%' && i + 2 < len) {
+            char hex[3];
+            hex[0] = path[i + 1];
+            hex[1] = path[i + 2];
+            hex[2] = '\0';
+
+            int asciiCode;
+            sscanf(hex, "%x", &asciiCode);
+
+            newpath[j] = (char)asciiCode;
+            i += 2;
+        } else {
+            newpath[j] = path[i];
+        }
+        j++;
+    }
+
+    return newpath;
+}
+
