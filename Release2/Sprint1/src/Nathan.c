@@ -20,7 +20,7 @@ int check_accept_encoding(Node *root, int clientId) {
 
     if (codings != NULL) {
 
-        if strstr(value, "q-0") {
+        if (strstr(value, "q=0")==0) {
                 sendErrorCode(root, clientId, 406, "ALED");
                 return 1;
             }
@@ -31,8 +31,8 @@ int check_accept_encoding(Node *root, int clientId) {
             value = (char *) malloc(sizeof(char) * length+1);
             sprintf(value, "%.*s", length, start);
             
-            if strstr(value, "q-0") {
-                sendErrorCode(root, clientId, 406, "q-0 n'est pas accepté dans les content-coding");
+            if (strstr(value, "q=0")==0) {
+                sendErrorCode(root, clientId, 406, "q=0 n'est pas accepté dans les content-coding");
                 return 1;
             }
         }
