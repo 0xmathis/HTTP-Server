@@ -52,7 +52,7 @@ int check_accept_encoding(Node *root, int clientId) {
     return 1;
 }
 
-char *get_encoding(Node *root, int clientId) {
+char *getEncoding(Node *root, int clientId) {
 
     _Token *codings = searchTree(root, "codings");
     int length;
@@ -149,7 +149,17 @@ char *get_encoding(Node *root, int clientId) {
     
 }
 
+void send_Encoding(int clientId, Node *root) {
+    char *encoding = getEncoding(root, clientId);
 
+    if (encoding) {
+        char message[50];
+        sprintf(message, "Content-type: %s\r\n", encoding);
+        writeDirectClient(clientId, message, strlen(message));
+        free(encoding);
+    }
+    
+}
 
 int check_accept_language(Node *root, int clientId) {
 
@@ -160,7 +170,7 @@ int check_accept_language(Node *root, int clientId) {
     char *value = (char *) malloc(sizeof(char) * length+1);
     sprintf(value, "%.*s", length, start);
 
-    while (codings->next != NULL) {
+    while (accept_language->next != NULL) {
         
         if (strcmp(value, "fr") == 0 || strcmp(value,'fr-FR') == 0) {
             return 0;
