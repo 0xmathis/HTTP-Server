@@ -1,3 +1,0 @@
-Connection (par defaut le même que ce qui est envoyé)
-Content-Type
-Si Accept-Encoding -> Content-Encoding ou Transfer-Encoding

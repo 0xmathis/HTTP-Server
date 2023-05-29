@@ -4,26 +4,14 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include "include/api.h"
+#include "include/Josias.h"
 #include "include/Mathis.h"
+#include "include/Nathan.h"
 #include "include/Hugo.h"
-
 
 // for librequest
 #include "include/request.h"
 
-#define ERROR "HTTP/1.0 400 SUCKA\r\n\r\n"
-#define REPONSE "HTTP/1.0 200 OK\r\n"
-
-// TODO: Personnaliser la première ligne de la réponse
-// TODO: Percent Encoding (RFC3986)
-// TODO: Dot Segment Removal (RFC3986)
-// TODO: Pas de content length -> transfer-encoding = chunked
-// TODO: Être capable de parser/créer du chunked encoding
-// TODO: Si on applique un autre transfer-encoding que chunked dans la requête, le client doit appliquer chunked à la fin
-// TODO: Si on applique un autre transfer-encoding que chunked dans la réponse, le serveur doit soit appliquer chunked à la fin, soit fermer la connection après l'envoie
-// TODO: Transfer-coding inconnu -> erreur 501
-// TODO: Si HTTP/1.0 -> Pas de Transfer-Encoding dans la réponse du serveur
-// TODO: faire une fonction séparée qui envoie les vidéos en streaming (donc pas toute la vidéo d'un coup) on doit envoyer un Range-header (voir la vidéo sur le streaming dans l'historique youtube)
 
 Node *root = NULL;
 
@@ -33,38 +21,37 @@ void showDebugInfos(message *requete) {
     printf("Contenu de la demande\n%.*s\n\n", requete->len, requete->buf);
 }
 
-void sendFullResponse(int clientId, char *path) {
-    send_status_line(root, clientId, 200, "OK");
-    send_headers(clientId, path, root);
+void sendFullResponse(int clientId, char *path, char *mimeType) {
+    send_status_line(clientId, 200, "OK");
+    send_headers(clientId, mimeType);
     send_message_body(clientId, path);
 }
 
-void sendPartialResponse(int clientId, char *path) {
-    send_status_line(root, clientId, 206, "Partial Content");
-    send_headers(clientId, path, root);
+void sendPartialResponse(int clientId, char *path, char *mimeType) {
+    send_status_line(clientId, 206, "Partial Content");
+    send_headers(clientId, mimeType);
     send_message_body_streaming(clientId, path);
 }
 
 void sendResponse(int clientId) {
-    char *path = getFilePath(root);
+    printf("\n");
 
-    if (isVideoContent(path)) {
-        sendPartialResponse(clientId, path);
+    char *path = getFilePath();
+    char *mimeType = getMIMEtype(path);
+
+    printf("Path to send : \"%s\"\n", path);
+
+    if (isStreamable(mimeType)) {
+        sendPartialResponse(clientId, path, mimeType);
     } else {
-        sendFullResponse(clientId, path);
+        sendFullResponse(clientId, path, mimeType);
     }
 
-    printf("\"%s\" envoyé\n", path);
     free(path);
 }
 
-
 int main() {
     message *requete;
-
-//    check_path(root,0);
-//
-//    return 1;
 
     while (1) {
         printf("en attente\n");
@@ -79,11 +66,9 @@ int main() {
 
         if (parseur(requete->buf, requete->len) == 0) {
 //            printChildren(root, 0);
-            if (check_request(root, requete->clientId)) {
-                printf("ici\n");
+            if (check_request(requete->clientId)) {
                 sendResponse(requete->clientId);
 
-                purgeTree(root);
             }
         } else {
             printf("Problème requête\n");
@@ -91,11 +76,13 @@ int main() {
 
         endWriteDirectClient(requete->clientId);
 
-//        if(!check_connection(root, requete->clientId)){
-//            requestShutdownSocket(requete->clientId);
-//        }
+        if (check_Connection_Header()) {
+            printf("\nClosing connection\n");
+            requestShutdownSocket(requete->clientId);
+        }
 
         // on ne se sert plus de requete à partir de maintenant, on peut donc liberer...
+        purgeTree(root);
         freeRequest(requete);
 
         printf("#########################################\n");

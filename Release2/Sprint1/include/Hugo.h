@@ -1,12 +1,24 @@
+#ifndef PROJET_RESEAU_HUGO_H
+#define PROJET_RESEAU_HUGO_H
 
+int check_version();
 
-int remove_dot_segments(char reduct_path[]);
+int check_Connection_Header();
 
-int chek_version(Node *root, int clientId);
+int check_Transfer_Encoding(int);
 
-int check_connection(Node *root, int clientId);
+void remove_dot_segments(char *);
 
-int check_Transfer_Encoding(Node *root, int clientId);
+int check_request(int);
 
-int remove_dot_segments(char reduct_path[]);
+void send_status_line(int, int, char *);
 
+void send_headers(int, char *);
+
+void send_Server_Header(int);
+
+void send_Date_Header(int);
+
+unsigned char *getFileData(char *, int *);
+
+#endif

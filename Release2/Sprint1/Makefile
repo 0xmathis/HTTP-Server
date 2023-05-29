@@ -1,6 +1,5 @@
 MAIN=server
-#SRC=$(wildcard src/*.c main.c)
-SRC=$(wildcard src/Mathis.c src/Hugo.c main.c)
+SRC=$(wildcard src/*.c main.c)
 PARSER_SRC=../../Release1/Sprint2/src/*.c
 
 $(MAIN): $(SRC) $(PARSER_SRC)
