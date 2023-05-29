@@ -102,10 +102,6 @@ int remove_dot_segments(char reduct_path[]) {
     //return reduct_path;
 }
 
-int check_Content_Encoding(Node *root, int clientId){
-    
-}
-
 int main(){
 
     char path[] = "/.././.././../../../.././salut/azdef/../salut.txt";
