@@ -6,11 +6,12 @@
 #include "../include/constantes.h"
 #include "../include/Josias.h"
 #include "../include/Mathis.h"
+#include "../include/Hugo.h"
 #include "../include/request.h"
 #include "../include/utils.h"
 
 int check_request(Node *root, int clientId) {
-    if (!check_method(root, clientId) || !check_Headers(root, clientId) || !check_path(root, clientId)) {
+    if (!check_method(root, clientId) || !check_headers(root, clientId) || !check_path(root, clientId)) {
         printf("laaaaaa\n");
         return 0;
     }
@@ -81,6 +82,10 @@ int isGet(Node *root) {
     return 0;
 }
 
+int isRange(Node *root) {
+    return getRangeHeader(root) != NULL;
+}
+
 char *getHeaderValue(Node *start, char *headerValue) {
     _Token *result = searchTree(start, headerValue);
 
@@ -123,6 +128,29 @@ char *getHostTarget(Node *root) {
     return hostTarget;
 }
 
+Node *getRangeHeader(Node *root) {
+    _Token *result = searchTree(root, "header_field");
+
+    while (result) {
+        if (startWith("Range:", getStart(result->node))) {
+            Node *output = result->node;
+            purgeElement(&result);
+            return output;
+        }
+
+        result = result->next;
+    }
+
+    return NULL;
+}
+
+void getRangeRange(Node *root, int *start, int *end) {
+    Node *rangeHeader = getRangeHeader(root);
+
+    char *fieldValue = getHeaderValue(rangeHeader, "field_value");
+    sscanf(fieldValue, "bytes=%d-%d", start, end);
+}
+
 char *getFilePath(Node *root) {
     char *partialPath = (char *) malloc(sizeof(char) * 200);
     char *fullPath = (char *) malloc(sizeof(char) * 200);
@@ -158,25 +186,53 @@ int check_Host_Header(Node *root, int clientId) {
 
     _Token *result = searchTree(root, "Host_header");
     if ((result && result->next) || (!result && strcmp(version, "HTTP/1.1") == 0)) {  // s'il y a 0 ou plusieurs header host
+        printf("iciii\n");
         sendErrorCode(root, clientId, 400, "Bad Request");
         return 0;
     }
 
     char *host = getHostTarget(root);
 
-    if (strcmp(host, HOST1) && strcmp(host, HOST2)) {
+    if (host && strcmp(host, HOST1) && strcmp(host, HOST2)) {
+        printf("laaaa\n");
         sendErrorCode(root, clientId, 400, "Bad Request");
         return 0;
     }
 
-
     free(version);
     free(host);
+
     return 1;
 }
 
-int check_Headers(Node *root, int clientId) {
-    return check_Host_Header(root, clientId);
+int check_Range_Header(Node *root, int clientId) {
+    char *path = getFilePath(root);
+
+    if (isVideoContent(path)) {
+        char *version = getHeaderValue(root, "HTTP_version");
+
+        if (strcmp(version, "HTTP/1.0") == 0) {
+            free(version);
+            free(path);
+
+            sendErrorCode(root, clientId, 400, "Requires HTTP/1.1 or newer");
+            return 0;
+        }
+
+        free(version);
+        free(path);
+
+        if (!isRange(root)) {
+            sendErrorCode(root, clientId, 400, "Requires Range Header");
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+int check_headers(Node *root, int clientId) {
+    return check_Host_Header(root, clientId) && check_Range_Header(root, clientId);
 }
 
 void getFileExtension(char *ptr, char *output) {
@@ -212,12 +268,10 @@ char *getDirectoryRepresentationHTML() {  // renvoie la liste des fichiers prés
     return NULL;
 }
 
-char *detect_MIME_type(Node *root) {
-    char *path = getFilePath(root);
+char *detect_MIME_type(char *path) {
     char extension[50];
     getFileExtension(path, extension);
     printf("extension : %s\n", extension);
-    free(path);
 
     if (startWith(".aac", extension)) {
         return "audio/aac";
@@ -265,23 +319,29 @@ char *detect_MIME_type(Node *root) {
         return "audio/wav";
     }
 
-    return "text/plain";
+    return "application/octet-stream";
+}
+
+void send_status_line(Node *root, int clientId, int statusCode, char *message) {
+    char *version = getHeaderValue(root, "HTTP_version");
+    char statusLine[150];
+
+    sprintf(statusLine, TEMPLATE_STATUS_LINE, version, statusCode, message);
+    writeDirectClient(clientId, statusLine, strlen(statusLine));
+    free(version);
 }
 
 void sendErrorCode(Node *root, int clientId, int errorCode, char *errorMessage) {
-    char *version = getHeaderValue(root, "HTTP_version");
-    char statusLine[150], message[150];
+    char message[150];
 
-    sprintf(statusLine, TEMPLATE_STATUS_LINE, version, errorCode, errorMessage);
     sprintf(message, TEMPLATE_ERROR, errorCode, errorMessage, errorCode, errorMessage);
 
-    writeDirectClient(clientId, statusLine, strlen(statusLine));
+    send_status_line(root, clientId, errorCode, errorMessage);
+    send_Content_Type_Header(clientId, "text/html");
     send_Date_Header(clientId);
     send_Server_Header(clientId);
     writeDirectClient(clientId, "\r\n", 2);
     writeDirectClient(clientId, message, strlen(message));
-
-    free(version);
 }
 
 void send_Content_Type_Header(int clientId, char *mimeType) {
@@ -326,15 +386,29 @@ void send_Content_Length_Header(int clientId, int size) {
     writeDirectClient(clientId, message, strlen(message));
 }
 
+void send_Content_Range_Header(int clientId, int start, int end, int contentSize) {
+    char message[50];
+
+    sprintf(message, "Content-Range: bytes %d-%d/%d\r\n", start, end, contentSize);
+    writeDirectClient(clientId, message, strlen(message));
+}
+
+void send_Accept_Ranges_Header(int clientId) {
+    char message[25] = "Accept-Ranges: bytes\r\n";
+
+    writeDirectClient(clientId, message, strlen(message));
+}
+
 void send_headers(int clientId, char *path, Node *root) {
     char mimeType[25];
 
     if (path[strlen(path) - 1] == '/') {  // si on demande un dossier du site
         strcpy(mimeType, "text/html");
     } else {
-        strcpy(mimeType, detect_MIME_type(root));
+        strcpy(mimeType, detect_MIME_type(path));
     }
 
+    send_Accept_Ranges_Header(clientId);
     send_Server_Header(clientId);
     send_Date_Header(clientId);
     send_Connection_Header(clientId, root);
@@ -342,27 +416,60 @@ void send_headers(int clientId, char *path, Node *root) {
 }
 
 void send_message_body(int clientId, char *path) {
-    if (path[strlen(path) - 1] == '/') {  // si on demande un dossier du site
+    int size;
+    unsigned char *buffer = getFileData(path, &size);
+    if (buffer) {
+        send_Content_Length_Header(clientId, size);
 
-    } else {
-        int size;
-        unsigned char *buffer = getFileData(path, &size);
-        if (buffer) {
-            send_Content_Length_Header(clientId, size);
-
-            if (isGet(root)) {
-                writeDirectClient(clientId, "\r\n", 2);
-                writeDirectClient(clientId, (char *) buffer, size);
-            }
-            free(buffer);
+        if (isGet(root)) {
+            writeDirectClient(clientId, "\r\n", 2);
+            writeDirectClient(clientId, (char *) buffer, size);
         }
+        free(buffer);
+
     }
 }
 
-int isConnectionToClose(Node *root) {
-    char *connection = getHeaderValue(root, "connection_option");
+void send_message_body_streaming(int clientId, char *path) {
+    int start = -1;
+    int end = -1;
+    getRangeRange(root, &start, &end);
+    printf("%d : %d\n", start, end);
 
-    printf("connection : %s\n", connection);
+    int size;
+    unsigned char *buffer = getFileData(path, &size);
 
-    return 0;
+    if (buffer) {
+        if (end == -1) {
+            end = start + MAX_SIZE_WITHOUT_CHUNK - 1 < size - 1 ? start + MAX_SIZE_WITHOUT_CHUNK - 1 : size - 1;
+        }
+
+        int contentLength = end - start + 1;
+
+        send_Content_Range_Header(clientId, start, end, size);
+        send_Content_Length_Header(clientId, contentLength);
+
+        if (isGet(root)) {
+            unsigned char *bufferToSend = (unsigned char *) malloc(sizeof(char) * (contentLength + 1));
+
+            for (int i = 0; i < contentLength; i++) {
+                bufferToSend[i] = buffer[start + i];
+            }
+
+            bufferToSend[contentLength + 1] = '\0';
+//            printf("strlen : %lu\n", strlen(bufferToSend));
+
+            writeDirectClient(clientId, "\r\n", 2);
+            writeDirectClient(clientId, (char *) bufferToSend, contentLength);
+        }
+
+        free(buffer);
+
+    }
+}
+
+int isVideoContent(char *path) {
+    char *mimeType = detect_MIME_type(path);
+
+    return startWith("video", mimeType);
 }

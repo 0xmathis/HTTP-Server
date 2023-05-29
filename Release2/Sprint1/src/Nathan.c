@@ -17,39 +17,160 @@ int check_accept_encoding(Node *root, int clientId) {
     char *start = getElementValue(codings, &length);
     char *value = (char *) malloc(sizeof(char) * length+1);
     sprintf(value, "%.*s", length, start);
+    const char *encodings[] = {'*',"gzip", "deflate", "br", "identity"};
 
-    if (codings != NULL) {
+    if (codings == NULL) {
+        return 0;
 
-        if strstr(value, "q-0") {
-                sendErrorCode(root, clientId, 406, "ALED");
-                return 1;
+    } else {
+
+        if (strstr(value, "q=0")==NULL) {
+            for (int i = 0; i < 5; i++) {
+                if ((strstr(value, encodings[i])) != NULL) {
+                    return 0;
+                }
             }
+        }
 
         while (codings->next != NULL) {
 
-            start = *start = getElementValue(codings, &length);
+            start = getElementValue(codings, &length);
             value = (char *) malloc(sizeof(char) * length+1);
             sprintf(value, "%.*s", length, start);
             
-            if strstr(value, "q-0") {
-                sendErrorCode(root, clientId, 406, "q-0 n'est pas accepté dans les content-coding");
-                return 1;
+            if (strstr(value, "q=0")==NULL) {
+                for (int i = 0; i < 5; i++) {
+                    if ((strstr(value, encodings[i])) != NULL) {
+                        return 0;
+                    }
+                }
             }
         }
     }
 
-    return 0;
+    sendErrorCode(root, clientId, 406, "ALED");
+    return 1;
+}
+
+char *getEncoding(Node *root, int clientId) {
+
+    _Token *codings = searchTree(root, "codings");
+    int length;
+
+    char *start = getElementValue(codings, &length);
+    char *value = (char *) malloc(sizeof(char) * length+1);
+    sprintf(value, "%.*s", length, start);
+
+    int flag = 0;
+    int qmax = 1;
+    const char *encodings[] = {'*',"gzip", "deflate", "br", "identity"};
+    char *encoding = malloc(50 * sizeof(char));
+    char *index;
+
+    if (codings == NULL) {
+        return 0;
+
+    } else {
+
+        if (strstr(value, "q=0")==NULL) {
+
+            for (int i = 0; i < 5; i++) {
+
+                if ((strstr(value, encodings[i])) != NULL) {
+                    index = strstr(value, "q=");
+                    if (index != NULL) {
+
+                        if (value[atoi(index)+2] > qmax) {
+                            qmax = value[atoi(index)+2];
+                            strcpy(encoding, encodings[i]);
+                            flag = 1;
+
+                        } else {
+                            if (flag != 1) {
+                                strcpy(encoding, encodings[i]);
+                                flag = 1;
+                            }
+                        }
+
+                    } else {
+                        if (flag != 1) {
+                            strcpy(encoding, encodings[i]);
+                            flag = 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        while (codings->next != NULL) {
+
+            start = getElementValue(codings, &length);
+            value = (char *) malloc(sizeof(char) * length+1);
+            sprintf(value, "%.*s", length, start);
+            
+            if (strstr(value, "q=0")==NULL) {
+
+                for (int i = 0; i < 5; i++) {
+
+                    if ((strstr(value, encodings[i])) != NULL) {
+                        index = strstr(value, "q=");
+                        if (index != NULL) {
+
+                            if (value[atoi(index)+2] > qmax) {
+                                qmax = value[atoi(index)+2];
+                                strcpy(encoding, encodings[i]);
+                                flag = 1;
+
+                            } else {
+                                if (flag != 1) {
+                                    strcpy(encoding, encodings[i]);
+                                    flag = 1;
+                                }
+                            }
+
+                        } else {
+                            if (flag != 1) {
+                                strcpy(encoding, encodings[i]);
+                                flag = 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if (flag != 1){
+        sendErrorCode(root, clientId, 406, "Pas d'encoding accepté");
+        return "No accepted encoding";
+    } else {
+        return encoding;
+    }
+    
+}
+
+void send_Encoding(int clientId, Node *root) {
+    char *encoding = getEncoding(root, clientId);
+
+    if (encoding) {
+        char message[50];
+        sprintf(message, "Content-coding: %s\r\n", encoding);
+        writeDirectClient(clientId, message, strlen(message));
+        free(encoding);
+    }
+
 }
 
 int check_accept_language(Node *root, int clientId) {
 
     _Token *accept_language = searchTree(root, "accept-language");
     int length;
+
     char *start = getElementValue(accept_language, &length);
     char *value = (char *) malloc(sizeof(char) * length+1);
     sprintf(value, "%.*s", length, start);
 
-    while (codings->next != NULL) {
+    while (accept_language->next != NULL) {
         
         if (strcmp(value, "fr") == 0 || strcmp(value,'fr-FR') == 0) {
             return 0;
@@ -60,3 +181,31 @@ int check_accept_language(Node *root, int clientId) {
     return 1;
 
 }
+
+char *getnewPath(Node *root, int clientId) {
+    char *path = getFilePath(root);
+    int len = strlen(path);
+    char *newpath[len];
+    int j = 0;
+
+    for (int i = 0; i < len+1; i++) {
+        if (path[i] == '%' && i + 2 < len) {
+            char hex[3];
+            hex[0] = path[i + 1];
+            hex[1] = path[i + 2];
+            hex[2] = '\0';
+
+            int asciiCode;
+            sscanf(hex, "%x", &asciiCode);
+
+            newpath[j] = (char)asciiCode;
+            i += 2;
+        } else {
+            newpath[j] = path[i];
+        }
+        j++;
+    }
+
+    return newpath;
+}
+
