@@ -4,32 +4,66 @@
 #include <time.h>
 #include "../include/api.h"
 #include "../include/constantes.h"
+#include "../include/Josias.h"
 #include "../include/Mathis.h"
 #include "../include/request.h"
 #include "../include/utils.h"
 
-// int check_connection(Node *root, int clientId) {
-//     char *Connection = getHeaderValue(root, "Connection");
+int chek_version(Node *root, int clientId) {
+    char *version = getHeaderValue(root, "HTTP_version");
 
-//     if (!strcmp(Connection, "keep-alive")) {
-        
-//         return 1;
-//     }
+    int ret = 0;
 
-//     free(Connection);
+    if(!strcmp(version, "HTTP/1.1")){
+        ret = 1;
+    }
 
-//     return 0;
-// }
+    free(version);
 
-int check_path(Node *root, int clientId) {
-    char *path = getFilePath(root);
-    char reduct_path[strlen(path)];
+    return ret;
+}
 
-    strcpy(path,reduct_path)
+int check_connection(Node *root, int clientId) {
+    char *Connection = getHeaderValue(root, "Connection");
+
+    if (!strcmp(Connection, "close")) {
+        free(Connection);
+        return 1;
+    }
+
+    free(Connection);
+    
+    return 0;
+}
+
+int check_Transfer_Encoding(Node *root, int clientId) {
+    _Token *transfer_coding =  searchTree(root, "transfer_coding");
+    
+    while(transfer_coding != NULL){
+
+        char *transfer_coding_value = getElementValue(transfer_coding->node, NULL);
+
+        if(strcmp(transfer_coding_value, "chunked") && strcmp(transfer_coding_value, "compress") && strcmp(transfer_coding_value, "deflate") && strcmp(transfer_coding_value, "gzip") && strcmp(transfer_coding_value, "identity")){
+            
+            free(transfer_coding_value);
+            free(transfer_coding);
+            sendErrorCode(root, clientId, 501, "Unknown transfer coding");
+            return 1;
+        }
+
+        transfer_coding = transfer_coding->next;
+    }
+
+    return 1;
+}
+
+int remove_dot_segments(char reduct_path[]) {
+
     printf("path : %s\n", reduct_path);
 
     for (int i = 0; i < (int) strlen(reduct_path) - 1; i++) {
         
+        // Si on rencontre /./ on l'enlève 
         if (reduct_path[i] == '/' && reduct_path[i + 1] == '.' && (i + 2 >= strlen(reduct_path) || reduct_path[i + 2] == '/')) {
             
             for(int j = i; j < (int) strlen(reduct_path) - 1; j++){
@@ -37,9 +71,11 @@ int check_path(Node *root, int clientId) {
                 reduct_path[j] = reduct_path[j+2];
             }
 
-            printf("%s\n", reduct_path);
+            i--;
+            //printf("%s\n", reduct_path);
         }
-
+        
+        // Si on rencontre /../ on l'enleve si il est pas au début on enlève le répertoire précédent 
         if (reduct_path[i] == '/' && reduct_path[i + 1] == '.' && reduct_path[i + 2] == '.' && (i + 3 >= strlen(reduct_path) || reduct_path[i + 3] == '/')) {
             
             int temp = i;
@@ -59,21 +95,27 @@ int check_path(Node *root, int clientId) {
             }
 
             i--;
-            printf("%s\n", reduct_path);
+            //printf("%s\n", reduct_path);
         }
     }
 
-    FILE *file = fopen(reduct_path, "rb");
+    //return reduct_path;
+}
 
-    return 1;
+int check_Content_Encoding(Node *root, int clientId){
+    
 }
 
 int main(){
-    char path[] = "/salut1/.././../../../salut/../../bonsoir/../.././";
-    
-    check_path(path);
 
-    printf("%s\n", path);
+    char path[] = "/.././.././../../../.././salut/azdef/../salut.txt";
+    char reduct_path[strlen(path)];
+
+    strcpy(reduct_path, path);
+
+    remove_dot_segments(reduct_path);
+
+    printf("reduct path : %s\n", reduct_path);
 
     return 0;
 }

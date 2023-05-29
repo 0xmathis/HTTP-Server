@@ -1,3 +1,3 @@
 
 
-int check_path(Node *, int);
+int remove_dot_segments(char reduct_path[]);
