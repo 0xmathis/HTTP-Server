@@ -10,6 +10,64 @@
 #include "../include/constantes.h"
 #include "../include/request.h"
 
+#define CHUNK_SIZE 16384
+
+int compress_string(const char *input, int input_length, char **output, int *output_length) {
+    int ret;
+    z_stream strm;
+    unsigned char out[CHUNK_SIZE];
+
+    // Allouer un tampon pour les données compressées
+    *output = (char *)malloc(CHUNK_SIZE);
+    if (*output == NULL) {
+        fprintf(stderr, "Erreur d'allocation de mémoire.\n");
+        return Z_MEM_ERROR;
+    }
+
+    // Initialiser la structure z_stream
+    strm.zalloc = Z_NULL;
+    strm.zfree = Z_NULL;
+    strm.opaque = Z_NULL;
+    strm.avail_in = (uInt)input_length;
+    strm.next_in = (Bytef *)input;
+    strm.avail_out = CHUNK_SIZE;
+    strm.next_out = out;
+
+    // Initialiser la compression
+    ret = deflateInit2(&strm, Z_DEFAULT_COMPRESSION, Z_DEFLATED, 15 + 16, 8, Z_DEFAULT_STRATEGY);
+    if (ret != Z_OK) {
+        free(*output);
+        fprintf(stderr, "Erreur lors de l'initialisation de la compression : %s\n", strm.msg);
+        return ret;
+    }
+
+    // Boucle de compression
+    do {
+        ret = deflate(&strm, Z_FINISH);
+        if (ret != Z_OK && ret != Z_STREAM_END) {
+            free(*output);
+            deflateEnd(&strm);
+            fprintf(stderr, "Erreur de compression : %s\n", strm.msg);
+            return ret;
+        }
+
+        // Copier les données compressées dans le tampon de sortie
+        int have = CHUNK_SIZE - strm.avail_out;
+        *output_length += have;
+        *output = (char *)realloc(*output, *output_length + CHUNK_SIZE);
+        memcpy(*output + *output_length - have, out, have);
+
+        // Réinitialiser le tampon de sortie
+        strm.avail_out = CHUNK_SIZE;
+        strm.next_out = out;
+    } while (ret != Z_STREAM_END);
+
+    // Terminer la compression
+    deflateEnd(&strm);
+
+    return Z_OK;
+}
+
 // Getters
 
 unsigned char *getFileData(char *path, int *size) {
