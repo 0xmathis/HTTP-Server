@@ -127,15 +127,12 @@ char *getFilePath() {
     char *partialPath = (char *) malloc(sizeof(char) * 200);
     char *fullPath = (char *) malloc(sizeof(char) * 200);
     char *host = getHostTarget();
+//    char *host = getHeaderValue(root, "Host");
 
     char *sanitizedPath = sanitizePath(absolutePath);
 
     if (host) {
-        if (strcmp(host, HOST_DEFAULT) == 0) {
-            sprintf(partialPath, "%s", PATH_DEFAULT);
-        } else {
-            sprintf(partialPath, "%s", host);
-        }
+        sprintf(partialPath, "%s", host);
     } else {
         sprintf(partialPath, "%s", PATH_DEFAULT);
     }

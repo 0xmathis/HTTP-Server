@@ -1,5 +1,5 @@
-127.0.0.1	www.site1.fr
-127.0.0.1	www.site2.fr
 127.0.0.1	site1.fr
 127.0.0.1	site2.fr
+127.0.0.1	www.site1.fr
+127.0.0.1	www.site2.fr
 127.0.0.1	localhost
