@@ -25,7 +25,7 @@ char *getHostTarget() {
         i = 4;
     }
 
-    while (host[i] != ':') {
+    while (host[i]) {
         hostTarget[j] = host[i];
         i++;
         j++;

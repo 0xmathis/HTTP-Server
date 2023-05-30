@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <zlib.h>
 #include "../include/api.h"
 #include "../include/Josias.h"
 #include "../include/Mathis.h"
@@ -10,6 +11,7 @@
 #include "../include/constantes.h"
 #include "../include/request.h"
 
+/*
 #define CHUNK_SIZE 16384
 
 int compress_string(const char *input, int input_length, char **output, int *output_length) {
@@ -18,7 +20,7 @@ int compress_string(const char *input, int input_length, char **output, int *out
     unsigned char out[CHUNK_SIZE];
 
     // Allouer un tampon pour les données compressées
-    *output = (char *)malloc(CHUNK_SIZE);
+    *output = (char *) malloc(CHUNK_SIZE);
     if (*output == NULL) {
         fprintf(stderr, "Erreur d'allocation de mémoire.\n");
         return Z_MEM_ERROR;
@@ -28,8 +30,8 @@ int compress_string(const char *input, int input_length, char **output, int *out
     strm.zalloc = Z_NULL;
     strm.zfree = Z_NULL;
     strm.opaque = Z_NULL;
-    strm.avail_in = (uInt)input_length;
-    strm.next_in = (Bytef *)input;
+    strm.avail_in = (uInt) input_length;
+    strm.next_in = (Bytef *) input;
     strm.avail_out = CHUNK_SIZE;
     strm.next_out = out;
 
@@ -54,7 +56,7 @@ int compress_string(const char *input, int input_length, char **output, int *out
         // Copier les données compressées dans le tampon de sortie
         int have = CHUNK_SIZE - strm.avail_out;
         *output_length += have;
-        *output = (char *)realloc(*output, *output_length + CHUNK_SIZE);
+        *output = (char *) realloc(*output, *output_length + CHUNK_SIZE);
         memcpy(*output + *output_length - have, out, have);
 
         // Réinitialiser le tampon de sortie
@@ -67,6 +69,7 @@ int compress_string(const char *input, int input_length, char **output, int *out
 
     return Z_OK;
 }
+ */
 
 // Getters
 
@@ -86,6 +89,7 @@ unsigned char *getFileData(char *path, int *size) {
 
     return buffer;
 }
+
 
 // Checkers
 

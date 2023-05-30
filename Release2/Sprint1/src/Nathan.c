@@ -128,30 +128,30 @@ char *getFilePath() {
     char *fullPath = (char *) malloc(sizeof(char) * 200);
     char *host = getHostTarget();
 
+    char *sanitizedPath = sanitizePath(absolutePath);
+
     if (host) {
-        if (strcmp(host, HOST1) == 0) {
-            sprintf(partialPath, "%s", PATH1);
-        } else if (strcmp(host, HOST2) == 0) {
-            sprintf(partialPath, "%s", PATH2);
+        if (strcmp(host, HOST_DEFAULT) == 0) {
+            sprintf(partialPath, "%s", PATH_DEFAULT);
+        } else {
+            sprintf(partialPath, "%s", host);
         }
     } else {
         sprintf(partialPath, "%s", PATH_DEFAULT);
     }
 
-    if (strlen(absolutePath) == 1 && *absolutePath == '/') {  // si on demande la racine du site
-        sprintf(fullPath, "%s%sindex.html", partialPath, absolutePath);
+    if (strlen(sanitizedPath) == 1 && *sanitizedPath == '/') {  // si on demande la racine du site
+        sprintf(fullPath, "%s%sindex.html", partialPath, sanitizedPath);
     } else {
-        sprintf(fullPath, "%s%s", partialPath, absolutePath);
+        sprintf(fullPath, "%s%s", partialPath, sanitizedPath);
     }
-
-    char *sanitizedPath = sanitizePath(fullPath);
 
     free(absolutePath);
     free(partialPath);
-    free(fullPath);
+    free(sanitizedPath);
     free(host);
 
-    return sanitizedPath;
+    return fullPath;
 }
 
 
@@ -222,10 +222,10 @@ int check_Accept_Encoding_Header(int clientId) {
 }
 
 int check_path(int clientId, char *path) {
-    if (!startWith(PATH1, path) && !startWith(PATH2, path)) {
-        sendErrorCode(clientId, 403, "Forbidden");
-        return 0;
-    }
+//    if (!startWith(PATH1, path) && !startWith(PATH2, path)) {
+//        sendErrorCode(clientId, 403, "Forbidden");
+//        return 0;
+//    }
 
     FILE *file = fopen(path, "rb");
 

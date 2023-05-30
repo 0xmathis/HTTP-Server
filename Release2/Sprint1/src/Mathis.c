@@ -65,15 +65,7 @@ int check_Host_Header(int clientId) {
         return 0;
     }
 
-    char *host = getHostTarget();
-
-    if (host && strcmp(host, HOST1) && strcmp(host, HOST2)) {
-        sendErrorCode(clientId, 400, "Bad Request");
-        return 0;
-    }
-
     free(version);
-    free(host);
 
     return 1;
 }
@@ -111,10 +103,10 @@ void send_message_body(int clientId, char *path) {
     unsigned char *buffer = getFileData(path, &size);
 
     if (buffer) {
-        if (size > MAX_SIZE_WITHOUT_CHUNK && isGet()) {
-            free(buffer);
-            return send_message_body_chunked(clientId, path);
-        }
+//        if (size > MAX_SIZE_WITHOUT_CHUNK && isGet()) {
+//            free(buffer);
+//            return send_message_body_chunked(clientId, path);
+//        }
 
         send_Content_Length_Header(clientId, size);
 
