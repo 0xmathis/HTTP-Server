@@ -127,7 +127,6 @@ char *getFilePath() {
     char *partialPath = (char *) malloc(sizeof(char) * 200);
     char *fullPath = (char *) malloc(sizeof(char) * 200);
     char *host = getHostTarget();
-//    char *host = getHeaderValue(root, "Host");
 
     char *sanitizedPath = sanitizePath(absolutePath);
 

@@ -7,11 +7,6 @@
 
 
 #define PATH_DEFAULT "site1.fr:8080"
-#define HOST_DEFAULT "127.0.0.1:8080"
-#define PATH1        "site1"
-#define HOST1        "site1.fr"
-#define PATH2        "site2"
-#define HOST2        "site2.fr"
 
 
 #define MAX_SIZE_WITHOUT_CHUNK  1000  // 1Ko
