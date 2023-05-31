@@ -68,3 +68,57 @@ int parseQuery() {
 
         return 0;
 }
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define MAX_PAIRS 100
+
+typedef struct {
+    char name[100];
+    char value[100];
+} Pair;
+
+Pair* extractPairs(const char* input, int* count) {
+    Pair* pairs = malloc(MAX_PAIRS * sizeof(Pair));
+    if (pairs == NULL) {
+        printf("Erreur d'allocation de mémoire.\n");
+        exit(1);
+    }
+
+    char* token = strtok((char*)input, "&");
+    int i = 0;
+    while (token != NULL && i < MAX_PAIRS) {
+        char* equalSign = strchr(token, '=');
+        if (equalSign != NULL) {
+            *equalSign = '\0';
+            strncpy(pairs[i].name, token, sizeof(pairs[i].name) - 1);
+            strncpy(pairs[i].value, equalSign + 1, sizeof(pairs[i].value) - 1);
+            pairs[i].name[sizeof(pairs[i].name) - 1] = '\0';
+            pairs[i].value[sizeof(pairs[i].value) - 1] = '\0';
+            i++;
+        }
+        token = strtok(NULL, "&");
+    }
+
+    *count = i;
+    return pairs;
+}
+///////////////////////
+int main() {
+    const char input[] = "nom1=valeur1&nom2=valeur2&nom3=valeur3";
+    int count = 0;
+
+    Pair* pairs = extractPairs(input, &count);
+
+    // Affichage des paires extraites
+    for (int i = 0; i < count; i++) {
+        printf("Nom: %s, Valeur: %s\n", pairs[i].name, pairs[i].value);
+    }
+
+    // Libération de la mémoire allouée pour le tableau pairs
+    free(pairs);
+
+    return 0;
+}
