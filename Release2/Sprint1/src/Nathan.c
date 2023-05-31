@@ -131,21 +131,25 @@ char *getFilePath() {
     char *sanitizedPath = sanitizePath(absolutePath);
 
     if (host) {
-        sprintf(partialPath, "%s", host);
+        strcpy(partialPath, host);
     } else {
-        sprintf(partialPath, "%s", PATH_DEFAULT);
+        strcpy(partialPath, PATH_DEFAULT);
     }
 
+    strcpy(fullPath, partialPath);
+    strcat(fullPath, sanitizedPath);
+
+
     if (strlen(sanitizedPath) == 1 && *sanitizedPath == '/') {  // si on demande la racine du site
-        sprintf(fullPath, "%s%sindex.html", partialPath, sanitizedPath);
-    } else {
-        sprintf(fullPath, "%s%s", partialPath, sanitizedPath);
+        strcat(fullPath, "index.html");
     }
 
     free(absolutePath);
     free(partialPath);
     free(sanitizedPath);
     free(host);
+
+    printf("path : %s\n", fullPath);
 
     return fullPath;
 }
@@ -229,6 +233,8 @@ int check_path(int clientId, char *path) {
         sendErrorCode(clientId, 404, "Not Found");
         return 0;
     }
+
+    printf("path ok\n");
 
     fclose(file);
 

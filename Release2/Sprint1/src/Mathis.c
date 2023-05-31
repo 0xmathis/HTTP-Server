@@ -99,6 +99,8 @@ int check_Range_Header(int clientId, char *path) {
 // Senders
 
 void send_message_body(int clientId, char *path) {
+    printf("Sending body\n");
+
     int size;
     unsigned char *buffer = getFileData(path, &size);
 

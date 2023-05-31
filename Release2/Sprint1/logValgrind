@@ -1,0 +1,692 @@
+==15599== Memcheck, a memory error detector
+==15599== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==15599== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==15599== Command: ./bin/server /dev/null
+==15599== 
+==15599== Invalid read of size 8
+==15599==    at 0x115402: getChild (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x115489: getSumLengthChildren (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x112A5B: detect_message_body (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10E1F4: detect_HTTP_message (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BC80: parseur (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B919: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a74448 is 72 bytes inside a block of size 88 free'd
+==15599==    at 0x48399AB: free (vg_replace_malloc.c:538)
+==15599==    by 0x115322: delNode (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x112A4F: detect_message_body (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10E1F4: detect_HTTP_message (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BC80: parseur (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B919: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Block was alloc'd at
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x115182: newNode (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1150AE: newChild (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1129D7: detect_message_body (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10E1F4: detect_HTTP_message (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BC80: parseur (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B919: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== Invalid write of size 4
+==15599==    at 0x11537B: setLength (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x112A6B: detect_message_body (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10E1F4: detect_HTTP_message (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BC80: parseur (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B919: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a74440 is 64 bytes inside a block of size 88 free'd
+==15599==    at 0x48399AB: free (vg_replace_malloc.c:538)
+==15599==    by 0x115322: delNode (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x112A4F: detect_message_body (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10E1F4: detect_HTTP_message (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BC80: parseur (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B919: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Block was alloc'd at
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x115182: newNode (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1150AE: newChild (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1129D7: detect_message_body (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10E1F4: detect_HTTP_message (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BC80: parseur (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B919: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== Invalid write of size 1
+==15599==    at 0x109C5D: getHostTarget (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10AFFA: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a748ad is 0 bytes after a block of size 13 alloc'd
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x109BEE: getHostTarget (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10AFFA: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== Invalid write of size 1
+==15599==    at 0x10B536: percentEncodings (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B575: sanitizePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B00A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a748f1 is 0 bytes after a block of size 1 alloc'd
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10B47E: percentEncodings (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B575: sanitizePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B00A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== Invalid read of size 1
+==15599==    at 0x483BC94: strlen (vg_replace_strmem.c:459)
+==15599==    by 0x109B84: remove_dot_segments (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B585: sanitizePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B00A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a748f1 is 0 bytes after a block of size 1 alloc'd
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10B47E: percentEncodings (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B575: sanitizePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B00A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== Invalid read of size 1
+==15599==    at 0x483BDEA: strcpy (vg_replace_strmem.c:511)
+==15599==    by 0x10B028: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a748ad is 0 bytes after a block of size 13 alloc'd
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x109BEE: getHostTarget (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10AFFA: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== Invalid read of size 1
+==15599==    at 0x483B992: strcat (vg_replace_strmem.c:308)
+==15599==    by 0x10B06E: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a748f1 is 0 bytes after a block of size 1 alloc'd
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10B47E: percentEncodings (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B575: sanitizePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B00A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== Invalid read of size 1
+==15599==    at 0x483BC94: strlen (vg_replace_strmem.c:459)
+==15599==    by 0x10B07A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a748f1 is 0 bytes after a block of size 1 alloc'd
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10B47E: percentEncodings (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B575: sanitizePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B00A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== Conditional jump or move depends on uninitialised value(s)
+==15599==    at 0x483CB98: strcmp (vg_replace_strmem.c:847)
+==15599==    by 0x10B230: check_Accept_Encoding_Header (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A2E8: check_headers (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10962F: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Uninitialised value was created by a stack allocation
+==15599==    at 0x10B107: check_Accept_Encoding_Header (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== Conditional jump or move depends on uninitialised value(s)
+==15599==    at 0x10B233: check_Accept_Encoding_Header (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A2E8: check_headers (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10962F: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Uninitialised value was created by a stack allocation
+==15599==    at 0x10B107: check_Accept_Encoding_Header (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== Invalid write of size 1
+==15599==    at 0x109C5D: getHostTarget (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10AFFA: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B864: sendResponse (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B93D: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a7618d is 0 bytes after a block of size 13 alloc'd
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x109BEE: getHostTarget (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10AFFA: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B864: sendResponse (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B93D: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== Invalid write of size 1
+==15599==    at 0x10B536: percentEncodings (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B575: sanitizePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B00A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B864: sendResponse (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B93D: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a761d1 is 0 bytes after a block of size 1 alloc'd
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10B47E: percentEncodings (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B575: sanitizePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B00A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B864: sendResponse (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B93D: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== Invalid read of size 1
+==15599==    at 0x483BDEA: strcpy (vg_replace_strmem.c:511)
+==15599==    by 0x10B028: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B864: sendResponse (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B93D: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a7618d is 0 bytes after a block of size 13 alloc'd
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x109BEE: getHostTarget (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10AFFA: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B864: sendResponse (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B93D: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== Invalid read of size 1
+==15599==    at 0x483B992: strcat (vg_replace_strmem.c:308)
+==15599==    by 0x10B06E: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B864: sendResponse (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B93D: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a761d1 is 0 bytes after a block of size 1 alloc'd
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10B47E: percentEncodings (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B575: sanitizePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B00A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B864: sendResponse (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B93D: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== Invalid read of size 1
+==15599==    at 0x483BC94: strlen (vg_replace_strmem.c:459)
+==15599==    by 0x10B07A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B864: sendResponse (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B93D: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a761d1 is 0 bytes after a block of size 1 alloc'd
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10B47E: percentEncodings (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B575: sanitizePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B00A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B864: sendResponse (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B93D: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 
+==15599== Process terminating with default action of signal 2 (SIGINT)
+==15599==    at 0x4971196: select (select.c:41)
+==15599==    by 0x486A498: getRequest (socket.c:469)
+==15599==    by 0x10B8D2: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== HEAP SUMMARY:
+==15599==     in use at exit: 1,472 bytes in 65 blocks
+==15599==   total heap usage: 2,335 allocs, 2,270 frees, 997,338 bytes allocated
+==15599== 
+==15599== 16 bytes in 1 blocks are definitely lost in loss record 1 of 18
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10BB14: insertion (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA91: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 16 bytes in 1 blocks are definitely lost in loss record 2 of 18
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10BB14: insertion (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA91: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA0F: searchTree (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A519: getHeaderValue (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A052: check_Accept_Header (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A2DA: check_headers (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 16 bytes in 1 blocks are definitely lost in loss record 3 of 18
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10BB14: insertion (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA91: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA0F: searchTree (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A519: getHeaderValue (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A0A4: check_Accept_Header (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A2DA: check_headers (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10962F: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 32 bytes in 2 blocks are definitely lost in loss record 4 of 18
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10B9D6: searchTree (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A519: getHeaderValue (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A052: check_Accept_Header (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A2DA: check_headers (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10962F: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 48 bytes in 3 blocks are definitely lost in loss record 5 of 18
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10BB14: insertion (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA91: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA0F: searchTree (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A519: getHeaderValue (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A31B: check_method (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10961A: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 48 bytes in 3 blocks are definitely lost in loss record 6 of 18
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10B9D6: searchTree (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A6A6: check_Host_Header (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A2B0: check_headers (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10962F: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 48 bytes in 3 blocks are definitely lost in loss record 7 of 18
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10BB14: insertion (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA91: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA0F: searchTree (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A6A6: check_Host_Header (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A2B0: check_headers (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10962F: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 48 bytes in 3 blocks are definitely lost in loss record 8 of 18
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10BB14: insertion (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA91: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA0F: searchTree (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A519: getHeaderValue (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A0A4: check_Accept_Header (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A2DA: check_headers (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10962F: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 48 bytes in 3 blocks are definitely lost in loss record 9 of 18
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10BB14: insertion (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA91: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA0F: searchTree (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A519: getHeaderValue (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A0EA: check_Accept_Header (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A2DA: check_headers (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10962F: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 48 bytes in 3 blocks are definitely lost in loss record 10 of 18
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10BB14: insertion (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA91: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA0F: searchTree (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A519: getHeaderValue (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A101: check_Accept_Header (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A2DA: check_headers (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10962F: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 48 bytes in 3 blocks are definitely lost in loss record 11 of 18
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10BB14: insertion (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA91: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA0F: searchTree (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A519: getHeaderValue (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A4B5: isGet (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A836: send_message_body (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B7F4: sendFullResponse (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B8A5: sendResponse (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 48 bytes in 3 blocks are definitely lost in loss record 12 of 18
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10BB14: insertion (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA91: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 96 bytes in 6 blocks are definitely lost in loss record 13 of 18
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10BB14: insertion (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA91: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA0F: searchTree (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A519: getHeaderValue (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 96 bytes in 6 blocks are definitely lost in loss record 14 of 18
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10BB14: insertion (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA91: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA0F: searchTree (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A519: getHeaderValue (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 144 bytes in 9 blocks are definitely lost in loss record 15 of 18
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10BB14: insertion (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA91: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA0F: searchTree (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A519: getHeaderValue (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 144 bytes in 9 blocks are definitely lost in loss record 16 of 18
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10BB14: insertion (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BA91: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAC4: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BAF7: searchTreeRecursif (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 264 bytes in 3 blocks are definitely lost in loss record 17 of 18
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x115182: newNode (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1150AE: newChild (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x111996: detect_Accept_header (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10C89A: detect_header_field (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10E154: detect_HTTP_message (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BC80: parseur (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B919: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 264 bytes in 3 blocks are definitely lost in loss record 18 of 18
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x115182: newNode (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1150AE: newChild (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10F03E: detect_CRLF (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10CE4E: detect_obs_fold (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10CBED: detect_field_value (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10C9D7: detect_header_field (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10E154: detect_HTTP_message (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BC80: parseur (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B919: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== LEAK SUMMARY:
+==15599==    definitely lost: 1,472 bytes in 65 blocks
+==15599==    indirectly lost: 0 bytes in 0 blocks
+==15599==      possibly lost: 0 bytes in 0 blocks
+==15599==    still reachable: 0 bytes in 0 blocks
+==15599==         suppressed: 0 bytes in 0 blocks
+==15599== 
+==15599== ERROR SUMMARY: 94 errors from 33 contexts (suppressed: 0 from 0)
+==15599== 
+==15599== 2 errors in context 1 of 33:
+==15599== Invalid read of size 1
+==15599==    at 0x483BC94: strlen (vg_replace_strmem.c:459)
+==15599==    by 0x10B07A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B864: sendResponse (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B93D: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a761d1 is 0 bytes after a block of size 1 alloc'd
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10B47E: percentEncodings (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B575: sanitizePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B00A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B864: sendResponse (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B93D: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 
+==15599== 2 errors in context 2 of 33:
+==15599== Invalid read of size 1
+==15599==    at 0x483B992: strcat (vg_replace_strmem.c:308)
+==15599==    by 0x10B06E: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B864: sendResponse (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B93D: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a761d1 is 0 bytes after a block of size 1 alloc'd
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10B47E: percentEncodings (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B575: sanitizePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B00A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B864: sendResponse (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B93D: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 
+==15599== 2 errors in context 3 of 33:
+==15599== Invalid write of size 1
+==15599==    at 0x10B536: percentEncodings (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B575: sanitizePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B00A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B864: sendResponse (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B93D: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a761d1 is 0 bytes after a block of size 1 alloc'd
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10B47E: percentEncodings (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B575: sanitizePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B00A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B864: sendResponse (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B93D: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 
+==15599== 2 errors in context 4 of 33:
+==15599== Invalid read of size 1
+==15599==    at 0x483BC94: strlen (vg_replace_strmem.c:459)
+==15599==    by 0x10B07A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a748f1 is 0 bytes after a block of size 1 alloc'd
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10B47E: percentEncodings (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B575: sanitizePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B00A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 
+==15599== 2 errors in context 5 of 33:
+==15599== Invalid read of size 1
+==15599==    at 0x483B992: strcat (vg_replace_strmem.c:308)
+==15599==    by 0x10B06E: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a748f1 is 0 bytes after a block of size 1 alloc'd
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10B47E: percentEncodings (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B575: sanitizePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B00A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 
+==15599== 2 errors in context 6 of 33:
+==15599== Invalid write of size 1
+==15599==    at 0x10B536: percentEncodings (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B575: sanitizePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B00A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a748f1 is 0 bytes after a block of size 1 alloc'd
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10B47E: percentEncodings (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B575: sanitizePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B00A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 
+==15599== 3 errors in context 7 of 33:
+==15599== Invalid read of size 1
+==15599==    at 0x483BDEA: strcpy (vg_replace_strmem.c:511)
+==15599==    by 0x10B028: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B864: sendResponse (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B93D: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a7618d is 0 bytes after a block of size 13 alloc'd
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x109BEE: getHostTarget (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10AFFA: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B864: sendResponse (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B93D: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 
+==15599== 3 errors in context 8 of 33:
+==15599== Invalid write of size 1
+==15599==    at 0x109C5D: getHostTarget (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10AFFA: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B864: sendResponse (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B93D: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a7618d is 0 bytes after a block of size 13 alloc'd
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x109BEE: getHostTarget (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10AFFA: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B864: sendResponse (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B93D: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 
+==15599== 3 errors in context 9 of 33:
+==15599== Invalid read of size 1
+==15599==    at 0x483BDEA: strcpy (vg_replace_strmem.c:511)
+==15599==    by 0x10B028: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a748ad is 0 bytes after a block of size 13 alloc'd
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x109BEE: getHostTarget (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10AFFA: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 
+==15599== 3 errors in context 10 of 33:
+==15599== Invalid write of size 1
+==15599==    at 0x109C5D: getHostTarget (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10AFFA: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a748ad is 0 bytes after a block of size 13 alloc'd
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x109BEE: getHostTarget (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10AFFA: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 
+==15599== 3 errors in context 11 of 33:
+==15599== Invalid write of size 4
+==15599==    at 0x11537B: setLength (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x112A6B: detect_message_body (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10E1F4: detect_HTTP_message (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BC80: parseur (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B919: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a74440 is 64 bytes inside a block of size 88 free'd
+==15599==    at 0x48399AB: free (vg_replace_malloc.c:538)
+==15599==    by 0x115322: delNode (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x112A4F: detect_message_body (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10E1F4: detect_HTTP_message (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BC80: parseur (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B919: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Block was alloc'd at
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x115182: newNode (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1150AE: newChild (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1129D7: detect_message_body (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10E1F4: detect_HTTP_message (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BC80: parseur (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B919: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 
+==15599== 3 errors in context 12 of 33:
+==15599== Invalid read of size 8
+==15599==    at 0x115402: getChild (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x115489: getSumLengthChildren (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x112A5B: detect_message_body (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10E1F4: detect_HTTP_message (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BC80: parseur (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B919: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a74448 is 72 bytes inside a block of size 88 free'd
+==15599==    at 0x48399AB: free (vg_replace_malloc.c:538)
+==15599==    by 0x115322: delNode (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x112A4F: detect_message_body (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10E1F4: detect_HTTP_message (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BC80: parseur (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B919: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Block was alloc'd at
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x115182: newNode (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1150AE: newChild (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1129D7: detect_message_body (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10E1F4: detect_HTTP_message (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10BC80: parseur (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B919: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 
+==15599== 6 errors in context 13 of 33:
+==15599== Conditional jump or move depends on uninitialised value(s)
+==15599==    at 0x10B233: check_Accept_Encoding_Header (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A2E8: check_headers (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10962F: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Uninitialised value was created by a stack allocation
+==15599==    at 0x10B107: check_Accept_Encoding_Header (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 
+==15599== 6 errors in context 14 of 33:
+==15599== Conditional jump or move depends on uninitialised value(s)
+==15599==    at 0x483CB98: strcmp (vg_replace_strmem.c:847)
+==15599==    by 0x10B230: check_Accept_Encoding_Header (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10A2E8: check_headers (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10962F: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Uninitialised value was created by a stack allocation
+==15599==    at 0x10B107: check_Accept_Encoding_Header (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== 
+==15599== 34 errors in context 15 of 33:
+==15599== Invalid read of size 1
+==15599==    at 0x483BC94: strlen (vg_replace_strmem.c:459)
+==15599==    by 0x109B84: remove_dot_segments (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B585: sanitizePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B00A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==  Address 0x4a748f1 is 0 bytes after a block of size 1 alloc'd
+==15599==    at 0x483877F: malloc (vg_replace_malloc.c:307)
+==15599==    by 0x10B47E: percentEncodings (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B575: sanitizePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B00A: getFilePath (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x1095DF: check_request (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599==    by 0x10B92B: main (in /home/userir/Projet-Reseau/Release2/Sprint1/bin/server)
+==15599== 
+==15599== ERROR SUMMARY: 94 errors from 33 contexts (suppressed: 0 from 0)

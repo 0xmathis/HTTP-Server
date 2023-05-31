@@ -38,14 +38,14 @@ void sendResponse(int clientId) {
 
     char *path = getFilePath();
     char *mimeType = getMIMEtype(path);
-
+    
     printf("Path to send : \"%s\"\n", path);
 
-    if (isStreamable(mimeType)) {
-        sendPartialResponse(clientId, path, mimeType);
-    } else {
+//    if (isStreamable(mimeType)) {
+//        sendPartialResponse(clientId, path, mimeType);
+//    } else {
         sendFullResponse(clientId, path, mimeType);
-    }
+//    }
 
     free(path);
 }
