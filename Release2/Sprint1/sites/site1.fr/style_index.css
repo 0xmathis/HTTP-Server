@@ -1,42 +1,93 @@
-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin: 0 0 0 10px;
-    border-bottom: 1px groove black;
+body {
+	color: white;
+	background: url("wallp_black.jpg");
 
 }
 
-main {
-    min-height: 100%;
-    position: relative;
-    padding-bottom: 100px;
+header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-end;
+	margin: 0 0 0 10px;
+	border-bottom: groove 1px black;
+	border-radius: 5px;
+}
+
+.titre_principal {
+	display: flex;
+	flex-direction: column;
+	font-size: 1.5em;
+	text-align: center;
+}
+
+
+
+body nav ul {
+	list-style-type: none;
+	display: flex;
+	margin-right: 15px;
+	font-size: 1.2em;
+}
+
+
+body nav li {
+	margin-right: 30px;
+}
+
+
+h2 menu {
+	font-size: 1em;
+	margin-right: 30px;
+}
+
+
+.presentation {
+	display: flex;
+	min-height: 500px;
+	flex-direction: row;
+}
+
+.presentation h2 {
+	text-align: center;
+}
+
+.presentation--text {
+	margin: auto;
+	text-align: left;
+	font-size: 1.4em;
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.presentation--img{
+	align-self: center;
+	height: 400px;
+	margin-bottom: 200px;
 }
 
 footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100px;
-    background-color: #777777;
-    display: flex;
+	background-color: #777777 ;
+	display: flex;
+	min-height: 100px ;
+	text-align: end;
 }
 
-@keyframes colorFade {
-    0% {background-color: hsl(0, 100%, 50%);}
-    20% {background-color: hsl(60, 100%, 50%);}
-    40% {background-color: hsl(120, 100%, 50%);}
-    60% {background-color: hsl(180, 100%, 50%);}
-    80% {background-color: hsl(240, 100%, 50%);}
-    100% {background-color: hsl(300, 100%, 50%);}
+
+footer h3 {
+	margin-left: 50px  ;
+	margin-top: 20px;
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-.animateBG {
-    animation-name: colorFade;
-    animation-duration: 500ms;
-    animation-timing-function: ease-in-out;
-    animation-iteration-count: 3;
-    animation-fill-mode: backwards;
+footer ul {
+	list-style-type: none;
+	display: flex;
+	margin-right: 15px;
+	align-self: center;
 }
+
+footer li {
+	align-self: center;
+	margin-right: 20px;
+}
+
