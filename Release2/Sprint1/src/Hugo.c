@@ -93,6 +93,18 @@ unsigned char *getFileData(char *path, int *size) {
 
 // Checkers
 
+int check_PHP() {
+    char ext[50];
+
+    getFileExtension(getFilePath(), ext);
+
+    if (!strcmp(ext, ".php")) {
+        return 1;
+    }
+
+    return 0;
+}
+
 int check_version() {
     char *version = getHeaderValue(root, "HTTP_version");
 

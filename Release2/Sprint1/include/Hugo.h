@@ -3,6 +3,8 @@
 
 int check_version();
 
+int check_PHP();
+
 int check_Connection_Header();
 
 int check_Transfer_Encoding(int);

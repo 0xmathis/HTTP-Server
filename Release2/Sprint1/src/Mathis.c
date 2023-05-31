@@ -9,6 +9,7 @@
 #include "../include/Hugo.h"
 #include "../include/request.h"
 #include "../include/utils.h"
+#include "../include/utils_fcgi.h"
 
 
 // Getters
@@ -99,10 +100,15 @@ int check_Range_Header(int clientId, char *path) {
 // Senders
 
 void send_message_body(int clientId, char *path) {
-    printf("Sending body\n");
-
     int size;
-    unsigned char *buffer = getFileData(path, &size);
+    unsigned char *buffer;
+
+    if (check_PHP()) {
+        get_PHP_Data(clientId);
+        return;
+    } else {
+        buffer = getFileData(path, &size);
+    }
 
     if (buffer) {
 //        if (size > MAX_SIZE_WITHOUT_CHUNK && isGet()) {
@@ -110,9 +116,10 @@ void send_message_body(int clientId, char *path) {
 //            return send_message_body_chunked(clientId, path);
 //        }
 
-        send_Content_Length_Header(clientId, size);
+
 
         if (isGet()) {
+            send_Content_Length_Header(clientId, size);
             writeDirectClient(clientId, "\r\n", 2);
             writeDirectClient(clientId, (char *) buffer, size);
 
