@@ -140,7 +140,7 @@ char *getFilePath() {
     strcat(fullPath, sanitizedPath);
 
 
-    if (strlen(sanitizedPath) == 1 && *sanitizedPath == '/') {  // si on demande la racine du site
+    if (*sanitizedPath == '/' && *(sanitizedPath + 1) == '\0') {  // si on demande la racine du site
         strcat(fullPath, "index.html");
     }
 

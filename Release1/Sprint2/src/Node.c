@@ -88,34 +88,34 @@ void delNode(Node *this, Node *parent) {
 // Setters
 
 void setLabel(Node *this, const char *label) {
-    strcpy(this->__label, label);
+    strcpy(this->label, label);
 }
 
 void setStart(Node *this, const char *start) {
-    this->__start = start;
+    this->start = start;
 }
 
 void setLength(Node *this, int length) {
-    this->__length = length;
+    this->length = length;
 }
 
 void setChild(Node *this, Node *child) {
-    this->__child = child;
+    this->child = child;
 }
 
 void setBrother(Node *this, Node *brother) {
-    this->__brother = brother;
+    this->brother = brother;
 }
 
 
 // Getters
 
 const char *getLabel(Node *this) {
-    return this->__label;
+    return this->label;
 }
 
 const char *getStart(Node *this) {
-    return this->__start;
+    return this->start;
 }
 
 int getLength(Node *this) {
@@ -123,15 +123,15 @@ int getLength(Node *this) {
         return 0;
     }
 
-    return this->__length;
+    return this->length;
 }
 
 Node *getChild(Node *this) {
-    return this->__child;
+    return this->child;
 }
 
 Node *getBrother(Node *this) {
-    return this->__brother;
+    return this->brother;
 }
 
 Node *getLastChild(Node *this) {

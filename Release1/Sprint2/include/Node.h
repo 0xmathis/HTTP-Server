@@ -5,11 +5,11 @@
 typedef struct Node Node;
 
 struct Node {
-    char __label[50];
-    const char *__start;
-    int __length;
-    Node *__child;
-    Node *__brother;
+    char label[50];
+    const char *start;
+    int length;
+    Node *child;
+    Node *brother;
 };
 
 // Constructeurs

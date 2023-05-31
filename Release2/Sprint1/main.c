@@ -8,12 +8,21 @@
 #include "include/Mathis.h"
 #include "include/Nathan.h"
 #include "include/Hugo.h"
+#include <signal.h>
 
 // for librequest
 #include "include/request.h"
 
 
 Node *root = NULL;
+
+int cliendId = -1;
+
+void handle_SIGINT() {
+    endWriteDirectClient(cliendId);
+    printf("\nCtrl+C intercepted\n");
+    exit(0);
+}
 
 void showDebugInfos(message *requete) {
     printf("Demande recue depuis le client %d\n", requete->clientId);
@@ -51,6 +60,7 @@ void sendResponse(int clientId) {
 }
 
 int main() {
+    signal(SIGINT, handle_SIGINT);
     message *requete;
 
     while (1) {
@@ -58,11 +68,12 @@ int main() {
 
         // on attend la reception d'une requete HTTP
         // requete pointera vers une ressource allouée par librequest
-        if ((requete = getRequest(8080)) == NULL) return -1;
+        if ((requete = getRequest(8080)) == NULL) printf("ICI !!"); return -1;
 
         printf("#########################################\n");
         // Affichage de debug
         showDebugInfos(requete);
+        cliendId = requete->clientId;
 
         if (parseur(requete->buf, requete->len) == 0) {
 //            printChildren(root, 0);
