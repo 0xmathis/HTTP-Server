@@ -47,13 +47,13 @@ void sendResponse(int clientId) {
 
     char *path = getFilePath();
     char *mimeType = getMIMEtype(path);
-    
+
     printf("Path to send : \"%s\"\n", path);
 
 //    if (isStreamable(mimeType)) {
 //        sendPartialResponse(clientId, path, mimeType);
 //    } else {
-        sendFullResponse(clientId, path, mimeType);
+    sendFullResponse(clientId, path, mimeType);
 //    }
 
     free(path);
@@ -68,7 +68,10 @@ int main() {
 
         // on attend la reception d'une requete HTTP
         // requete pointera vers une ressource allouée par librequest
-        if ((requete = getRequest(8080)) == NULL) printf("ICI !!"); return -1;
+        if ((requete = getRequest(8080)) == NULL) {
+            printf("ICI !!");
+            return -1;
+        }
 
         printf("#########################################\n");
         // Affichage de debug

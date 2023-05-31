@@ -131,9 +131,9 @@ char *getFilePath() {
     char *sanitizedPath = sanitizePath(absolutePath);
 
     if (host) {
-        strcpy(partialPath, host);
+        sprintf(partialPath, "sites/%s", host);
     } else {
-        strcpy(partialPath, PATH_DEFAULT);
+        sprintf(partialPath, "sites/%s", PATH_DEFAULT);
     }
 
     strcpy(fullPath, partialPath);
