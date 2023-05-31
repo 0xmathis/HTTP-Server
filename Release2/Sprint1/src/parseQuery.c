@@ -10,7 +10,7 @@ typedef struct {
     int count;
 } Pair;
 
-Pair* extractPairs(const char* input) {
+Pair* parseQuery(const char* input) {
     Pair* pairs = malloc(MAX_PAIRS * sizeof(Pair));
     if (pairs == NULL) {
         printf("Erreur d'allocation de mémoire.\n");
@@ -38,7 +38,7 @@ Pair* extractPairs(const char* input) {
 //int main() {
 //    const char input[] = "nom1=valeur1&nom2=valeur2&nom3=valeur3";
 //
-//    Pair* pairs = extractPairs(input);
+//    Pair* pairs = parseQuery(input);
 //
 //    for (int i = 0; i < pairs->count; i++) {
 //        printf("Nom: %s, Valeur: %s\n", pairs[i].name, pairs[i].value);
