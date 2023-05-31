@@ -50,7 +50,7 @@
 
 #define MAX_PAIRS 100
 
-int main() {
+int parseQuery() {
         char imput[] = "Josias=bolos&Nathan=monstre&Mathis=bg";
         char pairs[MAX_PAIRS][100];
         int count = 0;
