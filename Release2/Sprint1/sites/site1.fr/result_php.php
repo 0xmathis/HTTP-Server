@@ -34,35 +34,35 @@
                 $score = 0;
                 
                 if($_GET['calcul'] == 0){
-                    echo "Maths: 1/1    Bien joué\n";
+                    echo "Maths: 1/1    Bien joué<br>";
                     $score+=1;
                 }
                 else{
-                    echo "Le résultat du calcul était 0. Va falloir réviser...\n";
+                    echo "Le résultat du calcul était 0. Va falloir réviser...<br>";
                 }
 
                 if($_GET['vitesse'] == 3e8){
-                    echo "Physique: 1/1    Bien joué\n";
+                    echo "Physique: 1/1    Bien joué<br>";
                     $score+=1;
                 }
                 else{
-                    echo "La lumière se déplace à 3e8 m/s. Va falloir réviser...\n";
+                    echo "La lumière se déplace à 3e8 m/s. Va falloir réviser...<br>";
                 }
 
                 if(strcmp($_GET['kendo'],"bambou") == 0){
-                    echo "Sport: 1/1    Bravo\n";
+                    echo "Sport: 1/1    Bravo<br>";
                     $score+=1;
                 }
                 else{
-                    echo "La réponse était le bambou. Il faut se cultiver un peu. Lisez un peu plus de mangas.\n";
+                    echo "La réponse était le bambou. Il faut se cultiver un peu. Lisez un peu plus de mangas.<br>";
                 }
 
-                echo "Votre score final est de: $score/3 .\n";
+                echo "Votre score final est de: $score/3 .<br>";
                 if($score == 3){
-                    echo " Score parfait. Vous avez des bonnes bases !\n";
+                    echo " Score parfait. Vous avez des bonnes bases !<br>";
                 }
                 else{
-                    echo "C'est pas encore ça hein.\n";
+                    echo "C'est pas encore ça hein.<br>";
                 }
             }
 
