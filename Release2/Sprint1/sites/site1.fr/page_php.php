@@ -28,7 +28,7 @@
     <form action="result_php.php" method="GET">
         <h3>Maths:</h3>
         <p>
-            <label for="calcul">Combien vaut (3+18/2)%4 ? </label>
+            <label for="calcul">Combien vaut (3+18/2) [4] ? </label>
             <input type="number" name="calcul" id="calcul" placeholder="Résultat">
         </p>
         <h3>Physique:</h3>
@@ -61,6 +61,11 @@
             <label><input type="checkbox" name="answer[]" value="option6"> Sri Giovanni Mirala</label><br>
             <label><input type="checkbox" name="answer[]" value="option7"> Sri Jayawardenapura Kotte</label><br>
             <label><input type="checkbox" name="answer[]" value="option8"> Sri Pouraben Toumet</label><br>
+        </p>
+        <h3> Histoire:</h3>
+        <p>
+            <label for="foot">En quelle année la sélection espagnole a-t-elle était sacrée championne  du monde de football ? </var> </label>
+            <input type="number" name="atome" id="foot" placeholder="Ex: 2018">
         </p>
         <button type="submit">Envoyer</button>
     </form>

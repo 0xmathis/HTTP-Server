@@ -20,7 +20,7 @@
         </ul>
         <div>
         <?php
-            if ((!isset($_GET['calcul']) || !isset($_GET['atome']) || !isset($_GET['vitesse']) || !isset($_GET['reponse']) || !isset($_GET['answer']) || !isset($_GET['kendo'])) && !isset($_POST['last']))
+            if ((!isset($_GET['calcul']) || !isset($_GET['foot']) || !isset($_GET['atome']) || !isset($_GET['vitesse']) || !isset($_GET['reponse']) || !isset($_GET['answer']) || !isset($_GET['kendo'])) && !isset($_POST['last']))
             {
                 echo "Il faut répondre à toutes les questions pour soumettre le formulaire.";
 
@@ -81,8 +81,16 @@
                     echo "L'élément Na correspond au sodium. Fais un effort bon sang.<br>";
                 }
 
-                echo "Votre score final est de: $score/5 .";
-                if($score == 5){
+                if($_GET['foot'] == 2010){
+                    echo "Histoire: 1/1    Bien joué<br>";
+                    $score+=1;
+                }
+                else{
+                    echo "L'Espagne a gagné en 2010, quel banger d'ailleurs<br>";
+                }
+
+                echo "Votre score final est de: $score/7.";
+                if($score == 7){
                     echo " Score parfait. Vous avez des bonnes bases !<br>";
                 }
                 else{
