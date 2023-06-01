@@ -184,7 +184,7 @@ unsigned char *getFileData(char *path, int *size) {
 }
 
 void getFileExtension(char *ptr, char *output) {
-    for (int i = 0; ptr[i] != '\0'; i++) {
+    for (int i = 0; ptr[i] != '\0' && i < (int) strlen(ptr); i++) {
         if (ptr[i] == '.') {
             strcpy(output, &ptr[i]);
         }
@@ -194,11 +194,13 @@ void getFileExtension(char *ptr, char *output) {
 char *getFilePath() {
     printf("Getting path\n");
     char *absolutePath = getHeaderValue(root, "absolute_path");
-    char *partialPath = (char *) malloc(sizeof(char) * 200);
-    char *fullPath = (char *) malloc(sizeof(char) * 200);
+    char *partialPath = (char *) malloc(sizeof(char) * 300);
+    char *fullPath = (char *) malloc(sizeof(char) * 500);
     char *host = getHostTarget();
 
     char *sanitizedPath = sanitizePath(absolutePath);
+
+    printf("pathhh : \"%s\"\n", sanitizedPath);
 
     if (host) {
         sprintf(partialPath, "sites/%s", host);
