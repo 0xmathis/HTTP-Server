@@ -182,10 +182,10 @@ int check_Accept_Header(int clientId, char *path) {
 }
 
 int check_headers(int clientId, char *path) {
-    return check_Host_Header(clientId) && check_Range_Header(clientId, path) && check_Accept_Header(clientId, path) /*&& check_Accept_Encoding_Header(clientId)*/;
+    return check_Host_Header(clientId) && check_Range_Header(clientId, path) && check_Accept_Header(clientId, path) && check_ContentLength(clientId) /*&& check_Accept_Encoding_Header(clientId)*/;
 }
 
-int check_method(int clientId) {
+int check_method(int clientId) {      
     char *method = getHeaderValue(root, "method");
 
     if (strcmp(method, "GET") && strcmp(method, "HEAD") && strcmp(method, "POST")) {
@@ -363,5 +363,25 @@ int check_request(int clientId) {
 
     free(path);
     printf("Checked\n");
+    return 1;
+}
+
+//Post => il doit y avoir un content length
+//          si content length != len(msgbody) => erreur 400 bad request
+
+int check_ContentLength(int clientId){
+    if(isPost()){
+        char *Content_Length = getHeaderValue(root, "Content_Length");
+        int Msg_Body_Length = getLength(searchTree(root, "message_body")->node);
+
+
+        if(Content_Length && atoi(Content_Length) == Msg_Body_Length){
+            return 1;
+        }else{
+            send_error_code(clientId, 400, "Bad Request");
+            return 0;
+        }
+    }
+
     return 1;
 }
