@@ -248,6 +248,8 @@ char *getHostTarget() {
         return NULL;
     }
 
+    int len = strlen(host);
+
     char *hostTarget = (char *) malloc(strlen(host) * sizeof(char));
     int i = 0;
     int j = 0;
@@ -256,7 +258,7 @@ char *getHostTarget() {
         i = 4;
     }
 
-    while (host[i] != ':') {
+    while (i < len && host[i] != ':') {
         hostTarget[j] = host[i];
         i++;
         j++;

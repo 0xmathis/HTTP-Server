@@ -188,7 +188,7 @@ int check_headers(int clientId, char *path) {
 int check_method(int clientId) {
     char *method = getHeaderValue(root, "method");
 
-    if (strcmp(method, "GET") && strcmp(method, "HEAD")) {
+    if (strcmp(method, "GET") && strcmp(method, "HEAD") && strcmp(method, "POST")) {
         free(method);
         send_error_code(clientId, 501, "Not Implemented");
         return 0;

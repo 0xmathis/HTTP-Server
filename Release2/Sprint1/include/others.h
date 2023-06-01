@@ -3,6 +3,10 @@
 
 int isGet();
 
+int isHead();
+
+int isPost();
+
 int isPHP();
 
 int isStreamable(char *);

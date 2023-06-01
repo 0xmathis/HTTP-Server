@@ -40,7 +40,9 @@ h2 menu {
 	font-size: 1em;
 	margin-right: 30px;
 }
-
+a {
+	color: white;
+}
 
 .presentation {
 	display: flex;

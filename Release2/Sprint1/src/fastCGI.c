@@ -14,6 +14,8 @@
 #include "../include/fastCGI.h"
 #include "../include/getters.h"
 #include "../include/api.h"
+#include "../include/others.h"
+
 
 // =========================================================================================================== // 
 
@@ -243,11 +245,18 @@ void send_PHP_request(int *fd, FCGI_Header *header, char *path) {
     header->contentLength = 0;
     header->paddingLength = 0;
 //    addNameValuePair(header,"SCRIPT_NAME","/info.php");
-    addNameValuePair(header, "REQUEST_METHOD", "GET");
-    addNameValuePair(header, "SCRIPT_FILENAME", path);
-    printf("Query param = %s\n",getHeaderValue(root,"query"));
-    addNameValuePair(header, "QUERY_STRING", getHeaderValue(root,"query"));
-//    addNameValuePair(header, "SCRIPT_FILENAME", "/var/www/html/info.php");
+
+    if (isGet()) {
+        addNameValuePair(header, "REQUEST_METHOD", "GET");
+        addNameValuePair(header, "SCRIPT_FILENAME", path);
+        printf("Query param = %s\n",getHeaderValue(root,"query"));
+        addNameValuePair(header, "QUERY_STRING", getHeaderValue(root,"query"));
+    } else if (isPost()) {
+        addNameValuePair(header, "REQUEST_METHOD", "POST");
+        addNameValuePair(header, "SCRIPT_FILENAME", path);
+        printf("Query param = %s\n",getHeaderValue(root,"message_body"));
+        addNameValuePair(header, "QUERY_STRING", getHeaderValue(root,"message_body"));
+    }
     writeSocket(*fd, header, FCGI_HEADER_SIZE + (header->contentLength) + (header->paddingLength));
     header->contentLength = 0;
     header->paddingLength = 0;
@@ -270,6 +279,11 @@ void receive_PHP_answer(int clientId, int fd, FCGI_Header header) {
     writeDirectClient(clientId, header.contentData, i);
     printf("First answer :\n\"\"\"\n%.*s\n\"\"\"\n", i, header.contentData);
     printf("i = %d, Length = %d\n",i, header.contentLength );
+
+    if (isHead()) {
+        close(fd);
+        return;
+    }
 
     if(header.contentLength != i){
         char chunkSize[16];

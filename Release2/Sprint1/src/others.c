@@ -20,6 +20,30 @@ int isGet() {
     return 0;
 }
 
+int isHead() {
+    char *method = getHeaderValue(root, "method");
+
+    if (strcmp(method, "HEAD") == 0) {
+        free(method);
+        return 1;
+    }
+
+    free(method);
+    return 0;
+}
+
+int isPost() {
+    char *method = getHeaderValue(root, "method");
+
+    if (strcmp(method, "POST") == 0) {
+        free(method);
+        return 1;
+    }
+
+    free(method);
+    return 0;
+}
+
 int isPHP() {
     char extension[50];
 

@@ -22,8 +22,12 @@ void send_Connection_Header(int clientId) {
 
     if (connectionOption) {
         char message[30];
-        sprintf(message, "Connection: %s\r\n", connectionOption);
-        writeDirectClient(clientId, message, strlen(message));
+        snprintf(message, 29, "Connection: %s\r\n", connectionOption);
+
+        if (strcmp(connectionOption, "keep-alive") == 0 || strcmp(connectionOption, "close") == 0) {
+            writeDirectClient(clientId, message, strlen(message));
+        }
+
         free(connectionOption);
     }
 }
@@ -101,7 +105,11 @@ void send_headers(int clientId, char *mimeType) {
     send_Server_Header(clientId);
     send_Date_Header(clientId);
     send_Connection_Header(clientId);
-    send_Content_Type_Header(clientId, mimeType);
+
+    if (!isPHP()) {
+        send_Content_Type_Header(clientId, mimeType);
+    }
+    
 //    send_Content_Encoding_Header(clientId);
 }
 
