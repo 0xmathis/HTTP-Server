@@ -10,8 +10,10 @@
 #include <arpa/inet.h>
 #include "../include/senders.h"
 #include "../include/request.h"
-
+#include "../include/utils.h"
 #include "../include/fastCGI.h"
+#include "../include/getters.h"
+#include "../include/api.h"
 
 // =========================================================================================================== // 
 
@@ -242,8 +244,10 @@ void send_PHP_request(int *fd, FCGI_Header *header, char *path) {
     header->paddingLength = 0;
 //    addNameValuePair(header,"SCRIPT_NAME","/info.php");
     addNameValuePair(header, "REQUEST_METHOD", "GET");
-//    addNameValuePair(header, "SCRIPT_FILENAME", "/home/mathis/Documents/Projet-Reseau/Release2/Sprint1/sites/site1.fr/info.php");
-    addNameValuePair(header, "SCRIPT_FILENAME", "/var/www/html/info.php");
+    addNameValuePair(header, "SCRIPT_FILENAME", path);
+    printf("Query param = %s\n",getHeaderValue(root,"query"));
+    addNameValuePair(header, "QUERY_STRING", getHeaderValue(root,"query"));
+//    addNameValuePair(header, "SCRIPT_FILENAME", "/var/www/html/info.php");
     writeSocket(*fd, header, FCGI_HEADER_SIZE + (header->contentLength) + (header->paddingLength));
     header->contentLength = 0;
     header->paddingLength = 0;
@@ -252,11 +256,31 @@ void send_PHP_request(int *fd, FCGI_Header *header, char *path) {
 
 void receive_PHP_answer(int clientId, int fd, FCGI_Header header) {
     size_t len;
+    int i = 0;
 
     readData(fd, &header, &len);
     send_Transfer_Encoding_Header(clientId, "chunked");
-    writeDirectClient(clientId, header.contentData, header.contentLength);
-    printf("First answer :\n\"\"\"\n%.*s\n\"\"\"\n", header.contentLength, header.contentData);
+
+    while(!startWith("\r\n\r\n",&header.contentData[i])){
+        i += 1;
+    }
+
+    i += 4;
+
+    writeDirectClient(clientId, header.contentData, i);
+    printf("First answer :\n\"\"\"\n%.*s\n\"\"\"\n", i, header.contentData);
+    printf("i = %d, Length = %d\n",i, header.contentLength );
+
+    if(header.contentLength != i){
+        char chunkSize[16];
+
+        sprintf(chunkSize, "%X\r\n", header.contentLength-i);
+
+        writeDirectClient(clientId, chunkSize, strlen(chunkSize));
+        writeDirectClient(clientId, &header.contentData[i], header.contentLength-i);
+        writeDirectClient(clientId, "\r\n", 2);
+        printf("Second answer :\n\"\"\"\n%.*s\n\"\"\"\n", header.contentLength-i, &header.contentData[i]);
+    }
 
     do {
         char chunkSize[16];
@@ -266,6 +290,7 @@ void receive_PHP_answer(int clientId, int fd, FCGI_Header header) {
         writeDirectClient(clientId, chunkSize, strlen(chunkSize));
         writeDirectClient(clientId, header.contentData, header.contentLength);
         writeDirectClient(clientId, "\r\n", 2);
+
     } while ((len != 0) && (header.type != FCGI_END_REQUEST));
 
     writeDirectClient(clientId, "0\r\n\r\n", 5);

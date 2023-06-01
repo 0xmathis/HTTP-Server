@@ -20,7 +20,7 @@
         </ul>
         <div>
         <?php
-            if ((!isset($_GET['calcul']) || !isset($_GET['vitesse']) || !isset($_POST['kendo'])) && !isset($_POST['last']))
+            if ((!isset($_GET['calcul']) || !isset($_GET['vitesse']) || !isset($_GET['kendo'])) && !isset($_POST['last']))
             {
                 echo('Il faut répondre à toutes les questions pour soumettre le formulaire.');
 

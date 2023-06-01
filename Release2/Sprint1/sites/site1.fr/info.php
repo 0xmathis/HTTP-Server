@@ -1,3 +1,7 @@
+<html>
 <?php
-	var_dump(get_defined_vars());
+	//phpinfo();
+	$caca = $_GET["caca"];
+	//echo "$caca"
 ?>
+</html>
