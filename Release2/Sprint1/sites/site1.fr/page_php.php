@@ -28,7 +28,7 @@
     <form action="result_php.php" method="GET">
         <h3>Maths:</h3>
         <p>
-            <label for="calcul">Combien vaut (3+18/2)%4 ? </label>
+            <label for="calcul">Combien vaut (3+18/2) [4] ? </label>
             <input type="number" name="calcul" id="calcul" placeholder="Résultat">
         </p>
         <h3>Physique:</h3>
