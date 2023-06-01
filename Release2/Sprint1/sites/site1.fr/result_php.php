@@ -49,7 +49,7 @@
                     echo "La lumière se déplace à 3e8 m/s. Va falloir réviser...<br>";
                 }
 
-                if(strcmp($_GET['kendo'],"bambou") == 0){
+                if((strcmp($_GET['kendo'],"bambou") == 0) || (strcmp($_GET['kendo'],"Bambou") == 0)){
                     echo "Sport: 1/1    Bravo<br>";
                     $score+=1;
                 }
