@@ -62,6 +62,11 @@
             <label><input type="checkbox" name="answer[]" value="option7"> Sri Jayawardenapura Kotte</label><br>
             <label><input type="checkbox" name="answer[]" value="option8"> Sri Pouraben Toumet</label><br>
         </p>
+        <h3> Histoire:</h3>
+        <p>
+            <label for="foot">En quelle année la sélection espagnole a-t-elle était sacrée championne  du monde de football ? </var> </label>
+            <input type="number" name="atome" id="foot" placeholder="Ex: 2018">
+        </p>
         <button type="submit">Envoyer</button>
     </form>
 
