@@ -18,6 +18,7 @@
         <ul>
             <h2 class="menu"><a href="index.html">Accueil</a></h2>
             <h2 class="menu"><a href="page1.html">Page1</a></h2>
+            <h2 class="menu"><a href="page_php.php">Page2</a></h2>
             <h2 class="menu"><a href="http://www.site2.fr:8080">Site 2</a></h2>
         </ul>
     </nav>
