@@ -57,12 +57,12 @@
                     echo "La réponse était le bambou. Il faut se cultiver un peu. Lisez un peu plus de mangas.<br>";
                 }
 
-                echo "Votre score final est de: $score/3 .<br>";
+                echo "Votre score final est de: $score/3 .";
                 if($score == 3){
                     echo " Score parfait. Vous avez des bonnes bases !<br>";
                 }
                 else{
-                    echo "C'est pas encore ça hein.<br>";
+                    echo "Tout le monde n'a pas la science infuse.<br>";
                 }
             }
 
