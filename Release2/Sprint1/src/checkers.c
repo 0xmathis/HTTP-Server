@@ -182,12 +182,10 @@ int check_Accept_Header(int clientId, char *path) {
 }
 
 int check_headers(int clientId, char *path) {
-    printf("ici !!!!\n");
     return check_Host_Header(clientId) && check_Range_Header(clientId, path) && check_Accept_Header(clientId, path) /*&& check_Accept_Encoding_Header(clientId)*/;
 }
 
 int check_method(int clientId) {
-    printf("laaaaa !!!!\n");
     char *method = getHeaderValue(root, "method");
 
     if (strcmp(method, "GET") && strcmp(method, "HEAD") && strcmp(method, "POST")) {
@@ -271,9 +269,6 @@ int check_path(int clientId, char *path) {
 //        return 0;
 //    }
 
-    printf("debut\n");
-    printf("pathhhh : \"%s\"\n", path);
-
     /*
     char extension[50];
     printf("a\n");
@@ -288,18 +283,12 @@ int check_path(int clientId, char *path) {
     }
     */
 
-    printf("path 1234 : %s\n", path);
-
     FILE *file = fopen(path, "rb");
-
-    printf("addr : %d\n", file);
 
     if (!file) {
         send_error_code(clientId, 404, "Not Found");
         return 0;
     }
-
-    printf("path ok\n");
 
     fclose(file);
 
@@ -360,6 +349,12 @@ int check_Transfer_Encoding(int clientId) {
 int check_request(int clientId) {
     printf("Checking\n");
     char *path = getFilePath();
+
+    if (strstr(path, "favicon.ico") != NULL) {
+        printf("Not checked\n");
+        free(path);
+        return 0;
+    }
 
     if (!check_path(clientId, path) || !check_method(clientId) || !check_headers(clientId, path)) {
         printf("Not checked\n");

@@ -200,8 +200,6 @@ char *getFilePath() {
 
     char *sanitizedPath = sanitizePath(absolutePath);
 
-    printf("pathhh : \"%s\"\n", sanitizedPath);
-
     if (host) {
         sprintf(partialPath, "sites/%s", host);
     } else {
