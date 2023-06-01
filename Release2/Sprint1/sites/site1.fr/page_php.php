@@ -75,7 +75,7 @@
     <p>
         <label for="last">Comment sont appelées les bandes dessinés chinoises:</label>
         <input type="text" name="last" id="last">
-
+        <button type="submit">Envoyer</button>
     </p>
     </form>
 </body>
