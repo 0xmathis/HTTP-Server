@@ -34,7 +34,7 @@
                 $score = 0;
                 
                 if($_GET['calcul'] == 0){
-                    echo "Maths: 1/1    Bien joué";
+                    echo "Maths: 1/1    Bien joué\n";
                     $score+=1;
                 }
                 else{
