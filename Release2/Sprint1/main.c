@@ -96,20 +96,32 @@ int main() {
                 sendResponse(requete->clientId);
 
             }
+            printf("laaaaa\n");
         } else {
             printf("Problème requête\n");
         }
 
+        printf("c\n");
+
         endWriteDirectClient(requete->clientId);
+
+        printf("d\n");
+
 
         if (check_Connection_Header()) {
             printf("\nClosing connection\n");
             requestShutdownSocket(requete->clientId);
         }
 
+        printf("e\n");
+
+
         // on ne se sert plus de requete à partir de maintenant, on peut donc liberer...
         purgeTree(root);
         freeRequest(requete);
+
+        printf("f\n");
+
 
         printf("#########################################\n");
     }

@@ -59,9 +59,11 @@ void send_Content_Range_Header(int clientId, int start, int end, int contentSize
 }
 
 void send_Content_Type_Header(int clientId, char *mimeType) {
-    char message[50];
+    char message[100];
     sprintf(message, "Content-type: %s\r\n", mimeType);
-    writeDirectClient(clientId, message, strlen(message));
+    printf("message : %s", message);
+    writeDirectClient(clientId, message, strlen(message) + 1);
+    printf("ici\n");
 }
 
 void send_Date_Header(int clientId) {
@@ -81,15 +83,22 @@ void send_error_code(int clientId, int errorCode, char *errorMessage) {
 
     sprintf(message, TEMPLATE_ERROR, errorCode, errorMessage, errorCode, errorMessage);
 
+    printf("1\n");
     send_status_line(clientId, errorCode, errorMessage);
+    printf("2\n");
     send_Content_Type_Header(clientId, "text/html");
+    printf("3\n");
     send_Date_Header(clientId);
+    printf("4\n");
     send_Server_Header(clientId);
+    printf("5\n");
     writeDirectClient(clientId, "\r\n", 2);
+    printf("6\n");
 
     if (isGet()) {
         writeDirectClient(clientId, message, strlen(message));
     }
+    printf("7\n");
 }
 
 void send_headers(int clientId, char *mimeType) {

@@ -182,10 +182,12 @@ int check_Accept_Header(int clientId, char *path) {
 }
 
 int check_headers(int clientId, char *path) {
+    printf("ici !!!!\n");
     return check_Host_Header(clientId) && check_Range_Header(clientId, path) && check_Accept_Header(clientId, path) /*&& check_Accept_Encoding_Header(clientId)*/;
 }
 
 int check_method(int clientId) {
+    printf("laaaaa !!!!\n");
     char *method = getHeaderValue(root, "method");
 
     if (strcmp(method, "GET") && strcmp(method, "HEAD") && strcmp(method, "POST")) {
@@ -269,7 +271,28 @@ int check_path(int clientId, char *path) {
 //        return 0;
 //    }
 
+    printf("debut\n");
+    printf("pathhhh : \"%s\"\n", path);
+
+    /*
+    char extension[50];
+    printf("a\n");
+    getFileExtension(path, extension);
+    printf("extension : \"%s\"\n", extension);
+    printf("b\n");
+    if (strcmp(extension, ".ico") == 0) {
+        printf("pas bon\n");
+        send_error_code(clientId, 404, "Not Found");
+        printf("pas bon 2\n");
+        return 0;
+    }
+    */
+
+    printf("path 1234 : %s\n", path);
+
     FILE *file = fopen(path, "rb");
+
+    printf("addr : %d\n", file);
 
     if (!file) {
         send_error_code(clientId, 404, "Not Found");
