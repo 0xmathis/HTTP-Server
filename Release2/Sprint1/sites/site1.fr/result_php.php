@@ -68,7 +68,9 @@
 
             else
             {
-                echo "Le post a marché";
+                if(strcmp($_POST['last'],"Manhua") == 0){
+                    echo "Dommage, vous ferez peut-être mieux la prochaine fois.";
+                }
             }
 
         ?>
