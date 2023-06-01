@@ -2,8 +2,6 @@
 <html lang='fr'>
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="style_index.css">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <title>Page php</title>
 </head>
 
@@ -22,7 +20,7 @@
         </ul>
         <div>
         <?php
-            if ((!isset($_GET['calcul']) || !isset($_GET['G']) || !isset($_POST['kendo'])) && !isset($_POST['last']))
+            if ((!isset($_GET['calcul']) || !isset($_GET['vitesse']) || !isset($_POST['kendo'])) && !isset($_POST['last']))
             {
                 echo('Il faut répondre à toutes les questions pour soumettre le formulaire.');
 
@@ -42,7 +40,6 @@
                 else{
                     echo "Le résultat du calcul était 0. Va falloir réviser...";
                 }
-                echo "Votre score:$score";
 
                 if($_GET['vitesse'] == 3e8){
                     echo "Physique: 1/1    Bien joué";
@@ -52,7 +49,7 @@
                     echo "La lumière se déplace à 3e8 m/s. Va falloir réviser...";
                 }
 
-                if(strcmp($_GET['kendo'],"bambou")){
+                if(strcmp($_GET['kendo'],"bambou") == 0){
                     echo "Sport: 1/1    Bravo";
                     $score+=1;
                 }
@@ -60,12 +57,12 @@
                     echo "La réponse était le bambou. Il faut se cultiver un peu. Lisez un peu plus de mangas.";
                 }
 
-                echo "Votre score final est de 2/3: $score .";
+                echo "Votre score final est de: $score/3 .";
                 if($score == 3){
-                    echo " Score parfait. Vous avez des bonnes bases !"
+                    echo " Score parfait. Vous avez des bonnes bases !";
                 }
                 else{
-                    echo "C'est pas encore ça hein."
+                    echo "C'est pas encore ça hein.";
                 }
             }
 
