@@ -48,7 +48,6 @@
             <label><input type="checkbox" name="reponse[]" value="option2"> nous résolions</label><br>
             <label><input type="checkbox" name="reponse[]" value="option3"> nous résolvûmes</label><br>
             <label><input type="checkbox" name="reponse[]" value="option4"> nous résolvâmes</label><br>
-            <input type="submit" value="Soumettre">
         </p>
         <button type="submit">Envoyer</button>
     </form>
