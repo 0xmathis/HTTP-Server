@@ -54,6 +54,14 @@
             <label for="atome">Quel est l'élément chimique correspondant au symbole Na dans le tableau périodique ? </var> </label>
             <input type="text" name="atome" id="atome" placeholder="Ex: hydrogène">
         </p>
+        <h3>Géographie:</h3>
+        <p>
+            <label for="géographie">Quelle est la capitale du Sri Lanka ? </label><br>
+            <label><input type="checkbox" name="answer[]" value="option5"> Sri Aliamerdona Rali</label><br>
+            <label><input type="checkbox" name="answer[]" value="option6"> Sri Giovanni Mirala</label><br>
+            <label><input type="checkbox" name="answer[]" value="option7"> Sri Jayawardenapura Kotte</label><br>
+            <label><input type="checkbox" name="answer[]" value="option8"> Sri Pouraben Toumet</label><br>
+        </p>
         <button type="submit">Envoyer</button>
     </form>
 

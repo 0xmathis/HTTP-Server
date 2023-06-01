@@ -20,7 +20,7 @@
         </ul>
         <div>
         <?php
-            if ((!isset($_GET['calcul']) || !isset($_GET['atome']) || !isset($_GET['vitesse']) || !isset($_GET['reponse']) || !isset($_GET['kendo'])) && !isset($_POST['last']))
+            if ((!isset($_GET['calcul']) || !isset($_GET['atome']) || !isset($_GET['vitesse']) || !isset($_GET['reponse']) || !isset($_GET['answer']) || !isset($_GET['kendo'])) && !isset($_POST['last']))
             {
                 echo "Il faut répondre à toutes les questions pour soumettre le formulaire.";
 
@@ -65,7 +65,15 @@
                     echo "La réponse était nous résolûmes idiot.<br>";
                 }
 
-                if((strcmp($_GET['atome'],"sodium") == 0) || (strcmp($_GET['kendo'],"Sodium") == 0)){
+                if (in_array('option7', $_GET['answer'])) {
+                    echo "Géographie: 1/1    Bravo<br>";
+                    $score+=1;
+                }
+                else{
+                    echo "La réponse était Sri Jayawardenapura Kotte, c'est connu...<br>";
+                }
+
+                if((strcmp($_GET['atome'],"sodium") == 0) || (strcmp($_GET['atome'],"Sodium") == 0)){
                     echo "Chimie: 1/1    Bravo<br>";
                     $score+=1;
                 }
