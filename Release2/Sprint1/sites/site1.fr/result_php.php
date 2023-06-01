@@ -70,7 +70,7 @@
                     $score+=1;
                 }
                 else{
-                    echo "La réponse était Sri Jayawardenapura Kotte, c'est connu...<br>";
+                    echo "La capitale du Sri Lanka est Sri Jayawardenapura Kotte, c'est connu...<br>";
                 }
 
                 if((strcmp($_GET['atome'],"sodium") == 0) || (strcmp($_GET['atome'],"Sodium") == 0)){
@@ -78,7 +78,7 @@
                     $score+=1;
                 }
                 else{
-                    echo "C'était le sodium. Fais un effort bon sang.<br>";
+                    echo "L'élément Na correspond au sodium. Fais un effort bon sang.<br>";
                 }
 
                 echo "Votre score final est de: $score/5 .";
