@@ -57,7 +57,7 @@
                     echo "La réponse était le bambou. Il faut se cultiver un peu. Lisez un peu plus de mangas.<br>";
                 }
 
-                if(strcmp($_GET['reponse'],"option1") == 0){
+                if (in_array('option1', $_GET['reponse'])) {
                     echo "Français: 1/1    Bravo<br>";
                     $score+=1;
                 }
