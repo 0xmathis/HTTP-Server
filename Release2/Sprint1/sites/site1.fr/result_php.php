@@ -57,8 +57,16 @@
                     echo "La réponse était le bambou. Il faut se cultiver un peu. Lisez un peu plus de mangas.<br>";
                 }
 
-                echo "Votre score final est de: $score/3 .";
-                if($score == 3){
+                if(strcmp($_GET['reponse'],"option1") == 0){
+                    echo "Français: 1/1    Bravo<br>";
+                    $score+=1;
+                }
+                else{
+                    echo "La réponse était nous résolûmes idiot.<br>";
+                }
+
+                echo "Votre score final est de: $score/4 .";
+                if($score == 4){
                     echo " Score parfait. Vous avez des bonnes bases !<br>";
                 }
                 else{

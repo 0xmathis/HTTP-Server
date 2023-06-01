@@ -41,6 +41,15 @@
             <label for="kendo">En quoi son fait les sabres de kendo (escrime japonaise)?:</var> </label>
             <input type="text" name="kendo" id="kendo" placeholder="Ex: acier">
         </p>
+        <h3>Français:</h3>
+        <p>
+            <label for="conjugaison">Quelle est la bonne conjugaison ?</label><br>
+            <label><input type="checkbox" name="reponse[]" value="option1"> nous résolûmes</label><br>
+            <label><input type="checkbox" name="reponse[]" value="option2"> nous résolions</label><br>
+            <label><input type="checkbox" name="reponse[]" value="option3"> nous résolvûmes</label><br>
+            <label><input type="checkbox" name="reponse[]" value="option4"> nous résolvâmes</label><br>
+            <input type="submit" value="Soumettre">
+        </p>
         <button type="submit">Envoyer</button>
     </form>
 
@@ -51,7 +60,6 @@
         <input type="text" name="last" id="last">
 
     </p>
-    <button type="submit">Envoyer</button>
     </form>
 </body>
 </html>
