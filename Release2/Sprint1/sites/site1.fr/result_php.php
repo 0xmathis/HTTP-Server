@@ -68,6 +68,7 @@
 
             else
             {
+                echo "Le post a marché";
             }
 
         ?>
