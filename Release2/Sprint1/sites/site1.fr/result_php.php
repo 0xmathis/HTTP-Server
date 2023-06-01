@@ -70,7 +70,7 @@
                     $score+=1;
                 }
                 else{
-                    echo "C'était le sodium. Fais un effort bon sang.";
+                    echo "C'était le sodium. Fais un effort bon sang.<br>";
                 }
 
                 echo "Votre score final est de: $score/5 .";
