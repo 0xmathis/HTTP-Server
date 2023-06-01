@@ -111,7 +111,6 @@
 
             else {
                 echo "Il faut répondre à toutes les questions pour soumettre le formulaire.";
-                return;
             }
 
         ?>
