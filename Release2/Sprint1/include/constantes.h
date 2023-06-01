@@ -12,4 +12,7 @@
 #define MAX_SIZE_WITHOUT_CHUNK  1000  // 1Ko
 #define MAX_SIZE_STREAMING      100000  // 100Ko
 
+//char ACCEPTED_ENCODINGS[5][10] = {"*", "deflate", "br", "identity"};
+//int NB_ACCEPTED_ENCODINGS = 4;
+
 #endif

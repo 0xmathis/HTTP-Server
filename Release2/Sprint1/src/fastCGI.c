@@ -8,8 +8,10 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include "../include/senders.h"
+#include "../include/request.h"
 
-#include "../include/fastcgi.h"
+#include "../include/fastCGI.h"
 
 // =========================================================================================================== // 
 
@@ -85,7 +87,7 @@ int addNameValuePair(FCGI_Header *h, char *name, char *value) {
     if (name) nameLen = strlen(name);
     if (value) valueLen = strlen(value);
 
-    if ((valueLen > FASTCGIMAXNVPAIR) || (valueLen > FASTCGIMAXNVPAIR)) return -1;
+    if (valueLen > FASTCGIMAXNVPAIR) return -1;
     if ((h->contentLength + ((nameLen > 0x7F) ? 4 : 1) + ((valueLen > 0x7F) ? 4 : 1)) > FASTCGILENGTH) return -1;
 
     p = (h->contentData) + h->contentLength;
@@ -96,6 +98,8 @@ int addNameValuePair(FCGI_Header *h, char *name, char *value) {
     if (value) strncpy(p, value, valueLen);
     h->contentLength += nameLen + ((nameLen > 0x7F) ? 4 : 1);
     h->contentLength += valueLen + ((valueLen > 0x7F) ? 4 : 1);
+
+    return 0;
 }
 // =========================================================================================================== // 		
 
@@ -123,7 +127,7 @@ void sendBeginRequest(int fd, unsigned short requestId, unsigned short role, uns
     h.requestId = htons(requestId);
     h.contentLength = sizeof(FCGI_BeginRequestBody);
     h.paddingLength = 0;
-    begin = (FCGI_BeginRequestBody * ) & (h.contentData);
+    begin = (FCGI_BeginRequestBody *) &(h.contentData);
     begin->role = htons(role);
     begin->flags = flags;
     writeSocket(fd, &h, FCGI_HEADER_SIZE + (h.contentLength) + (h.paddingLength));
@@ -160,10 +164,10 @@ void sendWebData(int fd, unsigned char type, unsigned short requestId, char *dat
 }
 
 // =========================================================================================================== // 
-static int createSocket(int port) {
+int createSocket(int port) {
     int fd;
     struct sockaddr_in serv_addr;
-    int enable = 1;
+//    int enable = 1;
 
     if ((fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         perror("socket creation failed\n");
@@ -186,7 +190,7 @@ static int createSocket(int port) {
 
 // =========================================================================================================== //
 int get_PHP_Data(int clientId) {
-    int header = 1;
+//    int header = 1;
     int fd;
     size_t len;
 
@@ -214,38 +218,56 @@ int get_PHP_Data(int clientId) {
     writeDirectClient(clientId, h.contentData, h.contentLength);
 
     do {
-        printf("a\n");
-        readData(fd, &h, &len);
-        /*
-        printf("read %d\n",len);
-        printf("version: %d\n",h.version);
-
-        printf("requestId: %d\n",h.requestId);
-        printf("length: %d\n",h.contentLength);
-        printf("pad: %d\n",h.paddingLength);*/
-
-        //fprintf(tmp, "Paquet 1\n");
-        //fprintf(tmp, "%.*s\n",h.contentLength, h.contentData);
-
         char chunkSize[16];
-
+        readData(fd, &h, &len);
         sprintf(chunkSize, "%X\r\n", h.contentLength);
-
 
         writeDirectClient(clientId, chunkSize, strlen(chunkSize));
         writeDirectClient(clientId, h.contentData, h.contentLength);
         writeDirectClient(clientId, "\r\n", 2);
-
-        printf("b\n");
     } while ((len != 0) && (h.type != FCGI_END_REQUEST));
 
-    printf("ok\n");
     writeDirectClient(clientId, "0\r\n\r\n", 5);
     close(fd);
-    //fclose(tmp);
 
-    printf("ici\n");
-
-
+    return 1;
 }
 
+void send_PHP_request(int *fd, FCGI_Header *header, char *path) {
+    *fd = createSocket(9000);
+    sendBeginRequest(*fd, 10, FCGI_RESPONDER, FCGI_KEEP_CONN);
+    header->version = FCGI_VERSION_1;
+    header->type = FCGI_PARAMS;
+    header->requestId = htons(10);
+    header->contentLength = 0;
+    header->paddingLength = 0;
+//    addNameValuePair(header,"SCRIPT_NAME","/info.php");
+    addNameValuePair(header, "REQUEST_METHOD", "GET");
+    addNameValuePair(header, "SCRIPT_FILENAME", "/home/mathis/Documents/Projet-Reseau/Release2/Sprint1/sites/site1.fr/info.php");
+    writeSocket(*fd, header, FCGI_HEADER_SIZE + (header->contentLength) + (header->paddingLength));
+    header->contentLength = 0;
+    header->paddingLength = 0;
+    writeSocket(*fd, header, FCGI_HEADER_SIZE + (header->contentLength) + (header->paddingLength));
+}
+
+void receive_PHP_answer(int clientId, int fd, FCGI_Header header) {
+    size_t len;
+
+    readData(fd, &header, &len);
+    send_Transfer_Encoding_Header(clientId, "chunked");
+    writeDirectClient(clientId, header.contentData, header.contentLength);
+    printf("First answer :\n\"\"\"\n%.*s\n\"\"\"\n", header.contentLength, header.contentData);
+
+    do {
+        char chunkSize[16];
+        readData(fd, &header, &len);
+        sprintf(chunkSize, "%X\r\n", header.contentLength);
+
+        writeDirectClient(clientId, chunkSize, strlen(chunkSize));
+        writeDirectClient(clientId, header.contentData, header.contentLength);
+        writeDirectClient(clientId, "\r\n", 2);
+    } while ((len != 0) && (header.type != FCGI_END_REQUEST));
+
+    writeDirectClient(clientId, "0\r\n\r\n", 5);
+    close(fd);
+}

@@ -1,4 +1,4 @@
-/* Taken from FCGI specification and adapted */ 
+/* Taken from FCGI specification and adapted */
 
 #define FASTCGILENGTH 0xffff
 
@@ -16,7 +16,7 @@ typedef struct __attribute__((__packed__)) {
     unsigned short contentLength;
     unsigned char paddingLength;
     unsigned char reserved;
-    char contentData[FASTCGILENGTH]; 
+    char contentData[FASTCGILENGTH];
 } FCGI_Header;
 
 #define FCGI_HEADER_SIZE           8
@@ -43,10 +43,9 @@ typedef struct __attribute__((__packed__)) {
 #define FCGI_MAXTYPE (FCGI_UNKNOWN_TYPE)
 
 
-
 typedef struct __attribute__((__packed__)) {
-            unsigned char type;    
-            unsigned char reserved[7];
+    unsigned char type;
+    unsigned char reserved[7];
 } FCGI_UnknownTypeBody;
 
 
@@ -54,13 +53,13 @@ typedef struct __attribute__((__packed__)) {
     unsigned short role;
     unsigned char flags;
     unsigned char unused[5];
-}  FCGI_BeginRequestBody;
+} FCGI_BeginRequestBody;
 
 
- typedef struct __attribute__((__packed__)) {
-            unsigned int appStatus;
-            unsigned char protocolStatus;
-            unsigned char reserved[3];
+typedef struct __attribute__((__packed__)) {
+    unsigned int appStatus;
+    unsigned char protocolStatus;
+    unsigned char reserved[3];
 } FCGI_EndRequestBody;
 
 
@@ -90,3 +89,28 @@ typedef struct __attribute__((__packed__)) {
 #define FCGI_AUTHORIZER 2
 #define FCGI_FILTER     3
 
+size_t readSocket(int fd, char *buf, size_t len);
+
+void readData(int fd, FCGI_Header *h, size_t *len);
+
+void writeSocket(int fd, FCGI_Header *h, unsigned int len);
+
+void writeLen(int len, char **p);
+
+int addNameValuePair(FCGI_Header *h, char *name, char *value);
+
+void sendGetValue(int fd);
+
+void sendBeginRequest(int fd, unsigned short requestId, unsigned short role, unsigned char flags);
+
+void sendAbortRequest(int fd, unsigned short requestId);
+
+void sendWebData(int fd, unsigned char type, unsigned short requestId, char *data, unsigned int len);
+
+int createSocket(int port);
+
+int get_PHP_Data(int clientId);
+
+void send_PHP_request(int *fd, FCGI_Header *header, char *path);
+
+void receive_PHP_answer(int clientId, int fd, FCGI_Header header);

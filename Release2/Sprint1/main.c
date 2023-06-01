@@ -4,11 +4,12 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include "include/api.h"
-#include "include/Josias.h"
-#include "include/Mathis.h"
-#include "include/Nathan.h"
-#include "include/Hugo.h"
+#include "include/senders.h"
+#include "include/checkers.h"
+#include "include/others.h"
+#include "include/getters.h"
 #include <signal.h>
+#include <unistd.h>
 
 // for librequest
 #include "include/request.h"
