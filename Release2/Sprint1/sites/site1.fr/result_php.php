@@ -20,7 +20,7 @@
         </ul>
         <div>
         <?php
-            if ((!isset($_GET['calcul']) || !isset($_GET['vitesse']) || !isset($_GET['kendo'])) && !isset($_POST['last']))
+            if ((!isset($_GET['calcul']) || !isset($_GET['atome']) || !isset($_GET['vitesse']) || !isset($_GET['reponse']) || !isset($_GET['answer']) || !isset($_GET['kendo'])) && !isset($_POST['last']))
             {
                 echo "Il faut répondre à toutes les questions pour soumettre le formulaire.";
 
@@ -49,7 +49,7 @@
                     echo "La lumière se déplace à 3e8 m/s. Va falloir réviser...<br>";
                 }
 
-                if(strcmp($_GET['kendo'],"bambou") == 0){
+                if((strcmp($_GET['kendo'],"bambou") == 0) || (strcmp($_GET['kendo'],"Bambou") == 0)){
                     echo "Sport: 1/1    Bravo<br>";
                     $score+=1;
                 }
@@ -57,8 +57,32 @@
                     echo "La réponse était le bambou. Il faut se cultiver un peu. Lisez un peu plus de mangas.<br>";
                 }
 
-                echo "Votre score final est de: $score/3 .";
-                if($score == 3){
+                if (in_array('option1', $_GET['reponse'])) {
+                    echo "Français: 1/1    Bravo<br>";
+                    $score+=1;
+                }
+                else{
+                    echo "La réponse était nous résolûmes idiot.<br>";
+                }
+
+                if (in_array('option7', $_GET['answer'])) {
+                    echo "Géographie: 1/1    Bravo<br>";
+                    $score+=1;
+                }
+                else{
+                    echo "La capitale du Sri Lanka est Sri Jayawardenapura Kotte, c'est connu...<br>";
+                }
+
+                if((strcmp($_GET['atome'],"sodium") == 0) || (strcmp($_GET['atome'],"Sodium") == 0)){
+                    echo "Chimie: 1/1    Bravo<br>";
+                    $score+=1;
+                }
+                else{
+                    echo "L'élément Na correspond au sodium. Fais un effort bon sang.<br>";
+                }
+
+                echo "Votre score final est de: $score/5 .";
+                if($score == 5){
                     echo " Score parfait. Vous avez des bonnes bases !<br>";
                 }
                 else{
@@ -68,7 +92,12 @@
 
             else
             {
-                echo "Le post a marché";
+                if(strcmp($_POST['last'],"Manhua") != 0){
+                    echo "Dommage, vous ferez peut-être mieux la prochaine fois.";
+                }
+                else{
+                    echo "Bravo, j'admire vos connaissances";
+                }
             }
 
         ?>
