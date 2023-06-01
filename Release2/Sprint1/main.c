@@ -6,10 +6,9 @@
 #include "include/api.h"
 #include "include/senders.h"
 #include "include/checkers.h"
-#include "include/others.h"
 #include "include/getters.h"
 #include <signal.h>
-#include <unistd.h>
+#include "include/parseQuery.h"
 
 // for librequest
 #include "include/request.h"
@@ -63,6 +62,18 @@ void sendResponse(int clientId) {
 int main() {
     signal(SIGINT, handle_SIGINT);
     message *requete;
+
+//    const char input[] = "nom1=valeur1&nom2=valeur2&nom3=valeur3";
+//
+//    Pair *pairs = parseQuery(input);
+//
+//    for (int i = 0; i < pairs->count; i++) {
+//        printf("Nom: %s, Valeur: %s\n", pairs[i].name, pairs[i].value);
+//    }
+//
+//    free(pairs);
+//
+//    return 0;
 
     while (1) {
         printf("en attente\n");

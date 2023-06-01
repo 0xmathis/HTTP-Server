@@ -131,8 +131,6 @@ void send_message_body(int clientId, char *path) {
 }
 
 void send_message_body_php(int clientId, char *path) {
-    printf("ici\n");
-
     int fd;
     FCGI_Header header;
     char *pwd = getPWD();
@@ -150,6 +148,8 @@ void send_message_body_php(int clientId, char *path) {
     receive_PHP_answer(clientId, fd, header);
 
     free(pwd);
+
+//    get_PHP_Data(clientId);
 }
 
 

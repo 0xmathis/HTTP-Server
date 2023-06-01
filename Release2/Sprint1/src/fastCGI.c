@@ -190,12 +190,10 @@ int createSocket(int port) {
 
 // =========================================================================================================== //
 int get_PHP_Data(int clientId) {
-//    int header = 1;
     int fd;
     size_t len;
 
-// TEST /// 
-    //FILE *tmp = fopen("tmp","wb");
+// TEST ///
     FCGI_Header h;
     fd = createSocket(9000);
     sendBeginRequest(fd, 10, FCGI_RESPONDER, FCGI_KEEP_CONN);
@@ -207,6 +205,7 @@ int get_PHP_Data(int clientId) {
     //addNameValuePair(&h,"SCRIPT_NAME","/info.php");
     addNameValuePair(&h, "REQUEST_METHOD", "GET");
     addNameValuePair(&h, "SCRIPT_FILENAME", "/var/www/html/info.php");
+//    addNameValuePair(&h, "SCRIPT_FILENAME", "/home/mathis/Documents/Projet-Reseau/Release2/Sprint1/sites/site1.fr/info.php");
     writeSocket(fd, &h, FCGI_HEADER_SIZE + (h.contentLength) + (h.paddingLength));
     h.contentLength = 0;
     h.paddingLength = 0;
@@ -243,7 +242,8 @@ void send_PHP_request(int *fd, FCGI_Header *header, char *path) {
     header->paddingLength = 0;
 //    addNameValuePair(header,"SCRIPT_NAME","/info.php");
     addNameValuePair(header, "REQUEST_METHOD", "GET");
-    addNameValuePair(header, "SCRIPT_FILENAME", "/home/mathis/Documents/Projet-Reseau/Release2/Sprint1/sites/site1.fr/info.php");
+//    addNameValuePair(header, "SCRIPT_FILENAME", "/home/mathis/Documents/Projet-Reseau/Release2/Sprint1/sites/site1.fr/info.php");
+    addNameValuePair(header, "SCRIPT_FILENAME", "/var/www/html/info.php");
     writeSocket(*fd, header, FCGI_HEADER_SIZE + (header->contentLength) + (header->paddingLength));
     header->contentLength = 0;
     header->paddingLength = 0;

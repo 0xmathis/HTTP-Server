@@ -1,26 +1,19 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "../include/parseQuery.h"
 
-#define MAX_PAIRS 100
-
-typedef struct {
-    char name[100];
-    char value[100];
-    int count;
-} Pair;
-
-Pair* parseQuery(const char* input) {
-    Pair* pairs = malloc(MAX_PAIRS * sizeof(Pair));
+Pair *parseQuery(const char *input) {
+    Pair *pairs = malloc(MAX_PAIRS * sizeof(Pair));
     if (pairs == NULL) {
         printf("Erreur d'allocation de mémoire.\n");
         exit(1);
     }
 
-    char* token = strtok((char*)input, "&");
+    char *token = strtok((char *) input, "&");
     pairs->count = 0;
     while (token != NULL && pairs->count < MAX_PAIRS) {
-        char* equalSign = strchr(token, '=');
+        char *equalSign = strchr(token, '=');
         if (equalSign != NULL) {
             *equalSign = '\0';
             strncpy(pairs[pairs->count].name, token, sizeof(pairs[pairs->count].name) - 1);
