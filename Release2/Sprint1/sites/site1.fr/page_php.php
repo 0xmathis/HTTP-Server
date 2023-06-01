@@ -33,17 +33,17 @@
         </p>
         <h3>Physique:</h3>
         <p>
-            <label for="vitesse">Quelle est la vitesse de la lumière ? (en m/s)</var> </label>
+            <label for="vitesse">Quelle est la vitesse de la lumière ? (en m/s) </var> </label>
             <input type="number" name="vitesse" id="vitesse" placeholder="Résultat">
         </p>
         <h3> Sport:</h3>
         <p>
-            <label for="kendo">En quoi son fait les sabres de kendo (escrime japonaise)?:</var> </label>
+            <label for="kendo">En quoi son fait les sabres de kendo (escrime japonaise)? </var> </label>
             <input type="text" name="kendo" id="kendo" placeholder="Ex: acier">
         </p>
         <h3>Français:</h3>
         <p>
-            <label for="conjugaison">Quelle est la bonne conjugaison ?</label><br>
+            <label for="conjugaison">Quelle est la bonne conjugaison ? </label><br>
             <label><input type="checkbox" name="reponse[]" value="option1"> nous résolûmes</label><br>
             <label><input type="checkbox" name="reponse[]" value="option2"> nous résolions</label><br>
             <label><input type="checkbox" name="reponse[]" value="option3"> nous résolvûmes</label><br>
@@ -51,7 +51,7 @@
         </p>
         <h3> Chimie:</h3>
         <p>
-            <label for="atome">Quel est l'élément chimique correspondant au symbole Na dans le tableau périodique ?:</var> </label>
+            <label for="atome">Quel est l'élément chimique correspondant au symbole Na dans le tableau périodique ? </var> </label>
             <input type="text" name="atome" id="atome" placeholder="Ex: hydrogène">
         </p>
         <button type="submit">Envoyer</button>
