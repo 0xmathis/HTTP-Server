@@ -49,6 +49,11 @@
             <label><input type="checkbox" name="reponse[]" value="option3"> nous résolvûmes</label><br>
             <label><input type="checkbox" name="reponse[]" value="option4"> nous résolvâmes</label><br>
         </p>
+        <h3> Chimie:</h3>
+        <p>
+            <label for="atome">Quel est l'élément chimique correspondant au symbole Na dans le tableau périodique ?:</var> </label>
+            <input type="text" name="atome" id="atome" placeholder="Ex: hydrogène">
+        </p>
         <button type="submit">Envoyer</button>
     </form>
 

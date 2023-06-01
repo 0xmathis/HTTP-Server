@@ -65,8 +65,16 @@
                     echo "La réponse était nous résolûmes idiot.<br>";
                 }
 
-                echo "Votre score final est de: $score/4 .";
-                if($score == 4){
+                if((strcmp($_GET['atome'],"sodium") == 0) || (strcmp($_GET['kendo'],"Sodium") == 0)){
+                    echo "Chimie: 1/1    Bravo<br>";
+                    $score+=1;
+                }
+                else{
+                    echo "C'était le sodium. Fais un effort bon sang.";
+                }
+
+                echo "Votre score final est de: $score/5 .";
+                if($score == 5){
                     echo " Score parfait. Vous avez des bonnes bases !<br>";
                 }
                 else{
