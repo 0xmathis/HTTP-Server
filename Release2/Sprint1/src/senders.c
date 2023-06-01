@@ -153,7 +153,7 @@ void send_message_body_php(int clientId, char *path) {
     printf("PWD : %s\n", pwd);
 
     send_PHP_request(&fd, &header, pwd);
-    receive_PHP_answer(clientId, fd, header);
+    receive_PHP_answer(clientId, fd);
 
     free(pwd);
 

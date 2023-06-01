@@ -113,4 +113,4 @@ int get_PHP_Data(int clientId);
 
 void send_PHP_request(int *fd, FCGI_Header *header, char *path);
 
-void receive_PHP_answer(int clientId, int fd, FCGI_Header header);
+void receive_PHP_answer(int clientId, int fd);
