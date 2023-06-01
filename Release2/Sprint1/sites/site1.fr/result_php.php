@@ -68,8 +68,11 @@
 
             else
             {
-                if(strcmp($_POST['last'],"Manhua") == 0){
+                if(strcmp($_POST['last'],"Manhua") != 0){
                     echo "Dommage, vous ferez peut-être mieux la prochaine fois.";
+                }
+                else{
+                    echo "Bravo, j'admire vos connaissances";
                 }
             }
 
