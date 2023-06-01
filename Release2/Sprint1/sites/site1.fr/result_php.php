@@ -20,28 +20,12 @@
         </ul>
         <div>
         <?php
-            if (!isset($_GET['calcul']) || !isset($_GET['foot']) || !isset($_GET['atome']) || !isset($_GET['vitesse']) || !isset($_GET['reponse']) || !isset($_GET['answer']) || !isset($_GET['kendo']))
+            if ((!isset($_GET['calcul']) || !isset($_GET['foot']) || !isset($_GET['atome']) || !isset($_GET['vitesse']) || !isset($_GET['reponse']) || !isset($_GET['answer']) || !isset($_GET['kendo'])) && !isset($_POST['last']))
             {
-                echo "Le questionnaire 1 n'est pas rempli.<br>";
+                echo "Il faut répondre à toutes les questions pour soumettre le formulaire.";
 
-                if(!isset($_POST['last']))
-                {
-                    echo "Le questionnaire 2 non plus.<br>";
-
-                     // Arrête l'exécution de PHP
-                    return;
-                }
-                else
-                {
-                    if(strcmp($_POST['last'],"Manhua") != 0){
-                        echo "Dommage, vous ferez peut-être mieux la prochaine fois.";
-                    }
-                    else{
-                        echo "Bravo, j'admire vos connaissances";
-                    }
-                }
-
-               
+                // Arrête l'exécution de PHP
+                return;
             }
 
 
@@ -114,7 +98,16 @@
                 }
             }
 
-            
+            else
+            {
+                if(strcmp($_POST['last'],"Manhua") != 0){
+                    echo "Dommage, vous ferez peut-être mieux la prochaine fois.";
+                }
+                else{
+                    echo "Bravo, j'admire vos connaissances";
+                }
+            }
+
         ?>
         </div>
 <section>
