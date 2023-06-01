@@ -23,9 +23,6 @@
             if ((!isset($_GET['calcul']) || !isset($_GET['foot']) || !isset($_GET['atome']) || !isset($_GET['vitesse']) || !isset($_GET['reponse']) || !isset($_GET['answer']) || !isset($_GET['kendo'])) && !isset($_POST['last']))
             {
                 echo "Il faut répondre à toutes les questions pour soumettre le formulaire.";
-
-                // Arrête l'exécution de PHP
-                return;
             }
 
 
