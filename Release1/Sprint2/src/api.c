@@ -10,7 +10,7 @@ void *getRootTree() {
 }
 
 _Token *searchTree(void *start, char *name) {
-    _Token *liste = malloc(sizeof(_Token));
+    _Token *liste = (_Token *) malloc(sizeof(_Token));
     liste->node = NULL;
     liste->next = NULL;
 
@@ -82,12 +82,10 @@ void purgeElement(_Token **root) {
         return;
     }
 
-    if ((*root)->next) {
-        purgeElement(&((*root)->next));
-    }
+    purgeElement(&((*root)->next));
 
     free(*root);
-    *root = NULL;
+    //*root = NULL;
 }
 
 void purgeTree(void *root) {

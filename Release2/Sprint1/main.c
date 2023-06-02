@@ -44,13 +44,13 @@ void showDebugInfos(message *requete) {
 
 void sendFullResponse(char *path, char *mimeType) {
     send_status_line(clientId, 200, "OK");
-    send_headers(clientId, mimeType);
+    send_headers(clientId, path, mimeType);
     send_message_body(clientId, path);
 }
 
 void sendPartialResponse(char *path, char *mimeType) {
     send_status_line(clientId, 206, "Partial Content");
-    send_headers(clientId, mimeType);
+    send_headers(clientId, path, mimeType);
     send_message_body_streaming(clientId, path);
 }
 

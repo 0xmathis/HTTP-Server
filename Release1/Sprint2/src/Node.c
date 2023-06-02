@@ -51,6 +51,10 @@ void initNode(Node *this, const char *label, const char *start, int length) {
 // Destructeurs
 
 void delTree(Node *this) {
+    if (!this) {
+        return;
+    }
+
     if (getBrother(this) != NULL) {
         delTree(getBrother(this));
         setBrother(this, NULL);
@@ -65,6 +69,7 @@ void delTree(Node *this) {
 }
 
 void delNode(Node *this, Node *parent) {
+    delTree(getChild(this));
     Node *child = getChild(parent);
 
     if (child == this) {

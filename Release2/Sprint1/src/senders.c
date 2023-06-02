@@ -92,7 +92,7 @@ void send_error_code(int clientId, int errorCode, char *errorMessage) {
     }
 }
 
-void send_headers(int clientId, char *mimeType) {
+void send_headers(int clientId, char *path, char *mimeType) {
 //    char mimeTypeToSend[25];
 
 //    if (path[strlen(path) - 1] == '/') {  // si on demande un dossier du site
@@ -106,7 +106,7 @@ void send_headers(int clientId, char *mimeType) {
     send_Date_Header(clientId);
     send_Connection_Header(clientId);
 
-    if (!isPHP()) {
+    if (!isPHP(path)) {
         send_Content_Type_Header(clientId, mimeType);
     }
 
@@ -114,7 +114,7 @@ void send_headers(int clientId, char *mimeType) {
 }
 
 void send_message_body(int clientId, char *path) {
-    if (isPHP()) {
+    if (isPHP(path)) {
         return send_message_body_php(clientId, path);
     }
 

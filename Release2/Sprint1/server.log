@@ -1546,3 +1546,865 @@ Connection: keep-alive
 Referer: http://www.site1.fr:8080/style_index.css
 
 
+[9] [127.0.0.1:45136]
+GET / HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+
+[9] [127.0.0.1:45136]
+GET /style_index.css HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/css,*/*;q=0.1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/
+
+
+[8] [127.0.0.1:45140]
+GET /img%201.png HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/
+
+
+[8] [127.0.0.1:45140]
+GET /wallp_black.jpg HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/style_index.css
+
+
+[8] [127.0.0.1:45140]
+GET /favicon.ico HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/
+
+
+[9] [127.0.0.1:38440]
+GET /page1.html HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/
+Upgrade-Insecure-Requests: 1
+
+
+[9] [127.0.0.1:38440]
+GET /style_index.css HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/css,*/*;q=0.1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/page1.html
+
+
+[8] [127.0.0.1:38444]
+GET /guess.js HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/page1.html
+
+
+[8] [127.0.0.1:38444]
+GET /wallp_black.jpg HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/style_index.css
+
+
+[8] [127.0.0.1:36560]
+GET / HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/
+Upgrade-Insecure-Requests: 1
+
+
+[8] [127.0.0.1:36560]
+GET /colors.js HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site2.fr:8080/
+
+
+[7] [127.0.0.1:36568]
+GET /giphy1.gif HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site2.fr:8080/
+
+
+[8] [127.0.0.1:36560]
+GET /giphy2.gif HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site2.fr:8080/
+
+
+[7] [127.0.0.1:36568]
+GET /giphy3.gif HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site2.fr:8080/
+
+
+[7] [127.0.0.1:36568]
+GET /court.mp4 HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: video/webm,video/ogg,video/*;q=0.9,application/ogg;q=0.7,audio/*;q=0.6,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Range: bytes=0-
+Connection: keep-alive
+Referer: http://www.site2.fr:8080/
+
+
+[8] [127.0.0.1:36560]
+GET /court.mp4 HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: video/webm,video/ogg,video/*;q=0.9,application/ogg;q=0.7,audio/*;q=0.6,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Range: bytes=11304960-
+Connection: keep-alive
+Referer: http://www.site2.fr:8080/
+
+
+[8] [127.0.0.1:34550]
+GET / HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://site1.fr:8080/
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+
+[8] [127.0.0.1:34550]
+GET /colors.js HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site2.fr:8080/
+
+
+[8] [127.0.0.1:34550]
+GET /giphy1.gif HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site2.fr:8080/
+
+
+[7] [127.0.0.1:34552]
+GET /giphy2.gif HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site2.fr:8080/
+
+
+[9] [127.0.0.1:39854]
+GET / HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://site1.fr:8080/
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+
+[9] [127.0.0.1:39854]
+GET /colors.js HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site2.fr:8080/
+
+
+[9] [127.0.0.1:39854]
+GET /giphy1.gif HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site2.fr:8080/
+
+
+[9] [127.0.0.1:39854]
+GET /giphy2.gif HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site2.fr:8080/
+
+
+[8] [127.0.0.1:41484]
+GET / HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+
+[8] [127.0.0.1:41484]
+GET /colors.js HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site2.fr:8080/
+
+
+[7] [127.0.0.1:41492]
+GET /giphy1.gif HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site2.fr:8080/
+
+
+[8] [127.0.0.1:41484]
+GET /giphy2.gif HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site2.fr:8080/
+
+
+[7] [127.0.0.1:41492]
+GET /giphy3.gif HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site2.fr:8080/
+
+
+[7] [127.0.0.1:41492]
+GET /court.mp4 HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: video/webm,video/ogg,video/*;q=0.9,application/ogg;q=0.7,audio/*;q=0.6,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Range: bytes=0-
+Connection: keep-alive
+Referer: http://site2.fr:8080/
+
+
+[8] [127.0.0.1:41484]
+GET /court.mp4 HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: video/webm,video/ogg,video/*;q=0.9,application/ogg;q=0.7,audio/*;q=0.6,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Range: bytes=11304960-
+Connection: keep-alive
+Referer: http://site2.fr:8080/
+
+
+[8] [127.0.0.1:40090]
+GET / HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+
+[8] [127.0.0.1:40090]
+GET /colors.js HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site2.fr:8080/
+
+
+[8] [127.0.0.1:40090]
+GET /giphy1.gif HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site2.fr:8080/
+
+
+[7] [127.0.0.1:40104]
+GET /giphy2.gif HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site2.fr:8080/
+
+
+[9] [127.0.0.1:39946]
+GET / HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+
+[9] [127.0.0.1:39946]
+GET /colors.js HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site2.fr:8080/
+
+
+[9] [127.0.0.1:39946]
+GET /giphy1.gif HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site2.fr:8080/
+
+
+[9] [127.0.0.1:39946]
+GET /giphy2.gif HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site2.fr:8080/
+
+
+[9] [127.0.0.1:54316]
+GET / HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+
+[9] [127.0.0.1:54316]
+GET /giphy1.gif HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site2.fr:8080/
+
+
+[9] [127.0.0.1:54316]
+GET /giphy2.gif HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site2.fr:8080/
+
+
+[9] [127.0.0.1:54316]
+GET /court.mp4 HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: video/webm,video/ogg,video/*;q=0.9,application/ogg;q=0.7,audio/*;q=0.6,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Range: bytes=0-
+Connection: keep-alive
+Referer: http://site2.fr:8080/
+
+
+[9] [127.0.0.1:54326]
+GET /court.mp4 HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: video/webm,video/ogg,video/*;q=0.9,application/ogg;q=0.7,audio/*;q=0.6,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Range: bytes=11304960-
+Connection: keep-alive
+Referer: http://site2.fr:8080/
+
+
+[9] [127.0.0.1:54326]
+GET / HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+
+[9] [127.0.0.1:54326]
+GET /giphy1.gif HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site2.fr:8080/
+
+
+[9] [127.0.0.1:54326]
+GET /giphy2.gif HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site2.fr:8080/
+
+
+[9] [127.0.0.1:42100]
+GET / HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+
+[9] [127.0.0.1:42100]
+GET /giphy1.gif HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site2.fr:8080/
+
+
+[9] [127.0.0.1:42100]
+GET /giphy2.gif HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site2.fr:8080/
+
+
+[9] [127.0.0.1:42100]
+GET /court.mp4 HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: video/webm,video/ogg,video/*;q=0.9,application/ogg;q=0.7,audio/*;q=0.6,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Range: bytes=0-
+Connection: keep-alive
+Referer: http://site2.fr:8080/
+
+
+[9] [127.0.0.1:42114]
+GET /court.mp4 HTTP/1.1
+Host: site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: video/webm,video/ogg,video/*;q=0.9,application/ogg;q=0.7,audio/*;q=0.6,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Range: bytes=11304960-
+Connection: keep-alive
+Referer: http://site2.fr:8080/
+
+
+[9] [127.0.0.1:53376]
+GET / HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+
+[9] [127.0.0.1:53376]
+GET /style_index.css HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/css,*/*;q=0.1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/
+
+
+[8] [127.0.0.1:53384]
+GET /img%201.png HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/
+
+
+[8] [127.0.0.1:53384]
+GET /favicon.ico HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/
+
+
+[9] [127.0.0.1:53376]
+GET /wallp_black.jpg HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/style_index.css
+
+
+[9] [127.0.0.1:41094]
+GET / HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+
+[9] [127.0.0.1:41094]
+GET /style_index.css HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/css,*/*;q=0.1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/
+
+
+[8] [127.0.0.1:41098]
+GET /img%201.png HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/
+
+
+[9] [127.0.0.1:41094]
+GET /wallp_black.jpg HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/style_index.css
+
+
+[9] [127.0.0.1:35618]
+GET / HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+
+[9] [127.0.0.1:35618]
+GET /style_index.css HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/css,*/*;q=0.1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/
+
+
+[8] [127.0.0.1:35620]
+GET /img%201.png HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/
+
+
+[9] [127.0.0.1:35618]
+GET /wallp_black.jpg HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/style_index.css
+
+
+[9] [127.0.0.1:55612]
+GET / HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+
+[9] [127.0.0.1:36464]
+GET / HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+
+[9] [127.0.0.1:36464]
+GET /style_index.css HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/css,*/*;q=0.1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/
+
+
+[8] [127.0.0.1:36472]
+GET /img%201.png HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/
+
+
+[9] [127.0.0.1:36464]
+GET /wallp_black.jpg HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/style_index.css
+
+
+[9] [127.0.0.1:54488]
+GET / HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+
+[9] [127.0.0.1:54488]
+GET /style_index.css HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/css,*/*;q=0.1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/
+
+
+[8] [127.0.0.1:54498]
+GET /img%201.png HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/
+
+
+[9] [127.0.0.1:54488]
+GET /wallp_black.jpg HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/style_index.css
+
+
+[9] [127.0.0.1:59074]
+GET / HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+
+[9] [127.0.0.1:59074]
+GET /style_index.css HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/css,*/*;q=0.1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/
+
+
+[8] [127.0.0.1:59088]
+GET /img%201.png HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/
+
+
+[9] [127.0.0.1:59074]
+GET /wallp_black.jpg HTTP/1.1
+Host: site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://site1.fr:8080/style_index.css
+
+

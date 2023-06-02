@@ -44,10 +44,10 @@ int isPost() {
     return 0;
 }
 
-int isPHP() {
+int isPHP(char *path) {
     char extension[50];
 
-    getFileExtension(getFilePath(), extension);
+    getFileExtension(path, extension);
 
     if (strcmp(extension, ".php") == 0) {
         return 1;

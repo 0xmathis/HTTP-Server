@@ -1,8 +1,6 @@
 #ifndef PROJET_RESEAU_CHECKERS_H
 #define PROJET_RESEAU_CHECKERS_H
 
-int check_Accept_Encoding_Header(int);
-
 int check_Accept_Header(int, char *);
 
 int check_Connection_Header();

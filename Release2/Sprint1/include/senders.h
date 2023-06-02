@@ -17,7 +17,7 @@ void send_Date_Header(int);
 
 void send_error_code(int, int, char *);
 
-void send_headers(int, char *);
+void send_headers(int, char *, char *);
 
 void send_message_body(int, char *);
 

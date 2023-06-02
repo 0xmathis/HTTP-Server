@@ -3,8 +3,6 @@
 
 #include "Node.h"
 
-char *getEncoding();
-
 unsigned char *getFileData(char *, int *);
 
 void getFileExtension(char *, char *);

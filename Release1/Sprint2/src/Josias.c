@@ -331,8 +331,9 @@ int detect_cookie_value(Node *parent, const char *ptr) {
 }
 
 int detect_CRLF(Node *parent, const char *ptr) {
+    Node *crlfNode = newChild(parent);
     if (startWith("\r\n", ptr)) {
-        initNode(newChild(parent), "__crlf", ptr, 2);
+        initNode(crlfNode, "__crlf", ptr, 2);
     } else {
         return 15;
     }

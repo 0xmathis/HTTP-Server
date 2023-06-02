@@ -300,7 +300,6 @@ int detect_field_name(Node *parent, const char *ptr) {
 int detect_field_value(Node *parent, const char *ptr) {
     Node *fieldValueNode = newChild(parent);
     initNode(fieldValueNode, "field_value", ptr, 0);
-    int compteur = 0;
 
     while (1) {
         if (detect_field_content(fieldValueNode, ptr) == 0) {
@@ -310,8 +309,6 @@ int detect_field_value(Node *parent, const char *ptr) {
         } else {
             break;
         }
-
-        compteur++;
     }
 
     setLength(fieldValueNode, getSumLengthChildren(fieldValueNode));

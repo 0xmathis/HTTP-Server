@@ -7,7 +7,7 @@ int isHead();
 
 int isPost();
 
-int isPHP();
+int isPHP(char *);
 
 int isStreamable(char *);
 
