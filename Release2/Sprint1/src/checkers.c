@@ -268,13 +268,17 @@ int check_request(int clientId) {
     }
 
     char *path = getFilePath();
-
+fflush(stdout);
+    
     if (strstr(path, "favicon.ico") != NULL) {
         // printf("Not checked\n");
+
+        
         send_error_code(clientId, 404, "Not Found");
         free(path);
         return 0;
     }
+    
 
     if (!check_path(clientId, path) || !check_method(clientId) || !check_headers(clientId, path)) {
         // printf("Not checked\n");
@@ -321,6 +325,3 @@ int check_version() {
 
     return ret;
 }
-
-//Post => il doit y avoir un content length
-//          si content length != len(msgbody) => erreur 400 bad request

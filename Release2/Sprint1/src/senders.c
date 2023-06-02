@@ -77,9 +77,9 @@ void send_Date_Header(int clientId) {
 }
 
 void send_error_code(int clientId, int errorCode, char *errorMessage) {
-    char message[150];
+    char message[200];
 
-    sprintf(message, TEMPLATE_ERROR, errorCode, errorMessage, errorCode, errorMessage);
+    snprintf(message, 199, TEMPLATE_ERROR, errorCode, errorMessage, errorCode, errorMessage);
 
     send_status_line(clientId, errorCode, errorMessage);
     send_Content_Type_Header(clientId, "text/html");
@@ -90,6 +90,8 @@ void send_error_code(int clientId, int errorCode, char *errorMessage) {
     if (isGet()) {
         writeDirectClient(clientId, message, strlen(message));
     }
+
+    fflush(stdout);
 }
 
 void send_headers(int clientId, char *mimeType) {
@@ -232,6 +234,9 @@ void send_status_line(int clientId, int statusCode, char *message) {
     }
 
     printf("\t-> %s", statusLine);
+
+    fflush(stdin);
+    fflush(stdout);
 
     writeDirectClient(clientId, statusLine, strlen(statusLine));
     free(version);

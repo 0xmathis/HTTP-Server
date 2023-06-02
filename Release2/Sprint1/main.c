@@ -30,6 +30,10 @@ void showDebugInfos(message *requete) {
     sscanf(bufferCopyShort, "%[^\r\n]", buffer);
 //    printf("Demande recue depuis le client %d\n", requete->clientId);
     printf("Client [%d] [%s:%d] -> %s\n", requete->clientId, inet_ntoa(requete->clientAddress->sin_addr), htons(requete->clientAddress->sin_port), buffer);
+
+    FILE *file = fopen("server.log", "a");
+    fprintf(file, "[%d] [%s:%d]\n%s\n", requete->clientId, inet_ntoa(requete->clientAddress->sin_addr), htons(requete->clientAddress->sin_port), requete->buf);
+    fclose(file);
 //    printf("Contenu de la demande\n%s\n\n", buffer);
 //    printf("Contenu de la demande\n%.*s\n\n", requete->len, requete->buf);
 }
@@ -63,6 +67,7 @@ void sendResponse() {
 
 int main() {
     signal(SIGINT, handle_SIGINT);
+
     message *requete;
 
     while (1) {
