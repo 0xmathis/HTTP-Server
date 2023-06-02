@@ -90,8 +90,6 @@ void send_error_code(int clientId, int errorCode, char *errorMessage) {
     if (isGet()) {
         writeDirectClient(clientId, message, strlen(message));
     }
-
-    fflush(stdout);
 }
 
 void send_headers(int clientId, char *mimeType) {
@@ -234,9 +232,6 @@ void send_status_line(int clientId, int statusCode, char *message) {
     }
 
     printf("\t-> %s", statusLine);
-
-    fflush(stdin);
-    fflush(stdout);
 
     writeDirectClient(clientId, statusLine, strlen(statusLine));
     free(version);

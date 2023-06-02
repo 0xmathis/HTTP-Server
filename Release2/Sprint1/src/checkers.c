@@ -268,8 +268,8 @@ int check_request(int clientId) {
     }
 
     char *path = getFilePath();
-fflush(stdout);
     
+    /*
     if (strstr(path, "favicon.ico") != NULL) {
         // printf("Not checked\n");
 
@@ -278,6 +278,7 @@ fflush(stdout);
         free(path);
         return 0;
     }
+    */
     
 
     if (!check_path(clientId, path) || !check_method(clientId) || !check_headers(clientId, path)) {

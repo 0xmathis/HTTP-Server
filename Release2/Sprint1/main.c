@@ -17,6 +17,10 @@ Node *root = NULL;
 
 int clientId = -1;
 
+void handle_SIGPIPE() {
+
+}
+
 void handle_SIGINT() {
     endWriteDirectClient(clientId);
     printf("\nCtrl+C intercepted\n");
@@ -67,6 +71,7 @@ void sendResponse() {
 
 int main() {
     signal(SIGINT, handle_SIGINT);
+    signal(SIGPIPE, handle_SIGPIPE);
 
     message *requete;
 
