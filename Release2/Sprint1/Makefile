@@ -11,11 +11,14 @@ run: $(MAIN) prepa
 valgrind: $(MAIN) prepa
 	./scripts/run.sh "valgrind"
 
-clean:
-	rm -f $(BIN)/$(MAIN)
-
 prepa:
 	./scripts/prepa.sh
 
 unprepa:
 	./scripts/unprepa.sh
+
+setup:
+	./scripts/setupCGI.sh
+
+clean: unprepa
+	rm -f $(BIN)/$(MAIN)

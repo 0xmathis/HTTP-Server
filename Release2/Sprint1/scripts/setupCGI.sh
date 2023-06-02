@@ -4,8 +4,8 @@ apt-get update
 apt-get install apache2 -y
 apt-get install php-fpm -y
 
-MY_USER=mathis
-MY_GROUP=mathis
+MY_USER=userir
+MY_GROUP=userir
 VERSION_PHP=$(ls /etc/php)
 
 sed -i '0,/listen = .*/ s/listen = .*/listen = 9000/' /etc/php/"$VERSION_PHP"/fpm/pool.d/www.conf
