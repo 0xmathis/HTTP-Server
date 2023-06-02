@@ -28,7 +28,7 @@ To be able to “own domain names” we need to edit the `/etc/hosts` file
   make prepa
 ```
 This command will create local domains names  
-These custom domain names can be set in `scripts/hosts`
+These custom domain names can be set in [scripts/hosts](scripts/hosts)
 
 To unset the modifications
 ```

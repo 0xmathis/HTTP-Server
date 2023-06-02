@@ -176,6 +176,12 @@ char *getMIMEtype(char *path) {
         return "image/png";
     } else if (startWith(".sh", extension)) {
         return "application/x-sh";
+    } else if (startWith(".svg", extension)) {
+        return "image/svg+xml";
+    } else if (startWith(".tiff", extension)) {
+        return "image/tiff";
+    }  else if (startWith(".tif", extension)) {
+        return "image/tiff";
     } else if (startWith(".txt", extension)) {
         return "text/plain";
     } else if (startWith(".wav", extension)) {
