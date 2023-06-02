@@ -11,6 +11,8 @@ void getFileExtension(char *, char *);
 
 char *getFilePath();
 
+int getFilePathLength();
+
 char *getHeaderValue(Node *, char *);
 
 char *getHostTarget();

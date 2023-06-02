@@ -7,6 +7,8 @@ int check_Accept_Header(int, char *);
 
 int check_Connection_Header();
 
+int check_Content_Length_Header(int);
+
 int check_headers(int, char *);
 
 int check_Host_Header(int);

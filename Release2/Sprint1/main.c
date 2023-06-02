@@ -3,12 +3,11 @@
 #include <string.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <signal.h>
 #include "include/api.h"
 #include "include/senders.h"
 #include "include/checkers.h"
 #include "include/getters.h"
-#include <signal.h>
-#include "include/parseQuery.h"
 
 // for librequest
 #include "include/request.h"
@@ -16,44 +15,47 @@
 
 Node *root = NULL;
 
-int cliendId = -1;
+int clientId = -1;
 
 void handle_SIGINT() {
-    endWriteDirectClient(cliendId);
+    endWriteDirectClient(clientId);
     printf("\nCtrl+C intercepted\n");
     exit(0);
 }
 
 void showDebugInfos(message *requete) {
-    printf("Demande recue depuis le client %d\n", requete->clientId);
-    printf("Client [%d] [%s:%d]\n", requete->clientId, inet_ntoa(requete->clientAddress->sin_addr), htons(requete->clientAddress->sin_port));
-    printf("Contenu de la demande\n%.*s\n\n", requete->len, requete->buf);
+    char bufferCopyShort[200];
+    char buffer[200];
+    strncpy(bufferCopyShort, requete->buf, 199);
+    sscanf(bufferCopyShort, "%[^\r\n]", buffer);
+//    printf("Demande recue depuis le client %d\n", requete->clientId);
+    printf("Client [%d] [%s:%d] -> %s\n", requete->clientId, inet_ntoa(requete->clientAddress->sin_addr), htons(requete->clientAddress->sin_port), buffer);
+//    printf("Contenu de la demande\n%s\n\n", buffer);
+//    printf("Contenu de la demande\n%.*s\n\n", requete->len, requete->buf);
 }
 
-void sendFullResponse(int clientId, char *path, char *mimeType) {
+void sendFullResponse(char *path, char *mimeType) {
     send_status_line(clientId, 200, "OK");
     send_headers(clientId, mimeType);
     send_message_body(clientId, path);
 }
 
-void sendPartialResponse(int clientId, char *path, char *mimeType) {
+void sendPartialResponse(char *path, char *mimeType) {
     send_status_line(clientId, 206, "Partial Content");
     send_headers(clientId, mimeType);
     send_message_body_streaming(clientId, path);
 }
 
-void sendResponse(int clientId) {
-    printf("\n");
-
+void sendResponse() {
     char *path = getFilePath();
     char *mimeType = getMIMEtype(path);
 
-    printf("Path to send : \"%s\"\n", path);
+//    printf("Path to send : \"%s\"\n", path);
 
 //    if (isStreamable(mimeType)) {
-//        sendPartialResponse(clientId, path, mimeType);
+//        sendPartialResponse(path, mimeType);
 //    } else {
-    sendFullResponse(clientId, path, mimeType);
+    sendFullResponse(path, mimeType);
 //    }
 
     free(path);
@@ -63,20 +65,8 @@ int main() {
     signal(SIGINT, handle_SIGINT);
     message *requete;
 
-//    const char input[] = "nom1=valeur1&nom2=valeur2&nom3=valeur3";
-//
-//    Pair *pairs = parseQuery(input);
-//
-//    for (int i = 0; i < pairs->count; i++) {
-//        printf("Nom: %s, Valeur: %s\n", pairs[i].name, pairs[i].value);
-//    }
-//
-//    free(pairs);
-//
-//    return 0;
-
     while (1) {
-        printf("en attente\n");
+//        printf("en attente\n");
 
         // on attend la reception d'une requete HTTP
         // requete pointera vers une ressource allouée par librequest
@@ -85,26 +75,23 @@ int main() {
             return -1;
         }
 
-        printf("#########################################\n");
+//        printf("#########################################\n");
         // Affichage de debug
         showDebugInfos(requete);
-        cliendId = requete->clientId;
+        clientId = requete->clientId;
 
-        if (parseur(requete->buf, requete->len) == 0) {
+        if (parseur(requete->buf, requete->len) == 0 && check_request(requete->clientId)) {
 //            printChildren(root, 0);
-            if (check_request(requete->clientId)) {
-                sendResponse(requete->clientId);
-
-            }
-        } else {
-            printf("Problème requête\n");
+            sendResponse();
         }
-
+//        else {
+//            printf("Problème requête\n");
+//        }
 
         endWriteDirectClient(requete->clientId);
 
         if (check_Connection_Header()) {
-            printf("\nClosing connection\n");
+//            printf("\nClosing connection\n");
             requestShutdownSocket(requete->clientId);
         }
 
@@ -112,7 +99,7 @@ int main() {
         purgeTree(root);
         freeRequest(requete);
 
-        printf("#########################################\n");
+//        printf("#########################################\n");
     }
 
     return (1);

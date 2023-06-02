@@ -109,7 +109,7 @@ void send_headers(int clientId, char *mimeType) {
     if (!isPHP()) {
         send_Content_Type_Header(clientId, mimeType);
     }
-    
+
 //    send_Content_Encoding_Header(clientId);
 }
 
@@ -144,25 +144,22 @@ void send_message_body_php(int clientId, char *path) {
     char *pwd = getPWD();
 
     if (!pwd) {
-        printf("Problème PWD\n");
+        // printf("Problème PWD\n");
         return;
     }
 
     strcat(pwd, "/");
     strcat(pwd, path);
-    printf("PWD : %s\n", pwd);
+    // printf("PWD : %s\n", pwd);
 
     send_PHP_request(&fd, &header, pwd);
-    receive_PHP_answer(clientId, fd);
+    send_PHP_answer(clientId, fd);
 
     free(pwd);
-
-//    get_PHP_Data(clientId);
 }
 
-
 void send_message_body_chunked(int clientId, char *path) {
-    printf("chunking\n");
+    // printf("chunking\n");
     FILE *file = fopen(path, "rb");
     char buffer[MAX_SIZE_WITHOUT_CHUNK];
     int bytesRead;
@@ -184,7 +181,7 @@ void send_message_body_chunked(int clientId, char *path) {
 }
 
 void send_message_body_streaming(int clientId, char *path) {
-    printf("streaming\n");
+    // printf("streaming\n");
     int start = -1;
     int end = -1;
     getRangeRange(&start, &end);
@@ -228,7 +225,14 @@ void send_status_line(int clientId, int statusCode, char *message) {
     char *version = getHeaderValue(root, "HTTP_version");
     char statusLine[150];
 
-    sprintf(statusLine, TEMPLATE_STATUS_LINE, version, statusCode, message);
+    if (strcmp(version, "HTTP/1.0") && strcmp(version, "HTTP/1.1")) { // Si on nous demande au-dessus de 1.1
+        sprintf(statusLine, TEMPLATE_STATUS_LINE, "HTTP/1.1", statusCode, message);
+    } else {
+        sprintf(statusLine, TEMPLATE_STATUS_LINE, version, statusCode, message);
+    }
+
+    printf("\t-> %s", statusLine);
+
     writeDirectClient(clientId, statusLine, strlen(statusLine));
     free(version);
 }

@@ -26,12 +26,8 @@ size_t readSocket(int fd, char *buf, size_t len) {
     if (len == 0) return 0;
 
     do {
-    printf("a\n");
-
         // try to read
         do {
-    printf("b\n");
-
             nb = read(fd, buf + readlen, len - readlen);
         } while (nb == -1 && errno == EINTR);
         if (nb > 0) readlen += nb;
@@ -45,20 +41,14 @@ size_t readSocket(int fd, char *buf, size_t len) {
 void readData(int fd, FCGI_Header *h, size_t *len) {
     size_t nb;
     *len = 0;
-    printf("1\n");
 
     nb = sizeof(FCGI_Header) - FASTCGILENGTH;
-    printf("2\n");
     if ((readSocket(fd, (char *) h, nb) == nb)) {
-        printf("3\n");
         h->requestId = htons(h->requestId);
-        printf("4\n");
 
         h->contentLength = htons(h->contentLength);
         *len += nb;
         nb = h->contentLength + h->paddingLength;
-
-        printf("5\n");
 
         if ((readSocket(fd, (char *) h->contentData, nb) == nb)) {
             *len += nb;
@@ -74,7 +64,6 @@ void writeSocket(int fd, FCGI_Header *h, unsigned int len) {
 
     h->contentLength = htons(h->contentLength);
     h->paddingLength = htons(h->paddingLength);
-
 
     while (len) {
         // try to write
@@ -205,52 +194,7 @@ int createSocket(int port) {
 }
 
 // =========================================================================================================== //
-int get_PHP_Data(int clientId) {
-    int fd;
-    size_t len;
-
-// TEST ///
-    FCGI_Header h;
-    fd = createSocket(9000);
-    sendBeginRequest(fd, 10, FCGI_RESPONDER, FCGI_KEEP_CONN);
-    h.version = FCGI_VERSION_1;
-    h.type = FCGI_PARAMS;
-    h.requestId = htons(10);
-    h.contentLength = 0;
-    h.paddingLength = 0;
-    //addNameValuePair(&h,"SCRIPT_NAME","/info.php");
-    addNameValuePair(&h, "REQUEST_METHOD", "GET");
-    addNameValuePair(&h, "SCRIPT_FILENAME", "/var/www/html/info.php");
-//    addNameValuePair(&h, "SCRIPT_FILENAME", "/home/mathis/Documents/Projet-Reseau/Release2/Sprint1/sites/site1.fr/info.php");
-    writeSocket(fd, &h, FCGI_HEADER_SIZE + (h.contentLength) + (h.paddingLength));
-    h.contentLength = 0;
-    h.paddingLength = 0;
-    writeSocket(fd, &h, FCGI_HEADER_SIZE + (h.contentLength) + (h.paddingLength));
-
-
-    readData(fd, &h, &len);
-    send_Transfer_Encoding_Header(clientId, "chunked");
-    writeDirectClient(clientId, h.contentData, h.contentLength);
-
-    do {
-        char chunkSize[16];
-        readData(fd, &h, &len);
-        sprintf(chunkSize, "%X\r\n", h.contentLength);
-
-        writeDirectClient(clientId, chunkSize, strlen(chunkSize));
-        writeDirectClient(clientId, h.contentData, h.contentLength);
-        writeDirectClient(clientId, "\r\n", 2);
-    } while ((len != 0) && (h.type != FCGI_END_REQUEST));
-
-    writeDirectClient(clientId, "0\r\n\r\n", 5);
-    close(fd);
-
-    return 1;
-}
-
 void send_PHP_request(int *fd, FCGI_Header *header, char *path) {
-    char *mimeType, *contentLength;
-
     *fd = createSocket(9000);
     sendBeginRequest(*fd, 10, FCGI_RESPONDER, FCGI_KEEP_CONN);
     header->version = FCGI_VERSION_1;
@@ -260,101 +204,103 @@ void send_PHP_request(int *fd, FCGI_Header *header, char *path) {
     header->paddingLength = 0;
 
     if (isGet()) {
-        addNameValuePair(header, "REQUEST_METHOD", "GET");
-        addNameValuePair(header, "SCRIPT_FILENAME", path);
+        send_PHP_request_GET(fd, header, path);
+    } else if (isPost()) {
+        send_PHP_request_POST(fd, header, path);
+    }
+}
 
-        char *query = getHeaderValue(root,"query");
-        
-        if (query) {
-            addNameValuePair(header, "QUERY_STRING", query);
-        }
+void send_PHP_request_GET(int *fd, FCGI_Header *header, char *path) {
+    addNameValuePair(header, "REQUEST_METHOD", "GET");
+    addNameValuePair(header, "SCRIPT_FILENAME", path);
 
+    char *query = getHeaderValue(root, "query");
+
+    if (query) {
+        addNameValuePair(header, "QUERY_STRING", query);
+    }
+
+    writeSocket(*fd, header, FCGI_HEADER_SIZE + (header->contentLength) + (header->paddingLength));
+    header->contentLength = 0;
+    header->paddingLength = 0;
+    writeSocket(*fd, header, FCGI_HEADER_SIZE + (header->contentLength) + (header->paddingLength));
+
+    free(query);
+}
+
+void send_PHP_request_POST(int *fd, FCGI_Header *header, char *path) {
+    char *messageBody = getHeaderValue(root, "message_body");
+    char *contentType = getHeaderValue(root, "Content_Type");
+    char *contentLength = getHeaderValue(root, "Content_Length");
+
+    addNameValuePair(header, "REQUEST_METHOD", "POST");
+    addNameValuePair(header, "SCRIPT_FILENAME", path);
+    addNameValuePair(header, "CONTENT_TYPE", contentType);
+    addNameValuePair(header, "CONTENT_LENGTH", contentLength);
+
+    if (messageBody) {
         writeSocket(*fd, header, FCGI_HEADER_SIZE + (header->contentLength) + (header->paddingLength));
         header->contentLength = 0;
         header->paddingLength = 0;
         writeSocket(*fd, header, FCGI_HEADER_SIZE + (header->contentLength) + (header->paddingLength));
-    } else if (isPost()) {
-        char *messageBody = getHeaderValue(root,"message_body");
-        mimeType = getHeaderValue(root, "Content_Type");
-        contentLength = getHeaderValue(root, "Content_Length");
 
-        printf("%s\n", mimeType);
-        printf("%s\n", contentLength);
-        
-        addNameValuePair(header, "CONTENT_TYPE", mimeType);
-        addNameValuePair(header, "CONTENT_LENGTH", contentLength);
-
-        addNameValuePair(header, "REQUEST_METHOD", "POST");
-        addNameValuePair(header, "SCRIPT_FILENAME", path);
-        printf("Query param = %s\n",getHeaderValue(root,"message_body"));
-
-        if (messageBody) {
-            writeSocket(*fd, header, FCGI_HEADER_SIZE + (header->contentLength) + (header->paddingLength));
-            header->contentLength = 0;
-            header->paddingLength = 0;
-            writeSocket(*fd, header, FCGI_HEADER_SIZE + (header->contentLength) + (header->paddingLength));
-
-            sendStdin(*fd, 10, messageBody, strlen(messageBody));
-            //sendData(*fd, 10, messageBody, strlen(messageBody));
-            //addNameValuePair(header, "QUERY_STRING", messageBody);
-            free(messageBody);
-        }
+        sendStdin(*fd, 10, messageBody, strlen(messageBody));
+        free(messageBody);
     }
 
-
-
-    printf("fin\n");
+    free(contentType);
+    free(contentLength);
 }
 
-void receive_PHP_answer(int clientId, int fd) {
+
+void send_PHP_answer(int clientId, int fd) {
     size_t len;
     int i = 0;
     FCGI_Header header;
-    printf("ici\n");
 
     readData(fd, &header, &len);
-    printf("la\n");
     send_Transfer_Encoding_Header(clientId, "chunked");
 
-    printf("et ici\n");
-    while(!startWith("\r\n\r\n",&header.contentData[i])){
-        printf("i : %d\n", i);
+    if (header.type == FCGI_STDERR) {
+        send_error_code(clientId, 500, "Le serveur n'a surement pas accès aux fichiers");
+        return;
+    }
+
+    while (!startWith("\r\n\r\n", &header.contentData[i])) {
         i += 1;
     }
 
     i += 4;
 
     writeDirectClient(clientId, header.contentData, i);
-    printf("First answer :\n\"\"\"\n%.*s\n\"\"\"\n", i, header.contentData);
-    printf("i = %d, Length = %d\n",i, header.contentLength );
 
     if (isHead()) {
         close(fd);
         return;
     }
 
-    if(header.contentLength != i){
+    if (header.contentLength != i) {
         char chunkSize[16];
 
-        sprintf(chunkSize, "%X\r\n", header.contentLength-i);
+        sprintf(chunkSize, "%X\r\n", header.contentLength - i);
 
         writeDirectClient(clientId, chunkSize, strlen(chunkSize));
-        writeDirectClient(clientId, &header.contentData[i], header.contentLength-i);
+        writeDirectClient(clientId, &header.contentData[i], header.contentLength - i);
         writeDirectClient(clientId, "\r\n", 2);
-        printf("Second answer :\n\"\"\"\n%.*s\n\"\"\"\n", header.contentLength-i, &header.contentData[i]);
     }
 
-    while ((len != 0) && header.type != FCGI_END_REQUEST) {
-        printf("loop\n");
+    while ((len != 0)) {
         char chunkSize[16];
         readData(fd, &header, &len);
         sprintf(chunkSize, "%X\r\n", header.contentLength);
 
+        if (header.type == FCGI_END_REQUEST) {
+            break;
+        }
+
         writeDirectClient(clientId, chunkSize, strlen(chunkSize));
         writeDirectClient(clientId, header.contentData, header.contentLength);
-        printf("Other :\n\"\"\"%.*s\"\"\"\n", header.contentLength, header.contentData);
         writeDirectClient(clientId, "\r\n", 2);
-
     }
 
     writeDirectClient(clientId, "0\r\n\r\n", 5);

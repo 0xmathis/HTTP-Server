@@ -2,22 +2,27 @@
 <html lang='fr'>
 <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="style_index.css">
     <title>Page php</title>
 </head>
 
 <body>
-
 <header>
     <div>
         <h1>Test php</h1>
     </div>
-</header>
-<section>
-        <ul>
-            <h2 class="menu"><a href="index.html">Accueil</a></h2>
-            <h2 class="menu"><a href="page1.html">Page1</a></h2>
 
+    <nav>
+        <ul>
+            <li><h2 class="menu"><a href="index.html">Accueil</a></h2>
+            <li><h2 class="menu"><a href="page1.html">JavaScript</a></h2>
+            <li><h2 class="menu"><a href="formulaire.html">Formulaire PHP</a></h2>
+            <li><h2 class="menu"><a href="http://www.site2.fr:8080">Site 2</a></h2>
         </ul>
+    </nav>
+</header>
+
+<section>
         <div>
         <?php
             if ((!isset($_GET['calcul']) || !isset($_GET['foot']) || !isset($_GET['atome']) || !isset($_GET['vitesse']) || !isset($_GET['reponse']) || !isset($_GET['answer']) || !isset($_GET['kendo'])) && !isset($_POST['last']))

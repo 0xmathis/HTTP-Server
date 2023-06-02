@@ -167,7 +167,7 @@ int compress_string(const char *input, int input_length, char **output, int *out
 //}
 
 unsigned char *getFileData(char *path, int *size) {
-    printf("Getting file data\n");
+    // printf("Getting file data\n");
 
     FILE *file = fopen(path, "rb");
 
@@ -192,10 +192,10 @@ void getFileExtension(char *ptr, char *output) {
 }
 
 char *getFilePath() {
-    printf("Getting path\n");
+    // printf("Getting path\n");
     char *absolutePath = getHeaderValue(root, "absolute_path");
-    char *partialPath = (char *) malloc(sizeof(char) * 300);
-    char *fullPath = (char *) malloc(sizeof(char) * 500);
+    char *partialPath = (char *) malloc(sizeof(char) * 200);
+    char *fullPath = (char *) malloc(sizeof(char) * 300);
     char *host = getHostTarget();
 
     char *sanitizedPath = sanitizePath(absolutePath);
@@ -219,9 +219,24 @@ char *getFilePath() {
     free(sanitizedPath);
     free(host);
 
-    printf("path : %s\n", fullPath);
+    // printf("path : %s\n", fullPath);
 
     return fullPath;
+}
+
+int getFilePathLength() {
+    _Token *result = searchTree(root, "absolute_path");
+
+    if (result) {
+        Node *node = (Node *) result->node;
+        int length;
+        getElementValue(node, &length);
+        purgeElement(&result);
+
+        return length;
+    }
+
+    return 0;
 }
 
 char *getHeaderValue(Node *start, char *headerValue) {
@@ -271,7 +286,7 @@ char *getHostTarget() {
 }
 
 char *getMIMEtype(char *path) {
-    printf("Getting MIME type\n");
+    // printf("Getting MIME type\n");
 
     char extension[50];
     getFileExtension(path, extension);
@@ -340,6 +355,8 @@ Node *getRangeHeader() {
         result = result->next;
     }
 
+    purgeElement(&result);
+
     return NULL;
 }
 
@@ -348,4 +365,5 @@ void getRangeRange(int *start, int *end) {
 
     char *fieldValue = getHeaderValue(rangeHeader, "field_value");
     sscanf(fieldValue, "bytes=%d-%d", start, end);
+    free(fieldValue);
 }

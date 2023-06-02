@@ -61,7 +61,7 @@ int isStreamable(char *mimeType) {
 }
 
 char *percentEncodings(char *path) {
-    printf("Removing percent encodings\n");
+    // printf("Removing percent encodings\n");
 
     int len = strlen(path);
     char *newpath = (char *) malloc(len * sizeof(char));
@@ -100,8 +100,7 @@ char *getPWD() {
 }
 
 void remove_dot_segments(char *path) {
-    printf("Removing dot segments\n");
-//    printf("path : %s\n", path);
+    // printf("Removing dot segments\n");
 
     for (int i = 0; i < (int) strlen(path) - 1; i++) {
         // Si on rencontre /./ on l'enlève
@@ -111,7 +110,6 @@ void remove_dot_segments(char *path) {
             }
 
             i--;
-            //printf("%s\n", path);
         }
 
         // Si on rencontre /../ on l'enleve si il est pas au début on enlève le répertoire précédent
@@ -136,7 +134,7 @@ void remove_dot_segments(char *path) {
 }
 
 char *sanitizePath(char *path) {
-    printf("Sanitizing path\n");
+    // printf("Sanitizing path\n");
     char *withoutPercents = percentEncodings(path);
     remove_dot_segments(withoutPercents);
 
