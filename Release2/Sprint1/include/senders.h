@@ -5,8 +5,6 @@ void send_Accept_Ranges_Header(int);
 
 void send_Connection_Header(int);
 
-void send_Content_Encoding_Header(int);
-
 void send_Content_Length_Header(int, int);
 
 void send_Content_Range_Header(int, int, int, int);
@@ -20,8 +18,6 @@ void send_error_code(int, int, char *);
 void send_headers(int, char *, char *);
 
 void send_message_body(int, char *);
-
-void send_message_body_chunked(int, char *);
 
 void send_message_body_php(int, char *);
 
