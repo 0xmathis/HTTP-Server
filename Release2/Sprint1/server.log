@@ -4964,3 +4964,820 @@ Connection: keep-alive
 Referer: http://www.site1.fr:8080/style_index.css
 
 
+[9] [127.0.0.1:58646]
+GET / HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Referer: http://www.site2.fr:8080/
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+
+[9] [127.0.0.1:58646]
+GET /style_index.css HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/css,*/*;q=0.1
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/
+
+
+[8] [127.0.0.1:58662]
+GET /img%201.png HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/
+
+
+[8] [127.0.0.1:58662]
+GET /wallp_black.jpg HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/style_index.css
+
+
+[7] [127.0.0.1:58674]
+GET / HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/
+Upgrade-Insecure-Requests: 1
+
+
+[7] [127.0.0.1:58674]
+GET /giphy1.gif HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site2.fr:8080/
+
+
+[6] [127.0.0.1:58684]
+GET /giphy2.gif HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site2.fr:8080/
+
+
+[6] [127.0.0.1:58684]
+GET /court.mp4 HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: video/webm,video/ogg,video/*;q=0.9,application/ogg;q=0.7,audio/*;q=0.6,*/*;q=0.5
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Range: bytes=0-
+Connection: keep-alive
+Referer: http://www.site2.fr:8080/
+Accept-Encoding: identity
+
+
+[6] [127.0.0.1:58684]
+GET /court.mp4 HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: video/webm,video/ogg,video/*;q=0.9,application/ogg;q=0.7,audio/*;q=0.6,*/*;q=0.5
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Range: bytes=11304960-
+Connection: keep-alive
+Referer: http://www.site2.fr:8080/
+Accept-Encoding: identity
+
+
+[6] [127.0.0.1:58684]
+GET /court.mp4 HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: video/webm,video/ogg,video/*;q=0.9,application/ogg;q=0.7,audio/*;q=0.6,*/*;q=0.5
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Range: bytes=0-
+Connection: keep-alive
+Referer: http://www.site2.fr:8080/
+Accept-Encoding: identity
+
+
+[6] [127.0.0.1:58684]
+GET /court.mp4 HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: video/webm,video/ogg,video/*;q=0.9,application/ogg;q=0.7,audio/*;q=0.6,*/*;q=0.5
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Range: bytes=100000-
+Connection: keep-alive
+Referer: http://www.site2.fr:8080/
+Accept-Encoding: identity
+
+
+[6] [127.0.0.1:58684]
+GET /court.mp4 HTTP/1.1
+Host: www.site2.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: video/webm,video/ogg,video/*;q=0.9,application/ogg;q=0.7,audio/*;q=0.6,*/*;q=0.5
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Range: bytes=200000-
+Connection: keep-alive
+Referer: http://www.site2.fr:8080/
+Accept-Encoding: identity
+
+
+[8] [127.0.0.1:58662]
+GET /formulaire.html HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/
+Upgrade-Insecure-Requests: 1
+
+
+[8] [127.0.0.1:58662]
+GET /style_index.css HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/css,*/*;q=0.1
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/formulaire.html
+
+
+[8] [127.0.0.1:58662]
+GET /wallp_black.jpg HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/style_index.css
+
+
+[8] [127.0.0.1:58662]
+POST /result_php.php HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 9
+Origin: http://www.site1.fr:8080
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/formulaire.html
+Upgrade-Insecure-Requests: 1
+
+last=test
+[9] [127.0.0.1:52022]
+POST /result_php.php HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 9
+Origin: http://www.site1.fr:8080
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/formulaire.html
+Upgrade-Insecure-Requests: 1
+
+last=test
+[9] [127.0.0.1:54114]
+POST /result_php.php HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 9
+Origin: http://www.site1.fr:8080
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/formulaire.html
+Upgrade-Insecure-Requests: 1
+
+last=test
+[9] [127.0.0.1:47202]
+POST /result_php.php HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 9
+Origin: http://www.site1.fr:8080
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/formulaire.html
+Upgrade-Insecure-Requests: 1
+
+last=test
+[9] [127.0.0.1:42754]
+GET /result_php.php?calcul=1&vitesse=1&kendo=1&reponse%5B%5D=option2&atome=1&answer%5B%5D=option5&foot=1 HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/formulaire.html
+Upgrade-Insecure-Requests: 1
+
+
+[9] [127.0.0.1:50898]
+GET /result_php.php?calcul=1&vitesse=1&kendo=1&reponse%5B%5D=option2&atome=1&answer%5B%5D=option5&foot=1 HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/formulaire.html
+Upgrade-Insecure-Requests: 1
+
+
+
+
+[9] [127.0.0.1:37658]
+GET /result_php.php?calcul=1&vitesse=1&kendo=1&reponse%5B%5D=option2&atome=1&answer%5B%5D=option5&foot=1 HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/formulaire.html
+Upgrade-Insecure-Requests: 1
+
+
+
+
+[9] [127.0.0.1:50064]
+POST /result_php.php HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 9
+Origin: http://www.site1.fr:8080
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/formulaire.html
+Upgrade-Insecure-Requests: 1
+
+last=test
+
+
+[9] [127.0.0.1:47860]
+POST /result_php.php HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Referer: http://www.site1.fr:8080/formulaire.html
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 9
+Origin: http://www.site1.fr:8080
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+last=test
+
+
+[9] [127.0.0.1:47760]
+POST /result_php.php HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Referer: http://www.site1.fr:8080/formulaire.html
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 9
+Origin: http://www.site1.fr:8080
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+last=test
+
+
+[9] [127.0.0.1:47676]
+GET / HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+
+
+
+[9] [127.0.0.1:47676]
+GET /style_index.css HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/css,*/*;q=0.1
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/
+
+
+
+
+[8] [127.0.0.1:47688]
+GET /img%201.png HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/
+
+
+
+
+[8] [127.0.0.1:47688]
+GET /wallp_black.jpg HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/style_index.css
+
+
+
+
+[8] [127.0.0.1:47688]
+GET /formulaire.html HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/
+Upgrade-Insecure-Requests: 1
+
+
+
+
+[8] [127.0.0.1:47688]
+GET /style_index.css HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/css,*/*;q=0.1
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/formulaire.html
+
+
+
+
+[8] [127.0.0.1:47688]
+GET /wallp_black.jpg HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/style_index.css
+
+
+
+
+[8] [127.0.0.1:47688]
+POST /result_php.php HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 7
+Origin: http://www.site1.fr:8080
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/formulaire.html
+Upgrade-Insecure-Requests: 1
+
+last=ok
+
+
+[9] [127.0.0.1:37224]
+POST /result_php.php HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 7
+Origin: http://www.site1.fr:8080
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/formulaire.html
+Upgrade-Insecure-Requests: 1
+
+last=ok
+
+
+[9] [127.0.0.1:44670]
+POST /result_php.php HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 7
+Origin: http://www.site1.fr:8080
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/formulaire.html
+Upgrade-Insecure-Requests: 1
+
+last=ok
+
+
+[9] [127.0.0.1:54886]
+POST /result_php.php HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 7
+Origin: http://www.site1.fr:8080
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/formulaire.html
+Upgrade-Insecure-Requests: 1
+
+last=ok
+
+
+[9] [127.0.0.1:54886]
+GET /style_index.css HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/css,*/*;q=0.1
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/result_php.php
+
+
+
+
+[9] [127.0.0.1:54886]
+GET /wallp_black.jpg HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/style_index.css
+
+
+
+
+[9] [127.0.0.1:47964]
+POST /result_php.php HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Referer: http://www.site1.fr:8080/formulaire.html
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 7
+Origin: http://www.site1.fr:8080
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+last=ok
+
+
+[9] [127.0.0.1:47964]
+GET /style_index.css HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/css,*/*;q=0.1
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/result_php.php
+
+
+
+
+[9] [127.0.0.1:47964]
+GET /wallp_black.jpg HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/style_index.css
+
+
+
+
+[9] [127.0.0.1:47964]
+GET /formulaire.html HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/result_php.php
+Upgrade-Insecure-Requests: 1
+
+
+
+
+[9] [127.0.0.1:47964]
+GET /style_index.css HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/css,*/*;q=0.1
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/formulaire.html
+
+
+
+
+[9] [127.0.0.1:47964]
+GET /wallp_black.jpg HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/style_index.css
+
+
+
+
+[9] [127.0.0.1:41190]
+GET /result_php.php?calcul=1&vitesse=1&kendo=1&reponse%5B%5D=option1&atome=1&answer%5B%5D=option5&foot=1 HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/formulaire.html
+Upgrade-Insecure-Requests: 1
+
+
+
+
+[9] [127.0.0.1:41190]
+GET /style_index.css HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/css,*/*;q=0.1
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/result_php.php?calcul=1&vitesse=1&kendo=1&reponse%5B%5D=option1&atome=1&answer%5B%5D=option5&foot=1
+
+
+
+
+[9] [127.0.0.1:41190]
+GET /wallp_black.jpg HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/style_index.css
+
+
+
+
+[9] [127.0.0.1:42920]
+GET /result_php.php?calcul=1&vitesse=1&kendo=1&reponse%5B%5D=option1&atome=1&answer%5B%5D=option5&foot=1 HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Referer: http://www.site1.fr:8080/formulaire.html
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+
+
+
+[9] [127.0.0.1:38360]
+GET /index.html HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Referer: http://www.site1.fr:8080/result_php.php?calcul=1&vitesse=1&kendo=1&reponse%5B%5D=option1&atome=1&answer%5B%5D=option5&foot=1
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+
+
+
+[9] [127.0.0.1:38360]
+GET /style_index.css HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/css,*/*;q=0.1
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/index.html
+
+
+
+
+[9] [127.0.0.1:38360]
+GET /img%201.png HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/index.html
+
+
+
+
+[9] [127.0.0.1:38360]
+GET /wallp_black.jpg HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/style_index.css
+
+
+
+
+[9] [127.0.0.1:38360]
+GET /formulaire.html HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/index.html
+Upgrade-Insecure-Requests: 1
+
+
+
+
+[9] [127.0.0.1:38360]
+GET /style_index.css HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/css,*/*;q=0.1
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/formulaire.html
+
+
+
+
+[9] [127.0.0.1:38360]
+GET /wallp_black.jpg HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/style_index.css
+
+
+
+
+[9] [127.0.0.1:38360]
+POST /result_php.php HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 6
+Origin: http://www.site1.fr:8080
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/formulaire.html
+Upgrade-Insecure-Requests: 1
+
+last=a
+
+
+[9] [127.0.0.1:45166]
+POST /result_php.php HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 6
+Origin: http://www.site1.fr:8080
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/formulaire.html
+Upgrade-Insecure-Requests: 1
+
+last=a
+
+
+[9] [127.0.0.1:48536]
+POST /result_php.php HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 6
+Origin: http://www.site1.fr:8080
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/formulaire.html
+Upgrade-Insecure-Requests: 1
+
+last=a
+
+
+[9] [127.0.0.1:48536]
+GET /style_index.css HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: text/css,*/*;q=0.1
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/result_php.php
+
+
+
+
+[9] [127.0.0.1:48536]
+GET /wallp_black.jpg HTTP/1.1
+Host: www.site1.fr:8080
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0
+Accept: image/avif,image/webp,*/*
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.site1.fr:8080/style_index.css
+
+
+
+

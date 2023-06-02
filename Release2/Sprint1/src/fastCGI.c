@@ -192,21 +192,19 @@ int createSocket(int port) {
 }
 
 // =========================================================================================================== //
-void send_PHP_request(int *fd, char *path) {
-    FCGI_Header header;
-
+void send_PHP_request(int *fd, FCGI_Header *header, char *path) {
     *fd = createSocket(9000);
     sendBeginRequest(*fd, 10, FCGI_RESPONDER, FCGI_KEEP_CONN);
-    header.version = FCGI_VERSION_1;
-    header.type = FCGI_PARAMS;
-    header.requestId = htons(10);
-    header.contentLength = 0;
-    header.paddingLength = 0;
+    header->version = FCGI_VERSION_1;
+    header->type = FCGI_PARAMS;
+    header->requestId = htons(10);
+    header->contentLength = 0;
+    header->paddingLength = 0;
 
     if (isGet()) {
-        send_PHP_request_GET(fd, &header, path);
+        send_PHP_request_GET(fd, header, path);
     } else if (isPost()) {
-        send_PHP_request_POST(fd, &header, path);
+        send_PHP_request_POST(fd, header, path);
     }
 }
 

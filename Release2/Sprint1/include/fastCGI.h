@@ -109,7 +109,7 @@ void sendWebData(int fd, unsigned char type, unsigned short requestId, char *dat
 
 int createSocket(int port);
 
-void send_PHP_request(int *fd, char *path);
+void send_PHP_request(int *fd, FCGI_Header *header, char *path);
 
 void send_PHP_request_GET(int *fd, FCGI_Header *header, char *path);
 

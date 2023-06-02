@@ -113,6 +113,7 @@ void send_message_body(int clientId, char *path) {
 }
 
 void send_message_body_php(int clientId, char *path) {
+    FCGI_Header header;
     int fd;
     char *pwd = getPWD();
 
@@ -123,7 +124,7 @@ void send_message_body_php(int clientId, char *path) {
     char *fullPath = (char *) malloc(sizeof(char) * 400);
     snprintf(fullPath, 400, "%s/%s", pwd, path);
 
-    send_PHP_request(&fd, path);
+    send_PHP_request(&fd, &header, fullPath);
     send_PHP_answer(clientId, fd);
 
     free(pwd);
@@ -191,5 +192,3 @@ void send_Transfer_Encoding_Header(int clientId, char *encoding) {
     snprintf(message, 50, "Transfer-Encoding: %s\r\n", encoding);
     writeDirectClient(clientId, message, strlen(message));
 }
-
-

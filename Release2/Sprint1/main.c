@@ -33,7 +33,7 @@ void showDebugInfos(message *requete) {
     printf("Client [%d] [%s:%d] -> %s\n", requete->clientId, inet_ntoa(requete->clientAddress->sin_addr), htons(requete->clientAddress->sin_port), buffer);
 
     FILE *file = fopen("server.log", "a");
-    fprintf(file, "[%d] [%s:%d]\n%s\n", requete->clientId, inet_ntoa(requete->clientAddress->sin_addr), htons(requete->clientAddress->sin_port), requete->buf);
+    fprintf(file, "[%d] [%s:%d]\n%s\n\n\n", requete->clientId, inet_ntoa(requete->clientAddress->sin_addr), htons(requete->clientAddress->sin_port), requete->buf);
     fclose(file);
 }
 
