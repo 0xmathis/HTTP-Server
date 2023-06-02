@@ -253,6 +253,7 @@ char *getHeaderValue(Node *start, char *headerValue) {
         return value;
     }
 
+    purgeElement(&result);
     return NULL;
 }
 
@@ -265,7 +266,7 @@ char *getHostTarget() {
 
     int len = strlen(host);
 
-    char *hostTarget = (char *) malloc(strlen(host) * sizeof(char));
+    char *hostTarget = (char *) malloc(len * sizeof(char));
     int i = 0;
     int j = 0;
 
@@ -273,7 +274,7 @@ char *getHostTarget() {
         i = 4;
     }
 
-    while (i < len && host[i] != ':') {
+    while (i < len-1 && host[i] != ':') {
         hostTarget[j] = host[i];
         i++;
         j++;

@@ -64,7 +64,7 @@ char *percentEncodings(char *path) {
     // printf("Removing percent encodings\n");
 
     int len = strlen(path);
-    char *newpath = (char *) malloc(len * sizeof(char));
+    char *newpath = (char *) malloc((len + 1) * sizeof(char));
     int j = 0;
 
     for (int i = 0; i < len + 1; i++) {

@@ -109,7 +109,7 @@ int check_Accept_Header(int clientId, char *path) {
             char *typeAccepted = getHeaderValue(node, "type");
             char *subtypeAccepted = getHeaderValue(node, "subtype");
             char mediaRange[50];
-            sprintf(mediaRange, "%s/%s", typeAccepted, subtypeAccepted);
+            snprintf(mediaRange, 50, "%s/%s", typeAccepted, subtypeAccepted);
 
             // Si on accepte le media type ou qu'on accepte tout
             if ((strcmp(mediaRange, mimeType) == 0 || strcmp(mediaRange, "*/*") == 0) && (!parameter || strcmp(parameter, "q=0"))) {
@@ -174,7 +174,10 @@ int check_Content_Length_Header(int clientId) {
 
     purgeElement(&result);
 
-    if (contentLength && atoi(contentLength) == messageBodyLength) {
+    printf("pointer : %p\n", contentLength);
+    printf("length : %d\n", messageBodyLength);
+
+    if ((contentLength && atoi(contentLength) == messageBodyLength)) {
         free(contentLength);
         return 1;
     }
@@ -196,24 +199,38 @@ int check_Host_Header(int clientId) {
     char *version = getHeaderValue(root, "HTTP_version");
 
     _Token *result = searchTree(root, "Host_header");
+    _Token *r = result;
+
     if ((result && result->next) || (!result && strcmp(version, "HTTP/1.1") == 0)) {  // s'il y a 0 ou plusieurs header host
         free(version);
+        purgeElement(&r);
         send_error_code(clientId, 400, "Bad Request");
         return 0;
     }
 
     free(version);
+    purgeElement(&r);
 
     return 1;
 }
 
-int check_method(int clientId) {
+int check_method(int clientId, char *path) {
     char *method = getHeaderValue(root, "method");
 
     if (strcmp(method, "GET") && strcmp(method, "HEAD") && strcmp(method, "POST")) {
         free(method);
         send_error_code(clientId, 501, "Not Implemented");
         return 0;
+    }
+
+    if (strcmp(method, "POST") == 0) {
+        char extension[50];
+        getFileExtension(path, extension);
+
+        if (strcmp(extension, ".php")) {
+            send_error_code(clientId, 400, "Bad Request");
+            return 0;
+        }
     }
 
     free(method);
@@ -261,6 +278,7 @@ int check_Range_Header(int clientId, char *path) {
 
 int check_request(int clientId) {
 //    printf("Checking\n");
+    //printChildren(root, 0);
 
     if (getFilePathLength() > 200) {
         send_error_code(clientId, 413, "Path Too Large");
@@ -281,7 +299,7 @@ int check_request(int clientId) {
     */
     
 
-    if (!check_path(clientId, path) || !check_method(clientId) || !check_headers(clientId, path)) {
+    if (!check_path(clientId, path) || !check_method(clientId, path) || !check_headers(clientId, path)) {
         // printf("Not checked\n");
         free(path);
         return 0;

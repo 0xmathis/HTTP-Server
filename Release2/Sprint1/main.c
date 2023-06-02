@@ -28,8 +28,8 @@ void handle_SIGINT() {
 }
 
 void showDebugInfos(message *requete) {
-    char bufferCopyShort[200];
-    char buffer[200];
+    char bufferCopyShort[200] = {0};
+    char buffer[200] = {0};
     strncpy(bufferCopyShort, requete->buf, 199);
     sscanf(bufferCopyShort, "%[^\r\n]", buffer);
 //    printf("Demande recue depuis le client %d\n", requete->clientId);
@@ -72,6 +72,8 @@ void sendResponse() {
 int main() {
     signal(SIGINT, handle_SIGINT);
     signal(SIGPIPE, handle_SIGPIPE);
+    //signal(SIGSEGV, handle_SIGPIPE);
+    //signal(SIGABRT, handle_SIGPIPE);
 
     message *requete;
 
@@ -91,7 +93,7 @@ int main() {
         clientId = requete->clientId;
 
         if (parseur(requete->buf, requete->len) == 0 && check_request(requete->clientId)) {
-//            printChildren(root, 0);
+            //printChildren(root, 0);
             sendResponse();
         }
 //        else {

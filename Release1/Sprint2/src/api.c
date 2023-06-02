@@ -78,7 +78,7 @@ char *getElementValue(void *node, int *len) {
 }
 
 void purgeElement(_Token **root) {
-    if (!*root) {
+    if (!(*root)) {
         return;
     }
 

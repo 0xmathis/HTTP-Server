@@ -1025,6 +1025,7 @@ int detect_message_body(Node *parent, const char *ptr) {
 
     if (compteur == 0) {
         delNode(messageBodyNode, parent);
+        return 112;
     }
 
     setLength(messageBodyNode, getSumLengthChildren(messageBodyNode));

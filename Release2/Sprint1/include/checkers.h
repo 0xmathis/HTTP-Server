@@ -13,7 +13,7 @@ int check_headers(int, char *);
 
 int check_Host_Header(int);
 
-int check_method(int);
+int check_method(int, char *);
 
 int check_path(int, char *);
 
