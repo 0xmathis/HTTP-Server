@@ -18,7 +18,7 @@ unprepa:
 	./scripts/unprepa.sh
 
 setup:
-	./scripts/setupCGI.sh
+	./scripts/setupFCGI.sh
 
 clean: unprepa
 	rm -f $(BIN)/$(MAIN)

@@ -1,244 +1,230 @@
-==20693== Memcheck, a memory error detector
-==20693== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==20693== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==20693== Command: ./bin/server
-==20693== 
-==20693== 
-==20693== HEAP SUMMARY:
-==20693==     in use at exit: 1,280 bytes in 80 blocks
-==20693==   total heap usage: 3,137 allocs, 3,057 frees, 2,282,295 bytes allocated
-==20693== 
-==20693== 16 bytes in 1 blocks are definitely lost in loss record 1 of 17
-==20693==    at 0x483877F: malloc (vg_replace_malloc.c:307)
-==20693==    by 0x10CA7F: insertion (api.c:47)
-==20693==    by 0x10C9FC: searchTreeRecursif (api.c:34)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693== 
-==20693== 16 bytes in 1 blocks are definitely lost in loss record 2 of 17
-==20693==    at 0x483877F: malloc (vg_replace_malloc.c:307)
-==20693==    by 0x10CA7F: insertion (api.c:47)
-==20693==    by 0x10C9FC: searchTreeRecursif (api.c:34)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10C97A: searchTree (api.c:18)
-==20693==    by 0x10AE54: getHeaderValue (getters.c:88)
-==20693==    by 0x10944C: check_Accept_Header (checkers.c:31)
-==20693==    by 0x109897: check_headers (checkers.c:130)
-==20693== 
-==20693== 32 bytes in 2 blocks are definitely lost in loss record 3 of 17
-==20693==    at 0x483877F: malloc (vg_replace_malloc.c:307)
-==20693==    by 0x10CA7F: insertion (api.c:47)
-==20693==    by 0x10C9FC: searchTreeRecursif (api.c:34)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10C97A: searchTree (api.c:18)
-==20693==    by 0x10AE54: getHeaderValue (getters.c:88)
-==20693==    by 0x10949E: check_Accept_Header (checkers.c:39)
-==20693==    by 0x109897: check_headers (checkers.c:130)
-==20693==    by 0x109C37: check_request (checkers.c:237)
-==20693==    by 0x10C8C0: main (main.c:95)
-==20693== 
-==20693== 64 bytes in 4 blocks are definitely lost in loss record 4 of 17
-==20693==    at 0x483877F: malloc (vg_replace_malloc.c:307)
-==20693==    by 0x10CA7F: insertion (api.c:47)
-==20693==    by 0x10C9FC: searchTreeRecursif (api.c:34)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10C97A: searchTree (api.c:18)
-==20693==    by 0x10ADE2: getFilePathLength (getters.c:71)
-==20693== 
-==20693== 64 bytes in 4 blocks are definitely lost in loss record 5 of 17
-==20693==    at 0x483877F: malloc (vg_replace_malloc.c:307)
-==20693==    by 0x10CA7F: insertion (api.c:47)
-==20693==    by 0x10C9FC: searchTreeRecursif (api.c:34)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10C97A: searchTree (api.c:18)
-==20693==    by 0x10AE54: getHeaderValue (getters.c:88)
-==20693==    by 0x1099A9: check_method (checkers.c:153)
-==20693==    by 0x109C22: check_request (checkers.c:237)
-==20693==    by 0x10C8C0: main (main.c:95)
-==20693== 
-==20693== 64 bytes in 4 blocks are definitely lost in loss record 6 of 17
-==20693==    at 0x483877F: malloc (vg_replace_malloc.c:307)
-==20693==    by 0x10CA7F: insertion (api.c:47)
-==20693==    by 0x10C9FC: searchTreeRecursif (api.c:34)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10C97A: searchTree (api.c:18)
-==20693==    by 0x1098F2: check_Host_Header (checkers.c:136)
-==20693==    by 0x10986D: check_headers (checkers.c:130)
-==20693==    by 0x109C37: check_request (checkers.c:237)
-==20693==    by 0x10C8C0: main (main.c:95)
-==20693== 
-==20693== 64 bytes in 4 blocks are definitely lost in loss record 7 of 17
-==20693==    at 0x483877F: malloc (vg_replace_malloc.c:307)
-==20693==    by 0x10C941: searchTree (api.c:13)
-==20693==    by 0x10AE54: getHeaderValue (getters.c:88)
-==20693==    by 0x10944C: check_Accept_Header (checkers.c:31)
-==20693==    by 0x109897: check_headers (checkers.c:130)
-==20693==    by 0x109C37: check_request (checkers.c:237)
-==20693==    by 0x10C8C0: main (main.c:95)
-==20693== 
-==20693== 64 bytes in 4 blocks are definitely lost in loss record 8 of 17
-==20693==    at 0x483877F: malloc (vg_replace_malloc.c:307)
-==20693==    by 0x10CA7F: insertion (api.c:47)
-==20693==    by 0x10C9FC: searchTreeRecursif (api.c:34)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10C97A: searchTree (api.c:18)
-==20693==    by 0x10AE54: getHeaderValue (getters.c:88)
-==20693==    by 0x10949E: check_Accept_Header (checkers.c:39)
-==20693==    by 0x109897: check_headers (checkers.c:130)
-==20693==    by 0x109C37: check_request (checkers.c:237)
-==20693==    by 0x10C8C0: main (main.c:95)
-==20693== 
-==20693== 64 bytes in 4 blocks are definitely lost in loss record 9 of 17
-==20693==    at 0x483877F: malloc (vg_replace_malloc.c:307)
-==20693==    by 0x10CA7F: insertion (api.c:47)
-==20693==    by 0x10C9FC: searchTreeRecursif (api.c:34)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10C97A: searchTree (api.c:18)
-==20693==    by 0x10AE54: getHeaderValue (getters.c:88)
-==20693==    by 0x1094D8: check_Accept_Header (checkers.c:44)
-==20693==    by 0x109897: check_headers (checkers.c:130)
-==20693==    by 0x109C37: check_request (checkers.c:237)
-==20693==    by 0x10C8C0: main (main.c:95)
-==20693== 
-==20693== 64 bytes in 4 blocks are definitely lost in loss record 10 of 17
-==20693==    at 0x483877F: malloc (vg_replace_malloc.c:307)
-==20693==    by 0x10CA7F: insertion (api.c:47)
-==20693==    by 0x10C9FC: searchTreeRecursif (api.c:34)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10C97A: searchTree (api.c:18)
-==20693==    by 0x10AE54: getHeaderValue (getters.c:88)
-==20693==    by 0x1094EF: check_Accept_Header (checkers.c:45)
-==20693==    by 0x109897: check_headers (checkers.c:130)
-==20693==    by 0x109C37: check_request (checkers.c:237)
-==20693==    by 0x10C8C0: main (main.c:95)
-==20693== 
-==20693== 64 bytes in 4 blocks are definitely lost in loss record 11 of 17
-==20693==    at 0x483877F: malloc (vg_replace_malloc.c:307)
-==20693==    by 0x10CA7F: insertion (api.c:47)
-==20693==    by 0x10C9FC: searchTreeRecursif (api.c:34)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10C97A: searchTree (api.c:18)
-==20693==    by 0x10AE54: getHeaderValue (getters.c:88)
-==20693==    by 0x10B4D0: isPost (others.c:36)
-==20693==    by 0x10976B: check_Content_Length_Header (checkers.c:101)
-==20693==    by 0x1098A5: check_headers (checkers.c:130)
-==20693==    by 0x109C37: check_request (checkers.c:237)
-==20693== 
-==20693== 64 bytes in 4 blocks are definitely lost in loss record 12 of 17
-==20693==    at 0x483877F: malloc (vg_replace_malloc.c:307)
-==20693==    by 0x10CA7F: insertion (api.c:47)
-==20693==    by 0x10C9FC: searchTreeRecursif (api.c:34)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10C97A: searchTree (api.c:18)
-==20693==    by 0x10AE54: getHeaderValue (getters.c:88)
-==20693==    by 0x10B412: isGet (others.c:12)
-==20693==    by 0x10BEAC: send_message_body (senders.c:132)
-==20693==    by 0x10C77E: sendFullResponse (main.c:48)
-==20693==    by 0x10C812: sendResponse (main.c:66)
-==20693== 
-==20693== 64 bytes in 4 blocks are definitely lost in loss record 13 of 17
-==20693==    at 0x483877F: malloc (vg_replace_malloc.c:307)
-==20693==    by 0x10CA7F: insertion (api.c:47)
-==20693==    by 0x10C9FC: searchTreeRecursif (api.c:34)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693== 
-==20693== 128 bytes in 8 blocks are definitely lost in loss record 14 of 17
-==20693==    at 0x483877F: malloc (vg_replace_malloc.c:307)
-==20693==    by 0x10CA7F: insertion (api.c:47)
-==20693==    by 0x10C9FC: searchTreeRecursif (api.c:34)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10C97A: searchTree (api.c:18)
-==20693==    by 0x10AE54: getHeaderValue (getters.c:88)
-==20693== 
-==20693== 128 bytes in 8 blocks are definitely lost in loss record 15 of 17
-==20693==    at 0x483877F: malloc (vg_replace_malloc.c:307)
-==20693==    by 0x10CA7F: insertion (api.c:47)
-==20693==    by 0x10C9FC: searchTreeRecursif (api.c:34)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10C97A: searchTree (api.c:18)
-==20693==    by 0x10AE54: getHeaderValue (getters.c:88)
-==20693== 
-==20693== 128 bytes in 8 blocks are definitely lost in loss record 16 of 17
-==20693==    at 0x483877F: malloc (vg_replace_malloc.c:307)
-==20693==    by 0x10CA7F: insertion (api.c:47)
-==20693==    by 0x10C9FC: searchTreeRecursif (api.c:34)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693== 
-==20693== 192 bytes in 12 blocks are definitely lost in loss record 17 of 17
-==20693==    at 0x483877F: malloc (vg_replace_malloc.c:307)
-==20693==    by 0x10CA7F: insertion (api.c:47)
-==20693==    by 0x10C9FC: searchTreeRecursif (api.c:34)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA62: searchTreeRecursif (api.c:42)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10CA2F: searchTreeRecursif (api.c:38)
-==20693==    by 0x10C97A: searchTree (api.c:18)
-==20693==    by 0x10AE54: getHeaderValue (getters.c:88)
-==20693== 
-==20693== LEAK SUMMARY:
-==20693==    definitely lost: 1,280 bytes in 80 blocks
-==20693==    indirectly lost: 0 bytes in 0 blocks
-==20693==      possibly lost: 0 bytes in 0 blocks
-==20693==    still reachable: 0 bytes in 0 blocks
-==20693==         suppressed: 0 bytes in 0 blocks
-==20693== 
-==20693== ERROR SUMMARY: 17 errors from 17 contexts (suppressed: 0 from 0)
+==24836== Memcheck, a memory error detector
+==24836== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==24836== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==24836== Command: ./bin/server
+==24836== 
+==24836== 
+==24836== HEAP SUMMARY:
+==24836==     in use at exit: 1,216 bytes in 76 blocks
+==24836==   total heap usage: 3,456 allocs, 3,380 frees, 2,311,167 bytes allocated
+==24836== 
+==24836== 16 bytes in 1 blocks are definitely lost in loss record 1 of 16
+==24836==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24836==    by 0x10D50D: insertion (api.c:47)
+==24836==    by 0x10D486: searchTreeRecursif (api.c:34)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836== 
+==24836== 16 bytes in 1 blocks are definitely lost in loss record 2 of 16
+==24836==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24836==    by 0x10D50D: insertion (api.c:47)
+==24836==    by 0x10D486: searchTreeRecursif (api.c:34)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D400: searchTree (api.c:18)
+==24836==    by 0x10B587: getHeaderValue (getters.c:87)
+==24836==    by 0x109704: check_Accept_Header (checkers.c:29)
+==24836==    by 0x109C15: check_headers (checkers.c:124)
+==24836== 
+==24836== 32 bytes in 2 blocks are definitely lost in loss record 3 of 16
+==24836==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24836==    by 0x10D50D: insertion (api.c:47)
+==24836==    by 0x10D486: searchTreeRecursif (api.c:34)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D400: searchTree (api.c:18)
+==24836==    by 0x10B587: getHeaderValue (getters.c:87)
+==24836==    by 0x109771: check_Accept_Header (checkers.c:37)
+==24836==    by 0x109C15: check_headers (checkers.c:124)
+==24836==    by 0x10A03D: check_request (checkers.c:216)
+==24836==    by 0x10D33E: main (main.c:86)
+==24836== 
+==24836== 64 bytes in 4 blocks are definitely lost in loss record 4 of 16
+==24836==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24836==    by 0x10D50D: insertion (api.c:47)
+==24836==    by 0x10D486: searchTreeRecursif (api.c:34)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D400: searchTree (api.c:18)
+==24836==    by 0x10B587: getHeaderValue (getters.c:87)
+==24836==    by 0x109D6D: check_method (checkers.c:147)
+==24836==    by 0x10A028: check_request (checkers.c:216)
+==24836==    by 0x10D33E: main (main.c:86)
+==24836== 
+==24836== 64 bytes in 4 blocks are definitely lost in loss record 5 of 16
+==24836==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24836==    by 0x10D50D: insertion (api.c:47)
+==24836==    by 0x10D486: searchTreeRecursif (api.c:34)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D400: searchTree (api.c:18)
+==24836==    by 0x109C89: check_Host_Header (checkers.c:130)
+==24836==    by 0x109BEB: check_headers (checkers.c:124)
+==24836==    by 0x10A03D: check_request (checkers.c:216)
+==24836==    by 0x10D33E: main (main.c:86)
+==24836== 
+==24836== 64 bytes in 4 blocks are definitely lost in loss record 6 of 16
+==24836==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24836==    by 0x10D3C7: searchTree (api.c:13)
+==24836==    by 0x10B587: getHeaderValue (getters.c:87)
+==24836==    by 0x109704: check_Accept_Header (checkers.c:29)
+==24836==    by 0x109C15: check_headers (checkers.c:124)
+==24836==    by 0x10A03D: check_request (checkers.c:216)
+==24836==    by 0x10D33E: main (main.c:86)
+==24836== 
+==24836== 64 bytes in 4 blocks are definitely lost in loss record 7 of 16
+==24836==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24836==    by 0x10D50D: insertion (api.c:47)
+==24836==    by 0x10D486: searchTreeRecursif (api.c:34)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D400: searchTree (api.c:18)
+==24836==    by 0x10B587: getHeaderValue (getters.c:87)
+==24836==    by 0x109771: check_Accept_Header (checkers.c:37)
+==24836==    by 0x109C15: check_headers (checkers.c:124)
+==24836==    by 0x10A03D: check_request (checkers.c:216)
+==24836==    by 0x10D33E: main (main.c:86)
+==24836== 
+==24836== 64 bytes in 4 blocks are definitely lost in loss record 8 of 16
+==24836==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24836==    by 0x10D50D: insertion (api.c:47)
+==24836==    by 0x10D486: searchTreeRecursif (api.c:34)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D400: searchTree (api.c:18)
+==24836==    by 0x10B587: getHeaderValue (getters.c:87)
+==24836==    by 0x1097BD: check_Accept_Header (checkers.c:42)
+==24836==    by 0x109C15: check_headers (checkers.c:124)
+==24836==    by 0x10A03D: check_request (checkers.c:216)
+==24836==    by 0x10D33E: main (main.c:86)
+==24836== 
+==24836== 64 bytes in 4 blocks are definitely lost in loss record 9 of 16
+==24836==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24836==    by 0x10D50D: insertion (api.c:47)
+==24836==    by 0x10D486: searchTreeRecursif (api.c:34)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D400: searchTree (api.c:18)
+==24836==    by 0x10B587: getHeaderValue (getters.c:87)
+==24836==    by 0x1097DD: check_Accept_Header (checkers.c:43)
+==24836==    by 0x109C15: check_headers (checkers.c:124)
+==24836==    by 0x10A03D: check_request (checkers.c:216)
+==24836==    by 0x10D33E: main (main.c:86)
+==24836== 
+==24836== 64 bytes in 4 blocks are definitely lost in loss record 10 of 16
+==24836==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24836==    by 0x10D50D: insertion (api.c:47)
+==24836==    by 0x10D486: searchTreeRecursif (api.c:34)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D400: searchTree (api.c:18)
+==24836==    by 0x10B587: getHeaderValue (getters.c:87)
+==24836==    by 0x10BCEA: isPost (others.c:36)
+==24836==    by 0x109AF9: check_Content_Length_Header (checkers.c:99)
+==24836==    by 0x109C23: check_headers (checkers.c:124)
+==24836==    by 0x10A03D: check_request (checkers.c:216)
+==24836== 
+==24836== 64 bytes in 4 blocks are definitely lost in loss record 11 of 16
+==24836==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24836==    by 0x10D50D: insertion (api.c:47)
+==24836==    by 0x10D486: searchTreeRecursif (api.c:34)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D400: searchTree (api.c:18)
+==24836==    by 0x10B587: getHeaderValue (getters.c:87)
+==24836==    by 0x10BC18: isGet (others.c:12)
+==24836==    by 0x10C8BC: send_message_body (senders.c:106)
+==24836==    by 0x10D1C2: sendFullResponse (main.c:43)
+==24836==    by 0x10D283: sendResponse (main.c:59)
+==24836== 
+==24836== 64 bytes in 4 blocks are definitely lost in loss record 12 of 16
+==24836==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24836==    by 0x10D50D: insertion (api.c:47)
+==24836==    by 0x10D486: searchTreeRecursif (api.c:34)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836== 
+==24836== 128 bytes in 8 blocks are definitely lost in loss record 13 of 16
+==24836==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24836==    by 0x10D50D: insertion (api.c:47)
+==24836==    by 0x10D486: searchTreeRecursif (api.c:34)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D400: searchTree (api.c:18)
+==24836==    by 0x10B587: getHeaderValue (getters.c:87)
+==24836== 
+==24836== 128 bytes in 8 blocks are definitely lost in loss record 14 of 16
+==24836==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24836==    by 0x10D50D: insertion (api.c:47)
+==24836==    by 0x10D486: searchTreeRecursif (api.c:34)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D400: searchTree (api.c:18)
+==24836==    by 0x10B587: getHeaderValue (getters.c:87)
+==24836== 
+==24836== 128 bytes in 8 blocks are definitely lost in loss record 15 of 16
+==24836==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24836==    by 0x10D50D: insertion (api.c:47)
+==24836==    by 0x10D486: searchTreeRecursif (api.c:34)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836== 
+==24836== 192 bytes in 12 blocks are definitely lost in loss record 16 of 16
+==24836==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24836==    by 0x10D50D: insertion (api.c:47)
+==24836==    by 0x10D486: searchTreeRecursif (api.c:34)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4EC: searchTreeRecursif (api.c:42)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D4B9: searchTreeRecursif (api.c:38)
+==24836==    by 0x10D400: searchTree (api.c:18)
+==24836==    by 0x10B587: getHeaderValue (getters.c:87)
+==24836== 
+==24836== LEAK SUMMARY:
+==24836==    definitely lost: 1,216 bytes in 76 blocks
+==24836==    indirectly lost: 0 bytes in 0 blocks
+==24836==      possibly lost: 0 bytes in 0 blocks
+==24836==    still reachable: 0 bytes in 0 blocks
+==24836==         suppressed: 0 bytes in 0 blocks
+==24836== 
+==24836== ERROR SUMMARY: 16 errors from 16 contexts (suppressed: 0 from 0)

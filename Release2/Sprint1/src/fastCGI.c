@@ -1,20 +1,18 @@
+#include <arpa/inet.h>
+#include <errno.h>
+#include <netinet/in.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <time.h>
-#include <errno.h>
-#include <sys/types.h>
 #include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include "../include/senders.h"
-#include "../include/request.h"
-#include "../include/utils.h"
+#include <unistd.h>
+#include "../include/api.h"
 #include "../include/fastCGI.h"
 #include "../include/getters.h"
-#include "../include/api.h"
 #include "../include/others.h"
+#include "../include/request.h"
+#include "../include/senders.h"
+#include "../include/utils.h"
 
 
 // =========================================================================================================== // 
@@ -194,19 +192,21 @@ int createSocket(int port) {
 }
 
 // =========================================================================================================== //
-void send_PHP_request(int *fd, FCGI_Header *header, char *path) {
+void send_PHP_request(int *fd, char *path) {
+    FCGI_Header header;
+
     *fd = createSocket(9000);
     sendBeginRequest(*fd, 10, FCGI_RESPONDER, FCGI_KEEP_CONN);
-    header->version = FCGI_VERSION_1;
-    header->type = FCGI_PARAMS;
-    header->requestId = htons(10);
-    header->contentLength = 0;
-    header->paddingLength = 0;
+    header.version = FCGI_VERSION_1;
+    header.type = FCGI_PARAMS;
+    header.requestId = htons(10);
+    header.contentLength = 0;
+    header.paddingLength = 0;
 
     if (isGet()) {
-        send_PHP_request_GET(fd, header, path);
+        send_PHP_request_GET(fd, &header, path);
     } else if (isPost()) {
-        send_PHP_request_POST(fd, header, path);
+        send_PHP_request_POST(fd, &header, path);
     }
 }
 
@@ -282,7 +282,7 @@ void send_PHP_answer(int clientId, int fd) {
     if (header.contentLength != i) {
         char chunkSize[16];
 
-        sprintf(chunkSize, "%X\r\n", header.contentLength - i);
+        snprintf(chunkSize, 15, "%X\r\n", header.contentLength - i);
 
         writeDirectClient(clientId, chunkSize, strlen(chunkSize));
         writeDirectClient(clientId, &header.contentData[i], header.contentLength - i);
@@ -292,7 +292,7 @@ void send_PHP_answer(int clientId, int fd) {
     while ((len != 0)) {
         char chunkSize[16];
         readData(fd, &header, &len);
-        sprintf(chunkSize, "%X\r\n", header.contentLength);
+        snprintf(chunkSize, 15, "%X\r\n", header.contentLength);
 
         if (header.type == FCGI_END_REQUEST) {
             break;

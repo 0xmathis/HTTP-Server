@@ -7,7 +7,7 @@ unsigned char *getFileData(char *, int *);
 
 void getFileExtension(char *, char *);
 
-char *getFilePath();
+char *getFilePath(int *);
 
 int getFilePathLength();
 

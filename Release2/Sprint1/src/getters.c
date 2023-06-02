@@ -2,23 +2,21 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../include/api.h"
-#include "../include/others.h"
-#include "../include/getters.h"
 #include "../include/constantes.h"
+#include "../include/getters.h"
+#include "../include/others.h"
 #include "../include/request.h"
 #include "../include/utils.h"
 
 
 unsigned char *getFileData(char *path, int *size) {
-    // printf("Getting file data\n");
-
     FILE *file = fopen(path, "rb");
 
     fseek(file, 0L, SEEK_END);
     *size = ftell(file);
     rewind(file);
 
-    unsigned char *buffer = (unsigned char *) malloc(*size);
+    unsigned char *buffer = (unsigned char *) malloc(sizeof(unsigned char) * (*size + 1));
 
     fread(buffer, *size, 1, file);
     fclose(file);
@@ -26,16 +24,17 @@ unsigned char *getFileData(char *path, int *size) {
     return buffer;
 }
 
-void getFileExtension(char *ptr, char *output) {
-    for (int i = 0; ptr[i] != '\0' && i < (int) strlen(ptr); i++) {
-        if (ptr[i] == '.') {
-            strcpy(output, &ptr[i]);
+void getFileExtension(char *path, char *output) {
+    int len = strlen(path);
+
+    for (int i = 0; path[i] != '\0' && i < len ; i++) {  // on cherche le dernier point avant la fin du path
+        if (path[i] == '.') {
+            snprintf(output, 50, "%s", path + i);
         }
     }
 }
 
-char *getFilePath() {
-    // printf("Getting path\n");
+char *getFilePath(int *size) {
     char *absolutePath = getHeaderValue(root, "absolute_path");
     char *partialPath = (char *) malloc(sizeof(char) * 200);
     char *fullPath = (char *) malloc(sizeof(char) * 300);
@@ -44,17 +43,15 @@ char *getFilePath() {
     char *sanitizedPath = sanitizePath(absolutePath);
 
     if (host) {
-        sprintf(partialPath, "sites/%s", host);
+        snprintf(partialPath, 200, "sites/%s", host);
     } else {
-        sprintf(partialPath, "sites/%s", PATH_DEFAULT);
+        snprintf(partialPath, 200, "sites/%s", PATH_DEFAULT);
     }
 
-    strcpy(fullPath, partialPath);
-    strcat(fullPath, sanitizedPath);
-
+    snprintf(fullPath, 300, "%s%s", partialPath, sanitizedPath);
 
     if (*sanitizedPath == '/' && *(sanitizedPath + 1) == '\0') {  // si on demande la racine du site
-        strcat(fullPath, "index.html");
+        strncat(fullPath, "index.html", 300);
     }
 
     free(absolutePath);
@@ -62,7 +59,9 @@ char *getFilePath() {
     free(sanitizedPath);
     free(host);
 
-    // printf("path : %s\n", fullPath);
+    if (size) {
+        *size = strlen((fullPath));
+    }
 
     return fullPath;
 }
@@ -92,7 +91,7 @@ char *getHeaderValue(Node *start, char *headerValue) {
         int length;
         char *start = getElementValue(node, &length);
         char *value = (char *) malloc(sizeof(char) * (length + 1));
-        sprintf(value, "%.*s", length, start);
+        snprintf(value, length + 1, "%.*s", length, start);
         purgeElement(&result);
 
         return value;
@@ -111,7 +110,7 @@ char *getHostTarget() {
 
     int len = strlen(host);
 
-    char *hostTarget = (char *) malloc(len * sizeof(char));
+    char *hostTarget = (char *) malloc(sizeof(char) * (len + 1));
     int i = 0;
     int j = 0;
 
@@ -119,7 +118,7 @@ char *getHostTarget() {
         i = 4;
     }
 
-    while (i < len-1 && host[i] != ':') {
+    while (i < len && host[i] != ':') {
         hostTarget[j] = host[i];
         i++;
         j++;
@@ -132,8 +131,6 @@ char *getHostTarget() {
 }
 
 char *getMIMEtype(char *path) {
-    // printf("Getting MIME type\n");
-
     char extension[50];
     getFileExtension(path, extension);
 

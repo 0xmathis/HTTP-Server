@@ -2,19 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../include/api.h"
-#include "../include/constantes.h"
-#include "../include/senders.h"
 #include "../include/checkers.h"
-#include "../include/others.h"
-#include "../include/getters.h"
-#include "../include/request.h"
-#include "../include/utils.h"
 #include "../include/fastCGI.h"
+#include "../include/getters.h"
+#include "../include/others.h"
+#include "../include/request.h"
+#include "../include/senders.h"
+#include "../include/utils.h"
 
 
 int check_Accept_Header(int clientId, char *path) {
-    // printf("Checking Accept\n");
-
     _Token *mediaRanges = searchTree(root, "media_range");
     _Token *mr = mediaRanges;
 
@@ -51,7 +48,7 @@ int check_Accept_Header(int clientId, char *path) {
                 flag = 1;
             } else if (startWith(typeAccepted, mimeType)) { //Si les types coïncident
                 char shortenMimeType[50];
-                strcpy(shortenMimeType, mimeType + strlen(typeAccepted) + 1); //chaine mimeType sans le type
+                snprintf(shortenMimeType, 50, "%s", mimeType + strlen(typeAccepted) + 1); //chaine mimeType sans le type
 
                 if ((startWith(subtypeAccepted, shortenMimeType) || *subtypeAccepted == '*') && (!parameter || strcmp(parameter, "q=0"))) { //Si le sous-type est accepté
                     flag = 1;
@@ -109,9 +106,6 @@ int check_Content_Length_Header(int clientId) {
 
     purgeElement(&result);
 
-    printf("pointer : %p\n", contentLength);
-    printf("length : %d\n", messageBodyLength);
-
     if ((contentLength && atoi(contentLength) == messageBodyLength)) {
         free(contentLength);
         return 1;
@@ -123,7 +117,6 @@ int check_Content_Length_Header(int clientId) {
 
     send_error_code(clientId, 400, "Bad Request");
     return 0;
-
 }
 
 int check_headers(int clientId, char *path) {
@@ -187,7 +180,6 @@ int check_path(int clientId, char *path) {
 }
 
 int check_Range_Header(int clientId, char *path) {
-    // printf("Checking Range\n");
     char *mimeType = getMIMEtype(path);
 
     if (isStreamable(mimeType)) {
@@ -212,36 +204,20 @@ int check_Range_Header(int clientId, char *path) {
 }
 
 int check_request(int clientId) {
-//    printf("Checking\n");
-    //printChildren(root, 0);
+    int size;
+    char *path = getFilePath(&size);
 
-    if (getFilePathLength() > 200) {
+    if (size > 300) {
         send_error_code(clientId, 413, "Path Too Large");
         return 0;
     }
 
-    char *path = getFilePath();
-    
-    /*
-    if (strstr(path, "favicon.ico") != NULL) {
-        // printf("Not checked\n");
-
-        
-        send_error_code(clientId, 404, "Not Found");
-        free(path);
-        return 0;
-    }
-    */
-    
-
     if (!check_path(clientId, path) || !check_method(clientId, path) || !check_headers(clientId, path)) {
-        // printf("Not checked\n");
         free(path);
         return 0;
     }
 
     free(path);
-//    printf("Checked\n");
     return 1;
 }
 
@@ -249,11 +225,9 @@ int check_Transfer_Encoding(int clientId) {
     _Token *transfer_coding = searchTree(root, "transfer_coding");
 
     while (transfer_coding != NULL) {
-
         char *transfer_coding_value = getElementValue(transfer_coding->node, NULL);
 
         if (strcmp(transfer_coding_value, "chunked") && strcmp(transfer_coding_value, "compress") && strcmp(transfer_coding_value, "deflate") && strcmp(transfer_coding_value, "gzip") && strcmp(transfer_coding_value, "identity")) {
-
             free(transfer_coding_value);
             free(transfer_coding);
             send_error_code(clientId, 501, "Unknown transfer coding");
@@ -268,7 +242,6 @@ int check_Transfer_Encoding(int clientId) {
 
 int check_version() {
     char *version = getHeaderValue(root, "HTTP_version");
-
     int ret = 0;
 
     if (!strcmp(version, "HTTP/1.1")) {

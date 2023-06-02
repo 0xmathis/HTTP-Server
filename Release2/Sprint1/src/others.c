@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include "../include/api.h"
-#include "../include/others.h"
 #include "../include/getters.h"
+#include "../include/others.h"
 #include "../include/request.h"
 #include "../include/utils.h"
-#include <unistd.h>
 
 int isGet() {
     char *method = getHeaderValue(root, "method");
@@ -61,10 +61,8 @@ int isStreamable(char *mimeType) {
 }
 
 char *percentEncodings(char *path) {
-    // printf("Removing percent encodings\n");
-
     int len = strlen(path);
-    char *newpath = (char *) malloc((len + 1) * sizeof(char));
+    char *newpath = (char *) malloc(sizeof(char) * (len + 1));
     int j = 0;
 
     for (int i = 0; i < len + 1; i++) {
@@ -91,7 +89,7 @@ char *percentEncodings(char *path) {
 char *getPWD() {
     char *pwd = (char *) malloc(sizeof(char) * 100);
 
-    if (getcwd(pwd, 100) != NULL) {
+    if (getcwd(pwd, 99) != NULL) {
         return pwd;
     }
 
@@ -100,8 +98,6 @@ char *getPWD() {
 }
 
 void remove_dot_segments(char *path) {
-    // printf("Removing dot segments\n");
-
     for (int i = 0; i < (int) strlen(path) - 1; i++) {
         // Si on rencontre /./ on l'enlève
         if (path[i] == '/' && path[i + 1] == '.' && (i + 2 >= (int) strlen(path) || path[i + 2] == '/')) {
@@ -112,7 +108,7 @@ void remove_dot_segments(char *path) {
             i--;
         }
 
-        // Si on rencontre /../ on l'enleve si il est pas au début on enlève le répertoire précédent
+        // Si on rencontre /../ on l'enlève s'il n'est pas au début, on enlève le répertoire précédent
         if (path[i] == '/' && path[i + 1] == '.' && path[i + 2] == '.' && (i + 3 >= (int) strlen(path) || path[i + 3] == '/')) {
             int temp = i;
 
@@ -134,7 +130,6 @@ void remove_dot_segments(char *path) {
 }
 
 char *sanitizePath(char *path) {
-    // printf("Sanitizing path\n");
     char *withoutPercents = percentEncodings(path);
     remove_dot_segments(withoutPercents);
 
