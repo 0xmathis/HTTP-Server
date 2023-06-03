@@ -13,11 +13,11 @@
 // for librequest
 #include "include/request.h"
 
-
 Node *root = NULL;
 int clientId = -1;
 
-void handle_SIGPIPE() {}
+void handle_SIGPIPE() {
+}
 
 void handle_SIGINT() {
     endWriteDirectClient(clientId);
@@ -80,12 +80,8 @@ int main() {
         showDebugInfos(requete);
         clientId = requete->clientId;
 
-        if (parseur(requete->buf, requete->len) == 0) {
-//            printChildren(root, 0);
-
-            if (check_request(requete->clientId)) {
-                sendResponse();
-            }
+        if (parseur(requete->buf, requete->len) == 0 && check_request(requete->clientId)) {
+            sendResponse();
         }
 
         endWriteDirectClient(requete->clientId);
